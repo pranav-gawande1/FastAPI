@@ -75,7 +75,7 @@ async def list_all_orders(Authorize:AuthJWT=Depends()):
     
     current_user=Authorize.get_jwt_subject()
 
-    user=session.query(User).filter(User.username==current_user)
+    user=session.query(User).filter(User.username==current_user).first()
 
     if user.is_staff:
         orders=session.query(Order).all()
@@ -85,3 +85,119 @@ async def list_all_orders(Authorize:AuthJWT=Depends()):
     raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
                             detail="You are not a Super User"
                             )
+
+@order_router.get('/users')
+async def list_all_users(Authorize: AuthJWT = Depends()):
+    try:
+        Authorize.jwt_required()
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
+                            detail="Invalid Token")
+
+    current_username = Authorize.get_jwt_subject()
+
+    user = session.query(User).filter(User.username == current_username).first()
+
+    if user and user.is_staff:
+        users = session.query(User).all()
+        user_data = [{
+            "id": u.id,
+            "name":u.name,
+            "username": u.username,
+            "email": u.email,
+            "is_staff": u.is_staff,
+            "is_active":u.is_active,
+            "image":u.image
+        } for u in users]
+
+        return jsonable_encoder(user_data)
+
+    raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
+                        detail="You are not authorized to view this resource.")
+
+@order_router.get('/orders/{id}')
+async def get_order_by_id(id:int,Authorize:AuthJWT=Depends()):
+    try:
+        Authorize.jwt_required()
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid Token"
+        )
+    
+    user=Authorize.get_jwt_subject()
+
+    current_user=session.query(User).filter(User.username==user).first()
+
+    if current_user.is_staff:
+        order=session.query(Order).filter(Order.id==id).first()
+
+        return jsonable_encoder(order)
+    
+    raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="User not allowed to carry out the request"
+        )
+
+@order_router.get('/user/orders')
+async def get_user_orders(Authorize:AuthJWT=Depends()):
+    try:
+        Authorize.jwt_required()
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid Token"
+        )
+    
+    user=Authorize.get_jwt_subject()
+
+    current_user=session.query(User).filter(User.username==user).first()
+
+    return jsonable_encoder(current_user.orders)
+
+
+@order_router.get('/user/orders/{id}')
+async def get_specific_order(id:int,Authorize:AuthJWT=Depends()):
+    try:
+        Authorize.jwt_required()
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid Token"
+        )
+    
+
+    subject=Authorize.get_jwt_subject()
+
+    current_user=session.query(User).filter(User.username==subject).first()
+
+    orders=current_user.orders
+
+    for o in orders:
+        if o.id==id:
+            return o
+        
+    raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                        detail="No order with such id")
+
+
+@order_router.put('/order/update/{id}')
+async def update_order(id:int,order:OrderModel,Authorize:AuthJWT=Depends()):
+    try:
+        Authorize.jwt_required()
+
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
+                            detail="Invalid Token")
+    
+    order_to_update=session.query(Order).filter(Order.id==id).first()
+
+
+    order_to_update.quantity=order.quantity
+    order_to_update.pizza_size=order.pizza_size
+
+    session.commit()
+
+    return jsonable_encoder(order_to_update)
+
+
