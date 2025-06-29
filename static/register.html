@@ -115,31 +115,36 @@
 
 <body>
   <div class="wrapper">
-    <form action="#">
+    <form id="register-form">
       <h1>Register</h1>
       <div class="input-box">
-        <input type="text" placeholder="Full Name" required>
+        <input type="text" id="fullname" placeholder="Full Name" required>
         <i class='bx bxs-user'></i>
       </div>
       <div class="input-box">
-        <input type="email" placeholder="Email" required>
+        <input type="email" id="email" placeholder="Email" required>
         <i class='bx bxs-envelope'></i>
       </div>
       <div class="input-box">
-        <input type="text" placeholder="Username" required>
+        <input type="text" id="username" placeholder="Username" required>
         <i class='bx bxs-user-circle'></i>
       </div>
       <div class="input-box">
-        <input type="password" placeholder="Password" required>
+        <input type="password" id="password" placeholder="Password" required>
         <i class='bx bxs-lock-alt'></i>
       </div>
       <div class="input-box">
-        <input type="password" placeholder="Confirm Password" required>
+        <input type="password" id="confirm" placeholder="Confirm Password" required>
         <i class='bx bxs-lock'></i>
       </div>
+      <div class="input-box">
+        <input type="file" id="image" name="image" accept="image/*" required>
+        <i class='bx bxs-image-add'></i>
+      </div>
       <div class="terms">
-        <label><input type="checkbox" required>I agree to the <a href="#" style="color:#ff4d4d; text-decoration: underline;">Terms & Conditions</a></label>
-        <label><input type="checkbox">Is Staff</label>
+        <label><input type="checkbox" id="isActiveChecked" required>I agree to the <a href="#"
+            style="color:#ff4d4d; text-decoration: underline;">Terms & Conditions</a></label>
+        <label><input type="checkbox" id="isStaffChecked">Is Staff</label>
       </div>
       <button type="submit" class="btn">Register</button>
       <div class="login-link">
@@ -189,6 +194,41 @@
         return;
       }
     });
+    // document.getElementById("register-form").addEventListener("submit", async (e) => {
+    //   e.preventDefault();
+
+    //   const form = document.getElementById("register-form");
+    //   const formData = new FormData();
+
+    //   formData.append("name", document.getElementById("fullname").value.trim());
+    //   formData.append("email", document.getElementById("email").value.trim());
+    //   formData.append("username", document.getElementById("username").value.trim());
+    //   formData.append("password", document.getElementById("password").value.trim());
+    //   formData.append("is_staff", document.getElementById("isStaffChecked").checked);
+    //   formData.append("is_active", document.getElementById("isActiveChecked").checked);
+
+    //   const imageInput = document.getElementById("image");
+    //   if (imageInput.files.length > 0) {
+    //     formData.append("image", imageInput.files[0]);
+    //   }
+
+    //   const response = await fetch("/auth/signup", {
+    //     method: "POST",
+    //     body: formData // <-- Don't set Content-Type manually
+    //   });
+
+    //   const data = await response.json();
+    //   console.log(data);
+
+    //   if (response.ok) {
+    //     alert("Registration successful!");
+    //     window.location.href = "/auth/login";
+    //   } else {
+    //     alert(data.detail || "Registration failed.");
+    //   }
+    // });
+
+
   </script>
 
 </body>

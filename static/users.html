@@ -193,9 +193,11 @@
             }
 
             .user-card img {
-                height: 100%;
-                width: 250px;
-                object-fit: contain;
+                width: 150px;
+                height: 150px;
+                border-radius: 50%;
+                border: 2px solid #d1d5da;
+                margin-right: 2rem;
                 margin-top: 20px;
                 margin-left: 20px;
             }
@@ -322,7 +324,7 @@
     <section id="menu">
         <div class="menu-container">
             <h2 class="section-title">Users</h2>
-            <div class="menu-grid">
+            <div class="user-grid">
                 <div id="user-list"></div>
             </div>
         </div>
@@ -368,7 +370,7 @@
                     data.forEach(user => {
                         userList.innerHTML +=
                             `<div class="user-card">
-                        <img src="/static/image.png" alt="Pepperoni Pizza">
+                        <img src="/upload/default-profile.png" alt="Pepperoni Pizza">
                         <div class="user-card-content">
                             <div class="product">
                                 <p class="email">Name: <span style="color: darkblue;">${user.name}</span></p>

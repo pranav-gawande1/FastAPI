@@ -11,7 +11,7 @@ class SignUpModel(BaseModel):
     password:str
     is_staff:Optional[bool]
     is_active:Optional[bool]
-    image:str
+    image:Optional[str] = None
 
 
     class Config:

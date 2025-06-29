@@ -1,8 +1,7 @@
 from fastapi import APIRouter,status,Depends
 from fastapi_jwt_auth import AuthJWT
 from schemas import PizzaModel
-from models import Pizza
-# from database import get_db
+from models import User, Pizza
 from fastapi.exceptions import HTTPException
 from database import Session,engine
 from fastapi.encoders import jsonable_encoder
@@ -26,24 +25,34 @@ async def hello(Authorize:AuthJWT=Depends()):
         )
     return {"message": "Multiplication of 2 and 4 is 8"}
 
-# @pizza_router.post("/add", status_code=status.HTTP_201_CREATED)
-# def create_pizza(pizza: PizzaModel, db: Depends(get_db)):
-#     new_pizza = Pizza(
-#         name=pizza.name,
-#         description=pizza.description,
-#         image_url=pizza.image_url,
-#         price=pizza.price
-#     )
-#     db.add(new_pizza)
-#     db.commit()
-#     db.refresh(new_pizza)
+@pizza_router.post("/add-pizza", status_code=status.HTTP_201_CREATED)
+async def add_pizza(pizza: PizzaModel, Authorize: AuthJWT = Depends()):
+    try:
+        Authorize.jwt_required()
+    except Exception:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
 
-#     response={
-#         "name": new_pizza.name,
-#         "description": new_pizza.description,
-#         "image_url": new_pizza.image_url,
-#         "price": new_pizza.price
-#     }
+    current_user = Authorize.get_jwt_subject()
+    user = session.query(User).filter(User.username == current_user).first()
 
-#     return jsonable_encoder(new_pizza)
+    if not user or not user.is_staff:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authorized to add pizza")
 
+    new_pizza = Pizza(
+        name=pizza.name,
+        description=pizza.description,
+        price=pizza.price,
+        image=pizza.image
+    )
+
+    session.add(new_pizza)
+    session.commit()
+
+    return {
+        "message": "Pizza added successfully",
+        "pizza": {
+            "id": new_pizza.id,
+            "name": new_pizza.name,
+            "price": new_pizza.price
+        }
+    }

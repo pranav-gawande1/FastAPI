@@ -1,4 +1,5 @@
 from fastapi import APIRouter,status,Depends, UploadFile, File, Form
+from typing import Optional
 from database import Session,engine
 from schemas import SignUpModel,LoginModel
 from models import User
@@ -37,9 +38,9 @@ async def signup(
     name: str = Form(...),
     email: str = Form(...),
     password: str = Form(...),
-    is_active: bool = Form(False),
+    is_active: bool = Form(True),
     is_staff: bool = Form(False),
-    image: UploadFile = File(...),
+    image: Optional[UploadFile] = File(None)
 
 ):
     db_email=session.query(User).filter(User.email==email).first()

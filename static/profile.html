@@ -180,7 +180,7 @@
             .user-card img {
                 height: 120px;
                 width: 120px;
-                object-fit:cover;
+                object-fit: cover;
                 margin-top: 20px;
                 margin-left: 20px;
                 margin-bottom: 20px;
@@ -225,12 +225,12 @@
             }
 
             .user-avatar {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            border: 2px solid #d1d5da;
-            margin-right: 2rem;
-        }
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+                border: 2px solid #d1d5da;
+                margin-right: 2rem;
+            }
 
             /* CTA Banner */
             .cta-banner {
@@ -335,7 +335,7 @@
         <div class="menu-container">
             <h2>User Profile</h2>
             <div class="user-card">
-                <img src="/upload/default-avatar.avif" alt="User Avatar" class="user-avatar" />
+                <img src="/static/default-profile.png" alt="User Avatar" class="user-avatar" />
                 <div id="profile"></div>
                 <button class="btn-primary" onclick="logout()">Logout</button>
             </div>
@@ -352,6 +352,7 @@
             .then(res => res.json())
             .then(data => {
                 const roleClass = data.is_staff ? "admin" : "user";
+                // document.querySelector(".user-avatar").src = data.image ? `/upload/ + {data.image}` : "/static/default-profile.png";
                 document.querySelector(".user-avatar").src = "/upload/" + data.image;
                 document.getElementById("profile").innerHTML = `
             <div class="user-card ${roleClass}">
