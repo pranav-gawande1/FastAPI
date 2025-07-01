@@ -4,7 +4,7 @@ from models import User,Order
 from fastapi.exceptions import HTTPException
 from database import Session,engine
 from fastapi.encoders import jsonable_encoder
-from schemas import OrderModel
+from schemas import OrderModel, OrderStatusModel
 
 order_router = APIRouter(
     prefix='/orders',
@@ -26,6 +26,9 @@ async def hello(Authorize:AuthJWT=Depends()):
         )
     return {"message": "Multiplication of 2 and 4 is 8"}
 
+########################################################
+#  User routes to delete, update, place and view order #
+########################################################
 @order_router.post('/order',status_code=status.HTTP_201_CREATED)
 async def place_an_order(order:OrderModel,Authorize:AuthJWT=Depends()):
     try:
@@ -63,7 +66,62 @@ async def place_an_order(order:OrderModel,Authorize:AuthJWT=Depends()):
     return jsonable_encoder(response)
 
 
+@order_router.get('/user/orders')
+async def get_user_orders(Authorize:AuthJWT=Depends()):
+    try:
+        Authorize.jwt_required()
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid Token"
+        )
+    
+    user=Authorize.get_jwt_subject()
 
+    current_user=session.query(User).filter(User.username==user).first()
+
+    return jsonable_encoder(current_user.orders)
+
+@order_router.put('/order/update/{id}')
+async def update_order(id:int,order:OrderModel,Authorize:AuthJWT=Depends()):
+    try:
+        Authorize.jwt_required()
+
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
+                            detail="Invalid Token")
+    
+    order_to_update=session.query(Order).filter(Order.id==id).first()
+
+
+    order_to_update.quantity=order.quantity
+    order_to_update.pizza_size=order.pizza_size
+
+    session.commit()
+
+    return jsonable_encoder(order_to_update)
+
+@order_router.delete('/order/delete/{id}/',status_code=status.HTTP_204_NO_CONTENT)
+async def delete_an_order(id:int,Authorize:AuthJWT=Depends()):
+
+    try:
+        Authorize.jwt_required()
+
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,detail="Invalid Token")
+
+
+    order_to_delete=session.query(Order).filter(Order.id==id).first()
+
+    session.delete(order_to_delete)
+
+    session.commit()
+
+    return order_to_delete
+
+################################################################
+########## Admin routes to view orders of users ################
+################################################################
 @order_router.get('/orders')
 async def list_all_orders(Authorize:AuthJWT=Depends()):
     try:
@@ -139,23 +197,6 @@ async def get_order_by_id(id:int,Authorize:AuthJWT=Depends()):
             detail="User not allowed to carry out the request"
         )
 
-@order_router.get('/user/orders')
-async def get_user_orders(Authorize:AuthJWT=Depends()):
-    try:
-        Authorize.jwt_required()
-    except Exception as e:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid Token"
-        )
-    
-    user=Authorize.get_jwt_subject()
-
-    current_user=session.query(User).filter(User.username==user).first()
-
-    return jsonable_encoder(current_user.orders)
-
-
 @order_router.get('/user/orders/{id}')
 async def get_specific_order(id:int,Authorize:AuthJWT=Depends()):
     try:
@@ -181,23 +222,5 @@ async def get_specific_order(id:int,Authorize:AuthJWT=Depends()):
                         detail="No order with such id")
 
 
-@order_router.put('/order/update/{id}')
-async def update_order(id:int,order:OrderModel,Authorize:AuthJWT=Depends()):
-    try:
-        Authorize.jwt_required()
-
-    except Exception as e:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
-                            detail="Invalid Token")
-    
-    order_to_update=session.query(Order).filter(Order.id==id).first()
-
-
-    order_to_update.quantity=order.quantity
-    order_to_update.pizza_size=order.pizza_size
-
-    session.commit()
-
-    return jsonable_encoder(order_to_update)
 
 

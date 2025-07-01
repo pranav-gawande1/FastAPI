@@ -185,6 +185,7 @@
 
             .user-card {
                 display: flex;
+                flex-direction: row;
                 background: var(--light-color);
                 border-radius: 0;
                 overflow: hidden;
@@ -203,6 +204,8 @@
             }
 
             .user-card-content {
+                display: flex;
+                flex-grow: autocapitalize="#333";
                 padding: 1rem;
             }
 
@@ -219,6 +222,13 @@
             }
 
             .user-card-content .product {
+                display: block;
+                font-weight: 600;
+                color: var(--primary-color);
+                gap: 20px;
+            }
+
+            .user-card-content .order-data {
                 display: block;
                 font-weight: 600;
                 color: var(--primary-color);
@@ -308,7 +318,7 @@
                     <li><a href="/admin/dashboard">Home</a></li>
                     <li><a href="#menu">Menu</a></li>
                     <li><a href="/admin/users">Users</a></li>
-                    <li><a href="/user/profile">Profile</a></li>
+                    <li><a href="/admin/profile">Profile</a></li>
                     <i class="fas fa-user-circle profile-icon" onclick="goToProfile()"></i>
                     </li>
                 </ul>
@@ -378,9 +388,11 @@
                                 <p class="email">Email ID: <span style="color: black;">${user.email}</span></p>
                                 <p class="email">Staff: <span style="color: ${user.is_staff ? 'green' : 'red'};">${user.is_staff}</span></p>
                                 <p class="email">Active: <span style="color: ${user.is_active ? 'green' : 'red'};">${user.is_active}</span></p>
-                            </span${user.email}<>
-                        </div>
-                    </div>`;
+                            </div>
+                            <div class="order-data">
+                                <p class="email"> No. of orders: ${user.name}</p>
+                            </div>
+                        </div>`;
                     });
                 } else {
                     userList.innerHTML = `<p>${data.detail || "Failed to load users"}</p>`;

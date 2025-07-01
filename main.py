@@ -63,3 +63,7 @@ async def get_user_profile():
 @app.get("/user/contact", response_class=HTMLResponse)
 async def get_user_profile():
     return FileResponse("static/contact.html")
+
+@app.get("/user/place-order", response_class=HTMLResponse)
+async def get_user_profile():
+    return FileResponse("static/place-order.html")

@@ -496,7 +496,7 @@
 
     <script>
         async function fetchPizzas() {
-            const res = await fetch("/api/pizzas");
+            const res = await fetch("/pizzas/add-pizza");
             const data = await res.json();
 
             const list = document.getElementById("pizzaList");
@@ -505,7 +505,7 @@
             data.forEach(pizza => {
                 list.innerHTML += `
         <div class="pizza-card">
-          <img src="/static/uploads/${pizza.image_filename}" alt="${pizza.name}" />
+          <img src="/uploads/ + {pizza.image_filename}" alt="${pizza.name}" />
           <h3>${pizza.name}</h3>
           <p><strong>₹${pizza.price}</strong></p>
           <p>${pizza.description}</p>
@@ -522,7 +522,7 @@
             form.append("description", document.getElementById("description").value);
             form.append("image", document.getElementById("image").files[0]);
 
-            const res = await fetch("/api/pizzas", {
+            const res = await fetch("/pizzas/add-pizza", {
                 method: "POST",
                 body: form
             });

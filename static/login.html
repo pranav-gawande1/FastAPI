@@ -147,12 +147,53 @@
       const username = document.getElementById("username").value.trim();
       const password = document.getElementById("password").value.trim();
       const isStaffChecked = document.getElementById("isStaffChecked").checked;
+      const refreshToken = localStorage.getItem("refresh_token");
+      const accessToken = localStorage.getItem("access_token");
 
       const response = await fetch("/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password })
       });
+
+      // async function refreshToken() {
+      //   const refreshToken = localStorage.getItem("refresh_token");
+      //   if (!refreshToken) return false;
+
+      //   try {
+      //     const res = await fetch("/auth/refresh", {
+      //       headers: {
+      //         Authorization: `Bearer ${refreshToken}`
+      //       }
+      //     });
+
+      //     if (res.ok) {
+      //       const data = await res.json();
+      //       localStorage.setItem("token", data.access);
+      //       return true;
+      //     } else {
+      //       console.warn("Failed to refresh token");
+      //       return false;
+      //     }
+      //   } catch (err) {
+      //     console.error("Error refreshing token", err);
+      //     return false;
+      //   }
+      // }
+
+      // // Call this only once after successful login
+      // function startTokenRefreshTimer() {
+      //   const refreshInterval = 9 * 60 * 1000; // 9 minutes
+
+      //   setInterval(async () => {
+      //     const success = await refreshToken();
+      //     if (!success) {
+      //       alert("Session expired. Please log in again.");
+      //       localStorage.clear();
+      //       window.location.href = "/auth/login";
+      //     }
+      //   }, refreshInterval);
+      // }
 
       const data = await response.json();
       console.log(data)
@@ -165,6 +206,7 @@
 
         localStorage.setItem("token", data.access);
         alert("Login successful!");
+        // startTokenRefreshTimer();
 
         // Redirect based on role
         if (data.is_staff) {
@@ -179,48 +221,6 @@
       }
       console.log(data)
     });
-
-    async function refreshToken() {
-      const refreshToken = localStorage.getItem("refresh_token");
-      if (!refreshToken) return false;
-
-      try {
-        const res = await fetch("/auth/refresh", {
-          headers: {
-            Authorization: `Bearer ${refreshToken}`
-          }
-        });
-
-        if (res.ok) {
-          const data = await res.json();
-          localStorage.setItem("token", data.access);
-          return true;
-        } else {
-          console.warn("Failed to refresh token");
-          return false;
-        }
-      } catch (err) {
-        console.error("Error refreshing token", err);
-        return false;
-      }
-    }
-
-    // Call this only once after successful login
-    function startTokenRefreshTimer() {
-      const refreshInterval = 9 * 60 * 1000; // 9 minutes
-
-      setInterval(async () => {
-        const success = await refreshToken();
-        if (!success) {
-          alert("Session expired. Please log in again.");
-          localStorage.clear();
-          window.location.href = "/auth/login";
-        }
-      }, refreshInterval);
-    }
-
-
-
   </script>
 
 

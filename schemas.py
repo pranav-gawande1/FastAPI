@@ -57,4 +57,17 @@ class PizzaModel(BaseModel):
     name: str
     price: str
     description: str
-    image_filename: str
+    image_url: str
+
+
+
+class OrderStatusModel(BaseModel):
+    order_status:Optional[str]="PENDING"
+
+    class Config:
+        orm_mode=True
+        schema_extra={
+            "example":{
+                "order_status":"PENDING"
+            }
+        }

@@ -137,6 +137,36 @@
                 background-color: darken(var(--primary-color), 10%);
             }
 
+            .btn-order {
+                position: relative;
+                color: var(--light-color);
+                background-color: var(--primary-color);
+                font-weight: 600;
+                border-radius: 0 300px 300px 5px;
+                padding: 0.4px 1px 1px;
+                cursor: pointer;
+            }
+
+            .btn-order:hover {
+                background-color: var(--light-color);
+                color: var(--primary-color);
+            }
+
+            .btn-order::after {
+                content: '';
+                position: relative;
+                left: 1;
+                right: 1;
+                bottom: 1;
+                top: 1;
+                background-color: var(--light-color);
+                z-index: -1;
+                border-radius: 250px;
+                padding: 0.4rem 4rem 4rem 4rem;
+                opacity: 5;
+                transition: opacity 0.3s;
+            }
+
             /* Sections */
             section {
                 padding: 4rem 0;
@@ -158,6 +188,8 @@
             }
 
             .menu-item {
+                display: flex;
+                flex-direction: column;
                 background: var(--light-color);
                 border-radius: 1rem;
                 overflow: hidden;
@@ -186,13 +218,18 @@
             }
 
             .menu-item-content p {
-                font-size: 0.9rem;
+                font-size: 0.8rem;
                 margin-bottom: 0.75rem;
             }
 
             .menu-item-content .price {
                 font-weight: 600;
                 color: var(--primary-color);
+            }
+
+            .menu-item .a {
+                padding-left: 4px;
+                padding-right: 40px;
             }
 
             /* CTA Banner */
@@ -288,10 +325,6 @@
             </nav>
         </div>
     </header>
-
-
-
-
     <!-- showcase -->
     <section id="menu">
         <div class="container">
@@ -304,6 +337,7 @@
                         <p>Crispy crust, mozzarella cheese, and spicy pepperoni.</p>
                         <p class="price">₹100</p>
                     </div>
+                    <a href="/user/place-order" class="btn-order">Order Now</a>
                 </div>
                 <div class="menu-item">
                     <img src="/static/image.png" alt="Margherita Pizza">
@@ -312,7 +346,7 @@
                         <p>Classic with fresh tomatoes, basil, and mozzarella.</p>
                         <p class="price">₹100</p>
                     </div>
-                    <button class="order-btn">Order Now</button>
+                    <a href="/user/place-order" class="btn-order">Order Now</a>
                 </div>
                 <div class="menu-item">
                     <img src="/static/image.png" alt="Veggie Pizza">
@@ -321,6 +355,7 @@
                         <p>Loaded with fresh vegetables and cheese.</p>
                         <p class="price">₹100</p>
                     </div>
+                    <a href="/user/place-order" class="btn-order">Order Now</a>
                 </div>
                 <div class="menu-item">
                     <img src="/static/image.png" alt="Pepperoni Pizza">
@@ -329,6 +364,7 @@
                         <p>Crispy crust, mozzarella cheese, and spicy pepperoni.</p>
                         <p class="price">₹100</p>
                     </div>
+                    <a href="/user/place-order" class="btn-order">Order Now</a>
                 </div>
                 <div class="menu-item">
                     <img src="/static/image.png" alt="Margherita Pizza">
@@ -337,6 +373,7 @@
                         <p>Classic with fresh tomatoes, basil, and mozzarella.</p>
                         <p class="price">₹100</p>
                     </div>
+                    <a href="/user/place-order" class="btn-order">Order Now</a>
                 </div>
                 <div class="menu-item">
                     <img src="/static/image.png" alt="Veggie Pizza">
@@ -345,6 +382,7 @@
                         <p>Loaded with fresh vegetables and cheese.</p>
                         <p class="price">₹100</p>
                     </div>
+                    <a href="/user/place-order" class="btn-order">Order Now</a>
                 </div>
                 <div class="menu-item">
                     <img src="/static/image.png" alt="Pepperoni Pizza">
@@ -353,6 +391,7 @@
                         <p>Crispy crust, mozzarella cheese, and spicy pepperoni.</p>
                         <p class="price">₹100</p>
                     </div>
+                    <a href="/user/place-order" class="btn-order">Order Now</a>
                 </div>
                 <div class="menu-item">
                     <img src="/static/image.png" alt="Margherita Pizza">
@@ -361,6 +400,7 @@
                         <p>Classic with fresh tomatoes, basil, and mozzarella.</p>
                         <p class="price">₹100</p>
                     </div>
+                    <a href="/user/place-order" class="btn-order">Order Now</a>
                 </div>
                 <div class="menu-item">
                     <img src="/static/image.png" alt="Veggie Pizza">
@@ -369,6 +409,7 @@
                         <p>Loaded with fresh vegetables and cheese.</p>
                         <p class="price">₹100</p>
                     </div>
+                    <a href="/user/place-order" class="btn-order">Order Now</a>
                 </div>
                 <div class="menu-item">
                     <img src="/static/image.png" alt="Pepperoni Pizza">
@@ -377,6 +418,7 @@
                         <p>Crispy crust, mozzarella cheese, and spicy pepperoni.</p>
                         <p class="price">₹100</p>
                     </div>
+                    <a href="/user/place-order" class="btn-order">Order Now</a>
                 </div>
                 <div class="menu-item">
                     <img src="/static/image.png" alt="Margherita Pizza">
@@ -385,22 +427,7 @@
                         <p>Classic with fresh tomatoes, basil, and mozzarella.</p>
                         <p class="price">₹100</p>
                     </div>
-                </div>
-                <div class="menu-item">
-                    <img src="/static/image.png" alt="Veggie Pizza">
-                    <div class="menu-item-content">
-                        <h4>Veggie Delight</h4>
-                        <p>Loaded with fresh vegetables and cheese.</p>
-                        <p class="price">₹100</p>
-                    </div>
-                </div>
-                <div class="menu-item">
-                    <img src="/static/image.png" alt="Pepperoni Pizza">
-                    <div class="menu-item-content">
-                        <h4>Pepperoni Pizza</h4>
-                        <p>Crispy crust, mozzarella cheese, and spicy pepperoni.</p>
-                        <p class="price">₹100</p>
-                    </div>
+                    <a href="/user/place-order" class="btn-order">Order Now</a>
                 </div>
                 <div class="menu-item">
                     <img src="/static/image.png" alt="Margherita Pizza">
@@ -409,40 +436,92 @@
                         <p>Classic with fresh tomatoes, basil, and mozzarella.</p>
                         <p class="price">₹100</p>
                     </div>
+                    <a href="/user/place-order" class="btn-order">Order Now</a>
                 </div>
-                <div class="menu-item">
-                    <img src="/static/image.png" alt="Veggie Pizza">
+
+                <!-- <body class="menu-item">
+                <div src="/static/image.png" alt="Veggie Pizza">
                     <div class="menu-item-content">
                         <h4>Veggie Delight</h4>
                         <p>Loaded with fresh vegetables and cheese.</p>
                         <p class="price">₹100</p>
                     </div>
-                </div>
+                    <a href="/user/place-order" class="btn-order">Order Now</a>
+                    </img>
+                    <div class="menu-item">
+                        <div src="/static/image.png" alt="Pepperoni Pizza">
+                            <div class="menu-item-content">
+                                <h4>Pepperoni Pizza</h4>
+                                <p>Crispy crust, mozzarella cheese, and spicy pepperoni.</p>
+                                <p class="price">₹100</p>
+                            </div>
+                            <a href="/user/place-order" class="btn-order">Order Now</a>
+                            </img>
+                            <div class="menu-item">
+                                <img src="/static/image.png" alt="Margherita Pizza">
+                                <div class="menu-item-content">
+                                    <h4>Margherita Pizza</h4>
+                                    <p>Classic with fresh tomatoes, basil, and mozzarella.</p>
+                                    <p class="price">₹100</p>
+                                </div>
+                                <a href="/user/place-order" class="btn-order">Order Now</a>
+                            </div>
+                            <div class="menu-item">
+                                <div src="/static/image.png" alt="Veggie Pizza">
+                                    <div class="menu-item-content">
+                                        <h4>Veggie Delight</h4>
+                                        <p>Loaded with fresh vegetables and cheese.</p>
+                                        <p class="price">₹100</p>
+                                    </div>
+                                    <a href="/user/place-order" class="btn-order">Order Now</a>
+                                    </img>
+                                </div>
+                            </div>
+                        </div> -->
+
+                <!-- <section id="menu">
+                            <div class="menu-container">
+                                <h2 class="section-title">Users</h2>
+                                <div class="user-grid">
+                                    <div id="pizza-list"></div>
+                                </div>
+                            </div>
+                        </section> -->
+
+                <!-- <script>
+                            const data = await response.json();
+
+                            const pizzaList = document.getElementById("pizza-list");
+                            pizzaList.innerHTML = "";
+
+                            if (Array, isArray(data)) {
+                                data.array.forEach(pizza => {
+                                    userList.innerHTML +=
+                                        `<script class="user-card">
+                        <script src="/upload/default-profile.png" alt="Pepperoni Pizza">
+                        <script class="user-card-content">
+            <div class="product">
+                <p class="email">Name: <span style="color: darkblue;">${user.name}</span></p>
+                <p class="email">Username: <span style="color: darkblue;">${user.username}</span></p>
+                <p class="email">Email ID: <span style="color: black;">${user.email}</span></p>
+                <p class="email">Staff: <span style="color: ${user.is_staff ? 'green' : 'red'};">${user.is_staff}</span></p>
+                <p class="email">Active: <span style="color: ${user.is_active ? 'green' : 'red'};">${user.is_active}</spanstyle="color:></p>
             </div>
-        </div>
-    </section>
-    <!-- Footer -->
+                        </script>
+                        </script>`;
+                        });
+                        } else {
+                        userList.innerHTML = `<p>${data.detail || "Failed to load users"}</p>`;
+                        }
+                        } catch (error) {
+                        console.error("Error fetching users:", error);
+                        document.getElementById("user-list").innerHTML = `<p>Server error. Try again later.</p>`;
+                        }
+                        }
+                        window.onload = loadusers;
+                        }
+                        </script> -->
 
+                </divclass="menu-item">
 
-    <!-- JS for Hamburger Menu -->
-    <script>
-        const hamburger = document.getElementById('hamburger');
-        const navMenu = document.getElementById('nav-menu');
-        hamburger.addEventListener('click', () => {
-            navMenu.classList.toggle('open');
-        });
-
-        document.querySelectorAll('#nav-menu a').forEach(link => {
-            link.addEventListener('click', () => {
-                if (navMenu.classList.contains('open')) {
-                    navMenu.classList.remove('open');
-                }
-            });
-        });
-        function goToProfile() {
-            window.location.href = "/static/profile.html";  // change as needed
-        }
-    </script>
-    </div>
-
-    </div>
+</html>
