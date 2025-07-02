@@ -187,14 +187,12 @@
             }
 
             .menu-container {
-                display: flex;
-                max-width: 1200px;
-                margin: 1 auto;
-                padding: 0 1rem;
-                min-height: 1000px;
+                max-width: 960px;
+                margin: 0 auto;
+                padding: 1rem;
             }
 
-            .menu-grid {
+            /* .menu-grid {
                 display: grid;
                 grid-template-columns: 1100px 1fr;
                 grid-template-rows: repeat(5, auto);
@@ -298,10 +296,10 @@
 
             .delete-btn:hover {
                 background-color: #c82333;
-            }
+            } */
 
             /* total cost */
-            .menu1-item {
+            /*.menu1-item {
                 background: var(--light-color);
                 border-radius: 0;
                 overflow: hidden;
@@ -351,100 +349,74 @@
                 padding-right: 10px;
                 color: var(--primary-color);
                 gap: 20px;
+            } */
+
+            /*//////// order-card//////// */
+            .order-card {
+                display: flex;
+                align-items: center;
+                background: #fff;
+                padding: 1.5rem;
+                border-radius: 6px;
+                box-shadow: 0 1px 3px rgba(27, 31, 35, 0.1);
+                margin-bottom: 2rem;
             }
 
-
-            /* Testimonials */
-            .testimonials {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-                gap: 2rem;
+            .order-card img {
+                height: 120px;
+                width: 120px;
+                object-fit: cover;
+                margin-top: 20px;
+                margin-left: 20px;
+                margin-bottom: 20px;
             }
 
-            .testimonial-item {
-                background: var(--light-color);
-                padding: 2rem;
-                border-radius: 1rem;
-                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-                position: relative;
+            .order-card-content {
+                margin-top: 40px;
             }
 
-            .testimonial-item p {
-                font-style: italic;
+            .order-card-content h4 {
                 margin-bottom: 1rem;
+                font-size: 1.2rem;
+                color: var(--dark-color);
+
             }
 
-            .testimonial-item h5 {
-                text-align: right;
+            .order-card-content p {
+                font-size: 0.9rem;
+                margin-bottom: 0.75rem;
+            }
+
+            .order-card-content .product {
+                display: block;
+                font-weight: 600;
+                color: var(--primary-color);
+                gap: 20px;
+            }
+
+            .order-card-content .username {
                 font-weight: 600;
                 color: var(--dark-color);
             }
 
-            /* CTA Banner */
-            .cta-banner {
-                background: var(--primary-color);
-                color: var(--light-color);
-                text-align: center;
-                padding: 3rem 1rem;
-                border-radius: 1rem;
+            .order-card-content .size {
+                font-weight: 600;
+                color: red;
             }
 
-            .cta-banner h2 {
-                font-size: 2rem;
-                margin-bottom: 1rem;
+            .order-card-content .quantity {
+                font-weight: 600;
+                color: maroon;
             }
 
-            /* Footer */
-            footer {
-                background: var(--dark-color);
-                color: var(--light-color);
-                padding: 2rem 0;
+            .order-card-content .cost {
+                font-weight: 600;
+                color: mediumslateblue;
             }
 
-            .footer-content {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 2rem;
-                justify-content: space-between;
-            }
-
-            .footer-section {
-                flex: 1 1 200px;
-            }
-
-            .footer-section h4 {
-                margin-bottom: 1rem;
-                font-size: 1.2rem;
-            }
-
-            .footer-section ul {
-                list-style: none;
-            }
-
-            .footer-section ul li a {
-                display: block;
-                margin-bottom: 0.5rem;
-                color: var(--light-color);
-                transition: color 0.3s;
-            }
-
-            .footer-section ul li a:hover {
-                color: var(--accent-color);
-            }
-
-            .social-icons {
-                display: flex;
-                gap: 1rem;
-            }
-
-            .social-icons a {
-                font-size: 1.5rem;
-                color: var(--light-color);
-                transition: color 0.3s;
-            }
-
-            .social-icons a:hover {
-                color: var(--accent-color);
+            .order-card-content .status {
+                font-weight: 600;
+                color: darkmagenta;
             }
 
             /* Responsive */
@@ -528,7 +500,7 @@
 
 
     <!-- showcase -->
-    <section id="menu">
+    <!-- <section id="menu">
         <h2 class="section-title">Your Orders</h2>
         <div class="menu1-container">
             <div class="menu-grid">
@@ -680,25 +652,52 @@
                     </div>
                 </div>
             </div>
+    </section> -->
+    <section id="menu">
+        <div class="menu-container">
+            <h2>Your Orders</h2>
+            <div class="order-card">
+                <div id="orders"></div>
+            </div>
+        </div>
     </section>
-    <!-- Footer -->
 
 
     <!-- JS for Hamburger Menu -->
     <script>
-        const hamburger = document.getElementById('hamburger');
-        const navMenu = document.getElementById('nav-menu');
-        hamburger.addEventListener('click', () => {
-            navMenu.classList.toggle('open');
-        });
-        // Close menu on link click (mobile)
-        document.querySelectorAll('#nav-menu a').forEach(link => {
-            link.addEventListener('click', () => {
-                if (navMenu.classList.contains('open')) {
-                    navMenu.classList.remove('open');
+        const token = localStorage.getItem("token");
+
+        fetch("/orders/user/orders", {
+            headers: { Authorization: `Bearer ${token}` }
+        })
+            .then(res => res.json())
+            .then(data => {
+                const ordersContainer = document.getElementById("orders");
+
+                if (!Array.isArray(data) || data.length === 0) {
+                    ordersContainer.innerHTML = "<p>No orders found.</p>";
+                    return;
                 }
+
+                ordersContainer.innerHTML = data.map(order => `
+        <div class="order-card">
+          <div class="order-card-content">
+            <div class="product">
+              <p class="username">Pizza Name: <strong>Margherita Pizza</strong></p>
+              <p class="size">Pizza Size: <strong>${order.pizza_size.value.toUpperCase()}</strong></p>
+              <p class="quantity">Quantity: ${order.quantity}</p>
+              <p class="cost">Pizza cost: <strong>${order.quantity*(100)}</strong></p>
+              <p class="status">Status: <span style="color: orange;">${order.order_status.value.toUpperCase()}</span></p>
+            </div>
+          </div>
+        </div>
+      `).join('');
+            })
+            .catch(err => {
+                console.error("Error fetching orders:", err);
+                document.getElementById("orders").innerHTML = "<p>Failed to load orders. Please try again.</p>";
             });
-        });
+
     </script>
     </div>
 

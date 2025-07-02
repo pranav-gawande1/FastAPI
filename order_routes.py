@@ -1,4 +1,4 @@
-from fastapi import APIRouter,status,Depends
+from fastapi import APIRouter,status,Depends,Form
 from fastapi_jwt_auth import AuthJWT
 from models import User,Order
 from fastapi.exceptions import HTTPException
@@ -29,39 +29,37 @@ async def hello(Authorize:AuthJWT=Depends()):
 ########################################################
 #  User routes to delete, update, place and view order #
 ########################################################
-@order_router.post('/order',status_code=status.HTTP_201_CREATED)
-async def place_an_order(order:OrderModel,Authorize:AuthJWT=Depends()):
+@order_router.post('/order', status_code=status.HTTP_201_CREATED)
+async def place_an_order(
+    pizza_size: str = Form(...),
+    quantity: int = Form(...),
+    Authorize: AuthJWT = Depends()
+):
     try:
         Authorize.jwt_required()
-
-    except Exception as e:
+    except Exception:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid Token"
         )
-    
-    current_user=Authorize.get_jwt_subject()
 
+    current_user = Authorize.get_jwt_subject()
+    user = session.query(User).filter(User.username == current_user).first()
 
-    user=session.query(User).filter(User.username==current_user).first()
-
-
-    new_order=Order(
-        pizza_size=order.pizza_size,
-        quantity=order.quantity
+    new_order = Order(
+        pizza_size=pizza_size,
+        quantity=quantity,
+        user=user  # assuming you have a ForeignKey relationship
     )
-    
-    new_order.user=user
 
     session.add(new_order)
-
     session.commit()
 
-    response={
-        "pizza_size":new_order.pizza_size,
-        "quantity":new_order.quantity,
-        "id":new_order.id,
-        "order_status":new_order.order_status
+    response = {
+        "pizza_size": new_order.pizza_size,
+        "quantity": new_order.quantity,
+        "id": new_order.id,
+        "status": new_order.order_status
     }
     return jsonable_encoder(response)
 

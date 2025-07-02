@@ -31,6 +31,7 @@ async def hello(Authorize:AuthJWT=Depends()):
     return {"message": "Hello, Russia!"}
 
 
+
 @auth_router.post('/signup'
     ,status_code=status.HTTP_201_CREATED)
 async def signup(
