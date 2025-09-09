@@ -18,7 +18,13 @@ class User(Base):
 
     def __repr__(self):
         return f"<User {self.username}"
-    
+    vfv
+    vf
+    f
+    vs
+
+    vs
+    v
 class Order(Base):
     ORDER_STATUSES=(
         ('PENDING','pending'),
