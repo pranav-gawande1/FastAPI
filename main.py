@@ -13,7 +13,6 @@ app = FastAPI()
 def get_config():
     return Settings()
 
-
 app.include_router(order_router)
 app.include_router(auth_router)
 app.include_router(pizza_router)
@@ -21,7 +20,6 @@ app.include_router(pizza_router)
 # mount static files
 app.mount("/static", StaticFiles(directory="static"), name="static")
 app.mount("/upload", StaticFiles(directory="upload"), name="upload")
-
 
 # API endpoints
 @app.get("/auth/login",response_class=HTMLResponse)

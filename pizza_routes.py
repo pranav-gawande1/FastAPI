@@ -68,7 +68,7 @@ async def add_pizza(
         )
     
     # Save uploaded image to disk
-    upload_dir = "C:/PIZZA_HUT/upload"
+    upload_dir = "C:/Users/hp/OneDrive/Desktop/FastAPI/upload"
     image_path = f"{upload_dir}/{image_url.filename}"
 
     with open(image_path, "wb") as buffer:
