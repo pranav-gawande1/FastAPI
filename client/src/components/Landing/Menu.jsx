@@ -6,7 +6,7 @@ import VeggieImg from '../../assets/Veggie_Delight.png'
 const Menu = ({Menu}) => {
     return (
         <>
-            <section id="Menu">
+            <section id="Menu" className="scroll-mt-16">
                 <div className='max-w-[1200px] mx-35 my-0 py-12 px-4 sm:px-6 lg:px-8'>
                     <h1 className='text-center text-[25.2px] font-bold text-[#1D3557] mb-4'>Our Pizzas</h1>
                     <div className='grid grid-cols-3 grid-rows-1 gap-8'>

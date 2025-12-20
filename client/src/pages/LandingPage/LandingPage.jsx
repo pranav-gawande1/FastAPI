@@ -10,11 +10,13 @@ const Landing = () => {
     return (
         <>
             <Navbar />
-            <Hero />
-            <About />
-            <Menu />
-            <Contact />
-            <Footer />
+            <main className="mt-16">
+                <Hero />
+                <About />
+                <Menu />
+                <Contact />
+                <Footer />
+            </main>
         </>
     )
 }

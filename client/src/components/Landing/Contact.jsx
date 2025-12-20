@@ -3,7 +3,7 @@ import react from 'react';
 const Contact = ({ContactUS}) => {
     return (
         <>
-        <section id="ContactUS">
+        <section id="ContactUS" className="scroll-mt-16">
             <div className='max-w-[1200px] mx-35 my-0 py-12 px-4 sm:px-6 lg:px-8'>
                 <h2 className="mb-4 text-center text-[25.2px] font-bold text-[#1D3557]"> Contact Us</h2>
                 <form className='max-w-[600px] my-0 mx-auto flex flex-col gap-4'>

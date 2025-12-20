@@ -4,7 +4,7 @@ import heroImage from '../../assets/hero.png';
 const Hero = ({Hero}) => {
     return (
         <>
-            <section id="Hero" className="mt-16 h-[43vh] flex items-center justify-center relative text-center bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url(${heroImage})` }}>
+            <section id="Hero" className="scroll-mt-16 h-[43vh] flex items-center justify-center relative text-center bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url(${heroImage})` }}>
                 <div className='absolute inset-0 bg-black/50'></div>
                 <div className="relative mw-[600px] z-1 mb-[64px]">
                     <h1 className="text-white text-4xl font-[700] mb-[16px]">Welcome to Pizza Paradise</h1>

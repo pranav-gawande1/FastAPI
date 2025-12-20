@@ -7,7 +7,7 @@ import Oven from '../../assets/freshlybaked.png'
 const About = ({AboutUs}) => {
     return (
         <>
-            <section id="AboutUs">
+            <section id="AboutUs" className="scroll-mt-16">
                 <div className="max-w-[1200px] mx-35 my-0 py-12 px-4 sm:px-6 lg:px-8 m-4">
                     <h2 className="text-center text-[25.2px] font-bold text-[#1D3557]">Why Choose Us</h2>
                     <div className="grid grid-cols-3 grid-rows-1 gap-8">
