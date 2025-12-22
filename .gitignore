@@ -3,3 +3,5 @@ __pycache__/
 venv
 /client/node_modules
 /server/__pycache__/
+/server/*.pyc
+/server/.env
