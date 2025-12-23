@@ -14,8 +14,16 @@ app.get('/', (req, res) => {
     res.send("hello world");
 });
 
+const allowedOrigins = [
+    'http://localhost:5174'
+];
+
+app.use(cors({
+    origin: allowedOrigins,
+    credentials: true
+}))
+
 app.use(bodyParser.json());
-app.use(cors());
 app.use('/auth', AuthRouter);
 
 app.listen(PORT, () => {
