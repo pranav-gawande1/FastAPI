@@ -24,17 +24,17 @@ const Footer = () => {
                     <div>
                         <h3 className="text-white text-lg">About</h3>
                         <ul className="text-white text-sm">
-                            <li className="hover:text-[#ff4d4d]"><a href="#">About</a></li>
-                            <li className="hover:text-[#ff4d4d]"><a href="#">Establishment</a></li>
-                            <li className="hover:text-[#ff4d4d]"><a href="#">Career</a></li>
+                            <li className="hover:text-[#ff4d4d]"><a href="/about">About</a></li>
+                            <li className="hover:text-[#ff4d4d]"><a href="/about">Establishment</a></li>
+                            <li className="hover:text-[#ff4d4d]"><a href="/about">Career</a></li>
                         </ul>
                     </div>
                     <div>
                         <h3 className="text-white text-lg">Privacy Policy</h3>
                         <ul className="text-white text-sm">
-                            <li className="hover:text-[#ff4d4d]"><a href="#">Policies</a></li>
-                            <li className="hover:text-[#ff4d4d]"><a href="#">Terms of Service</a></li>
-                            <li className="hover:text-[#ff4d4d]"><a href="#">Refund Policy</a></li>
+                            <li className="hover:text-[#ff4d4d]"><a href="/pizzaparadise/policies">Policies</a></li>
+                            <li className="hover:text-[#ff4d4d]"><a href="/pizzaparadise/policies">Terms of Service</a></li>
+                            <li className="hover:text-[#ff4d4d]"><a href="/pizzaparadise/policies">Refund Policy</a></li>
                         </ul>
                     </div>
                 </div>
