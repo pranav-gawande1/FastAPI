@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "../../../App.css";
-import useManualFetch from "../../../hooks/useManualFetch";
+import useManualFetch from "../../../shared/hooks/useManualFetch.jsx";
 import { useDispatch } from "react-redux";
 import {updateAuthState} from "../../../features/auth/authSlice";
 import { useState, useEffect } from "react";
@@ -29,7 +29,7 @@ const Login = () => {
             dispatch(updateAuthState({
                 isAuthenticated: true,
                 user: data.name,
-                token: data.token
+                role: data.is_staff ? "admin" : "user"
             })
             );
             console.log("navigating to home page");

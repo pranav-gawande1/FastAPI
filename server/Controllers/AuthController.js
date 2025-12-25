@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const UserModel = require("../models/User");
 
-const signup = async (req, res)=> {
+const signup = async (req, res) => {
     try {
         const { name, email, password, is_staff, is_active } = req.body;
         const user = await UserModel.findOne({ email });
@@ -13,6 +13,16 @@ const signup = async (req, res)=> {
         const userModel = new UserModel({ name, email, password, is_staff, is_active });
         userModel.password = await bcrypt.hash(password, 10);
         await userModel.save();
+        const jwttok = jwt.sign({ email: user.email, id: user.__id },
+            process.env.JWT_SECRET,
+            { expiresIn: '24h' }
+        )
+        res.cookie(jwttok, {
+            token: jwttok,
+            httpOnly: true,
+            secure: true,
+            sameSite: 'None'
+        });
         res.status(201)
             .json({
                 message: "SignUp Successfully",
@@ -46,11 +56,16 @@ const login = async (req, res) => {
             process.env.JWT_SECRET,
             { expiresIn: '24h' }
         )
+        res.cookie(jwttok, {
+            token: jwttok,
+            httpOnly: true,
+            secure: true,
+            sameSite: 'None'
+        });
         res.status(201)
             .json({
                 message: "Login Successfully",
                 success: true,
-                jwttok,
                 email,
                 name: user.name,
                 is_staff: user.is_staff,

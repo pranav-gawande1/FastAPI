@@ -9,12 +9,11 @@ import About from './pages/About/About.jsx'
 import Policy from './pages/Policies/Policy.jsx'
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <BrowserRouter>
     <Routes>
-      {/* auth routes */}
+      {/* Auth Routes */}
       <Route path='/account/login' element={<Login/>}></Route>
       <Route path='/account/register' element={<Register/>}></Route>
       <Route path='/home' element={<Home/>}></Route>

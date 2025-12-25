@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
 import { updateAuthState } from "../../../features/auth/authSlice";
 import { useDispatch } from "react-redux";
-import useManualFetch from "../../../hooks/useManualFetch.jsx";
+import useManualFetch from "../../../shared/hooks/useManualFetch.jsx";
 import { Link, useNavigate } from "react-router-dom";
 
 
