@@ -14,7 +14,7 @@ const Navbar = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const { isAuthenticated, role } = useSelector((state) => state.auth);
+    const { isAuthenticated, role, user } = useSelector((state) => state.auth);
     // just in case of debugging
     const state = useSelector((state) => state.auth);
     console.log('authStatusState:', state);
@@ -30,7 +30,8 @@ const Navbar = () => {
         }
         const base = [{ name: 'Home', to: '/home' }];
         if (role === "user") {
-            return [...base, { name: 'Orders', to: '/orders' },
+            return [...base,
+            { name: 'Orders', to: '/orders' },
             { name: 'Account', to: '/profile' }
             ];
         }
@@ -38,6 +39,7 @@ const Navbar = () => {
             return [...base, { name: 'Manage Pizzas', to: '/admin/pizzas' },
             { name: 'Users', to: '/users' },
             { name: 'Orders', to: '/orders' },
+            { name: 'Account', to: '/profile' }
             ];
         }
         return base;
@@ -79,10 +81,10 @@ const Navbar = () => {
     };
 
     return (
-        <Disclosure as="header" className="fixed top-0 left-0 w-full z-50 bg-white/10 backdrop-blur-lg shadow-md">
+        <Disclosure as="header" className="fixed top-0 left-0 right-0 max-w-full z-50 bg-white/10 backdrop-blur-lg shadow-md overflow-x-hidden">
             {({ open }) => (
                 <>
-                    <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="max-w-[1200px] w-full mx-auto px-4 sm:px-6">
                         <div className="flex justify-between items-center h-16">
 
                             <div className="flex-shrink-0">
@@ -91,7 +93,7 @@ const Navbar = () => {
                                 </h1>
                             </div>
 
-                            <nav className="hidden md:flex md:items-center md:space-x-6">
+                            <nav className="hidden md:flex md:items-center space-x-4 md:space-x-6">
                                 {navigationItems.map((item) => (
                                     <CustomLink
                                         key={item.name}
@@ -101,7 +103,7 @@ const Navbar = () => {
 
                                 {!isAuthenticated ? (
                                     <Link
-                                        to="/account/login" 
+                                        to="/account/login"
                                         className="text-blue-500 px-4 py-2 hover:underline decoration-blue-500 decoration-2 underline-offset-4 duration-300"
                                     >
                                         Sign In
@@ -116,7 +118,7 @@ const Navbar = () => {
                                 )}
                             </nav>
 
-                            <div className="md:hidden">
+                            <div className="md:hidden flex-shrink-0">
                                 <DisclosureButton className="inline-flex items-center justify-center p-2 rounded-lg text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-[#ff4d4d] transition-colors duration-200">
                                     <span className="sr-only">Open main menu</span>
                                     {open ? (

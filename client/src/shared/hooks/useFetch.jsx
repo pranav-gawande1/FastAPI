@@ -13,7 +13,7 @@ const useFetch = (url) => {
             const res = await fetch(url, {
                 credentials : "include",
             })
-            if(res.ok){
+            if(!res.ok){
                 throw new Error("Something went wrong");
             }
 

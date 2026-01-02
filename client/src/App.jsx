@@ -11,6 +11,8 @@ import Users from './pages/Admin/Users/Users.jsx'
 import Manage from './pages/Admin/Managa_pizzas/Manage_pizzas.jsx'
 import Orders from './pages/Admin/Orders/Orders.jsx'
 import Profile from './pages/Profile/Profile.jsx'
+import Pizza from './pages/Product/Pizza.jsx';
+import pizza from './constant/mockData.js';
 
 function App() {
 
@@ -29,11 +31,14 @@ function App() {
 
         {/* Admin routes */}
         <Route path='/users' element={<Users />}> </Route>
-        <Route path='/admin/pizzas' element={<Manage/>} ></Route>
-        <Route path='/orders' element={<Orders/>}></Route>
+        <Route path='/admin/pizzas' element={<Manage />} ></Route>
+        <Route path='/orders' element={<Orders />}></Route>
 
         {/* User Routes */}
-        <Route path='/profile' element={<Profile/>}></Route>
+        <Route path='/profile' element={<Profile />}></Route>
+
+        {/* Product routes */}
+        <Route path='/pizza/:id' element={<Pizza />}></Route>
       </Routes>
     </BrowserRouter>
   )

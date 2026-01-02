@@ -7,8 +7,8 @@ import { FaYoutube } from 'react-icons/fa';
 const Footer = () => {
     return (
         <>
-            <footer id="Footer" className="bg-black py-12 px-4 sm:px-6 lg:px-8">
-                <div className="flex my-0 mx-35 justify-between items-center">
+            <footer id="Footer" className="bg-black max-w-[1200px] lg:max-w-full py-6 px-6 lg:py-8 lg:px-32">
+                <div className="flex my-4 mx-auto justify-between items-center">
                     <div>
                         <h3 className="text-2xl font-bold text-[#ff4d4d] mb-4 flex items-center">Pizza Paradise</h3>
                         <p className="text-white mb-4">Ready to serve you delicious pizzas!</p>
@@ -16,9 +16,9 @@ const Footer = () => {
                     <div>
                         <h3 className="text-white text-lg">Order Now</h3>
                         <ul className="text-white text-sm">
-                            <li className="hover:text-[#ff4d4d]"><a href="#">Pizzas</a></li>
-                            <li className="hover:text-[#ff4d4d]"><a href="#">Drinks</a></li>
-                            <li className="hover:text-[#ff4d4d]"><a href="#">Desserts</a></li>
+                            <li className="hover:text-[#ff4d4d]"><a href="/home">Pizzas</a></li>
+                            <li className="hover:text-[#ff4d4d]"><a href="/home">Drinks</a></li>
+                            <li className="hover:text-[#ff4d4d]"><a href="/home">Desserts</a></li>
                         </ul>
                     </div>
                     <div>
@@ -38,7 +38,7 @@ const Footer = () => {
                         </ul>
                     </div>
                 </div>
-                <div className="flex my-10 mx-35 justify-between items-center">
+                <div className="flex my-10 mx-auto justify-between items-center">
                     <div className="flex flex-row gap-4">
                         <h1 className="text-white flex items-center">Help us in serving you better</h1>
                         <a className="text-black bg-white rounded-[10px] p-2" href="/account/login"><span>Give Feedback</span></a>
@@ -54,7 +54,7 @@ const Footer = () => {
                     </div>
                 </div>
 
-                <div className="flex flex-col mx-35">
+                <div className="flex flex-col mx-auto">
                     <p className="text-gray-400 text-sm text-center">Serving hot, fresh pizzas made with premium ingredients and authentic flavors.
                         Crafted with passion, oven-baked to perfection for bold taste in every bite.
                         Your neighborhood destination where great pizza brings people together.</p>

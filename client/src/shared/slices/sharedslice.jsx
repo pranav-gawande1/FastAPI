@@ -11,7 +11,6 @@ export const sharedSlice = createSlice({
     name: "sharedSlice",
     initialState,
     reducers: {
-        // navbar status
         updatenavbarStatus: (state, action) => {
             state.navbarStatus.activePage = action.payload.activePage;
         },
