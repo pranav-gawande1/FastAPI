@@ -7,3 +7,14 @@ venv
 /server/.env
 /server/Config
 /server/node_modules
+static
+upload
+auth_routes.py
+database.py
+init_db.py
+main.py
+models.py
+order_routes.py
+pizza_routes.py
+requirements.txt
+schemas.py
