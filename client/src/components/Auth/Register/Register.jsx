@@ -23,16 +23,15 @@ function Register() {
     console.log({
       name,
       email,
-      password,
-      isStaff,
+      role: isStaff ? "admin" : "user",
     });
 
-    await execute("http://localhost:3000/auth/signup", "POST",
+    await execute("/auth/signup", "POST",
       {
         name: name,
         email: email,
         password: password,
-        is_staff: isStaff,
+        role: isStaff ? "admin" : "user",
       }
     );
   };
@@ -46,7 +45,7 @@ function Register() {
       dispatch(updateAuthState({
         isAuthenticated: true,
         user: data.name,
-        token: data.token
+        role: data.role
       })
       );
       navigate("/home");

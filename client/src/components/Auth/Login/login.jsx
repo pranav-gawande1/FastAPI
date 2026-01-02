@@ -18,7 +18,7 @@ const Login = () => {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        await execute("http://localhost:3000/auth/login", "POST", {
+        await execute("/auth/login", "POST", {
             email,
             password
         });
@@ -29,7 +29,7 @@ const Login = () => {
             dispatch(updateAuthState({
                 isAuthenticated: true,
                 user: data.name,
-                role: data.is_staff ? "admin" : "user"
+                role: data.role
             })
             );
             console.log("navigating to home page");

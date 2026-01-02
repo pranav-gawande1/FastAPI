@@ -1,7 +1,7 @@
 import React from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Landing/Footer.jsx"
-import About_Component from "../../components/About/About_Component.jsx"
+import About_Component from "../../components/About/AboutComponent.jsx"
 
 const About = () => {
     return (

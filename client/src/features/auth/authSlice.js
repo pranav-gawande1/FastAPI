@@ -3,7 +3,6 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     isAuthenticated: false,
     user: null,
-    // token: null,
     role: null,
 };
 
@@ -13,14 +12,12 @@ export const authSlice = createSlice({
     reducers: {
         updateAuthState: (state, action) => {
             state.isAuthenticated = action.payload.isAuthenticated;
-            state.user = action.payload.user;
-            // state.token = action.payload.token;
-            state.role = action.payload.role;
+            state.user = action.payload.user || null;
+            state.role = action.payload.role || null;
         },
         refreshAuthState: (state) => {
             state.isAuthenticated = false;
             state.user = null;
-            // state.token = action.payload.token;
             state.role = null;
         }
 
