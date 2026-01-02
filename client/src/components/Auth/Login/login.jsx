@@ -5,6 +5,7 @@ import useManualFetch from "../../../shared/hooks/useManualFetch.jsx";
 import { useDispatch } from "react-redux";
 import {updateAuthState} from "../../../features/auth/authSlice";
 import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 
 
 const Login = () => {
@@ -32,9 +33,12 @@ const Login = () => {
                 role: data.role
             })
             );
-            console.log("navigating to home page");
+            toast.success("Login successful!");
             navigate(`/home`);
-        };
+        }
+        else if(status === "error"){
+            toast.error("Email or Password Incorrect!");
+        }
     }, [status, data, dispatch, navigate]);
     return (
         <>

@@ -5,6 +5,7 @@ import { updateAuthState } from "../../../features/auth/authSlice";
 import { useDispatch } from "react-redux";
 import useManualFetch from "../../../shared/hooks/useManualFetch.jsx";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 
 function Register() {
@@ -48,9 +49,10 @@ function Register() {
         role: data.role
       })
       );
+      toast.success("Signup successful!");
       navigate("/home");
     } else if (status == "error") {
-      console.log("Registration failed:", error);
+      toast.error("Email already exist please login!");
     }
   }, [status, data, error, name, dispatch, navigate]);
 
