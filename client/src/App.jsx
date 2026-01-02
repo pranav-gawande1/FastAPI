@@ -12,35 +12,56 @@ import Manage from './pages/Admin/Managa_pizzas/Manage_pizzas.jsx'
 import Orders from './pages/Admin/Orders/Orders.jsx'
 import Profile from './pages/Profile/Profile.jsx'
 import Pizza from './pages/Product/Pizza.jsx';
-import pizza from './constant/mockData.js';
+import ProtectedPage from './pages/ProtectedPage.jsx'
+import 'react-toastify/dist/ReactToastify.css'
+import { ToastContainer } from 'react-toastify';
 
 function App() {
 
   return (
-    <BrowserRouter>
-      <Routes>
-        {/* Auth Routes */}
-        <Route path='/account/login' element={<Login />}></Route>
-        <Route path='/account/register' element={<Register />}></Route>
-        <Route path='/home' element={<Home />}></Route>
-        <Route path='/' element={<Landing />}></Route>
+    <>
+      <BrowserRouter>
+        <Routes>
+          {/* Auth Routes */}
+          <Route path='/account/login' element={<Login />}></Route>
+          <Route path='/account/register' element={<Register />}></Route>
+          <Route element={<ProtectedPage />}>
+            <Route path='/home' element={<Home />}></Route>
+          </Route>
 
-        {/* Landing Page Routes */}
-        <Route path='/about' element={<About />}></Route>
-        <Route path='/pizzaparadise/policies' element={<Policy />}></Route>
+          {/* Landing Page Routes */}
+          <Route path='/' element={<Landing />}></Route>
+          <Route path='/about' element={<About />}></Route>
+          <Route path='/pizzaparadise/policies' element={<Policy />}></Route>
 
-        {/* Admin routes */}
-        <Route path='/users' element={<Users />}> </Route>
-        <Route path='/admin/pizzas' element={<Manage />} ></Route>
-        <Route path='/orders' element={<Orders />}></Route>
+          {/* Admin routes */}
+          <Route element={<ProtectedPage adminOnly={true} />}>
+            <Route path='/users' element={<Users />}> </Route>
+            <Route path='/admin/pizzas' element={<Manage />} ></Route>
+          </Route>
 
-        {/* User Routes */}
-        <Route path='/profile' element={<Profile />}></Route>
 
-        {/* Product routes */}
-        <Route path='/pizza/:id' element={<Pizza />}></Route>
-      </Routes>
-    </BrowserRouter>
+          {/* User Routes */}
+          <Route path='/profile' element={<Profile />}></Route>
+          <Route path='/orders' element={<Orders />}></Route>
+
+          {/* Product routes */}
+          <Route path='/pizza/:id' element={<Pizza />}></Route>
+        </Routes>
+      </BrowserRouter>
+
+
+      <ToastContainer
+        position="top-right"
+        autoclose={3000}
+        hidePogressBar={false}
+        closeOnClick
+        pauseOnHover
+        draggle
+        toastClassname="bg-gray-800 text-white font-semibold px-6 py-3 rounded-lg shadow-lg"
+        bodyClassName="text-sm"
+      />
+    </>
   )
 }
 export default App
