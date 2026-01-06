@@ -13,7 +13,7 @@ const ProfileMenu = () => {
             <div className="w-64 bg-gradient-to-r from-gray-200 to-white min-h-screen p-6 shadow-lg">
                 {/* sidebar header */}
                 <div className="mb-8">
-                    <h2 className="text-black text-2xl font-bold">Menu</h2>
+                    <h2 className="text-[#ff4d4d] text-2xl font-bold">Menu</h2>
                     <p className="text-black text-sm mt-1">Your Options</p>
                 </div>
 
