@@ -1,10 +1,28 @@
 import { useState } from "react";
-import UserCard from "./userCard";
+import UserCard from "./UserCard";
 import { FaSearch, FaFilter } from "react-icons/fa";
+import UserUpdateModel from "./UserUpdateModal";
 
 const UserTable = ({ users = [] }) => {
     const [searchTerm, setSearchTerm] = useState("");
     const [filterStatus, setFilterStatus] = useState("all");
+    const [selectedUser, setSelectedUser] = useState(null);
+    const [actionType, setActionType] = useState(null);
+
+    const handleEdit = (user) => {
+        setSelectedUser(user);
+        setActionType("edit");
+    };
+
+    const handleView = (user) => {
+        setSelectedUser(user);
+        setActionType("view");
+    }
+
+    const handleDelete = (user) => {
+        setSelectedUser(user);
+        setActionType("delete");
+    }
 
     const filteredUsers = users.filter((user) => {
         const matchesSearch =
@@ -83,16 +101,22 @@ const UserTable = ({ users = [] }) => {
                         <tbody>
                             {filteredUsers.length > 0 ? (
                                 filteredUsers.map((user) => <UserCard key={user.id}
-                                    user={user} />)
+                                    user={user} onEdit={handleEdit} onView={handleView} onDelete={handleDelete}/>)
                             ) : (
                                 <tr className="items-center">
-                                    <td  className="px-6 py-8 text-center text-gray-400">
+                                    <td className="px-6 py-8 text-center text-gray-400">
                                         <p className="text-sm">No users found matching your criteria</p>
                                     </td>
                                 </tr>
                             )}
                         </tbody>
                     </table>
+                    <UserUpdateModel
+                        user={selectedUser}
+                        isOpen={!!selectedUser}
+                        actionType={actionType}
+                        onClose={() => setSelectedUser(null)}
+                    />
                 </div>
 
                 {/* footer sectio */}

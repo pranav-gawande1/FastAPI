@@ -1,11 +1,11 @@
 import { FaUserCircle, FaEllipsisV } from "react-icons/fa";
 import { useState } from "react";
 
-const UserCard = ({ user }) => {
+const UserCard = ({ user, onEdit, onView, onDelete }) => {
     const [IsMenuOpen, setisMenuOpen] = useState(false);
     return (
         <>
-            <tr className="bg-white">
+            <tr className="bg-white" onClick={() => setisMenuOpen(!IsMenuOpen)}>
                 <td className="px-6 py-4">
                     <div className="flex item-center gap-3">
                         <div className="w-10 h-10 rounded-full flex items-center justify-center text-gray-900">
@@ -35,24 +35,30 @@ const UserCard = ({ user }) => {
                 </td>
                 <td>
                     <div className="relative">
-                        <button onClick={() => setisMenuOpen(!IsMenuOpen)}
+                        <button
                             className="text-gray-900 hover:text-gray-500 transitions-colors">
                             <FaEllipsisV className="w-4 h-4" />
                         </button>
                         {IsMenuOpen && (
                             <div className="absolute right-0 mt-2 w-48
                             bg-gray-800 rounded-lg  shadow-xl z-10">
-                                <button className="block text-gray-200
+                                <button onClick={() => onEdit(user)
+                                }
+                                    className="block text-gray-200
                                 w-full text-left px-4 py-2 text-sm hover:bg-gray-700
-                                transitions-colors
+                                hover:rounded-lg transitions-colors
                                 ">Edit User</button>
-                                <button className="block text-gray-200
+                                <button onClick={() => onView(user)
+                                }
+                                    className="block text-gray-200
                                 w-full text-left px-4 py-2 text-sm hover:bg-gray-700
                                 transitions-colors
                                 ">View User</button>
-                                <button className="block text-red-400
+                                <button onClick={() => onDelete(user)
+                                }
+                                    className="block text-red-400
                                 w-full text-left px-4 py-2 text-sm hover:bg-gray-700
-                                transitions-colors
+                                hover:rounded-lg transitions-colors
                                 ">Delete User</button>
                             </div>
                         )

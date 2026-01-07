@@ -1,7 +1,7 @@
 import React from "react";
 import Navbar from "../../../components/Navbar/Navbar";
 import Footer from "../../../components/Landing/Footer";
-import UserTable from "../../../components/User/UserTable";
+import UserTable from "../../../components/Admin/UserTable";
 import user from "../../../constant/userData";
 
 const Users = () => {

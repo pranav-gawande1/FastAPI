@@ -1,23 +1,53 @@
-import pizza from "../../constant/mockData";
+import PizzaUpdateModel from "./PizzaUpdateModal";
 import PizzaCard from "./PizzaCard";
 import { useState } from "react";
 import { FaFilter, FaSearch } from "react-icons/fa";
+// import PizzaView from "./PizzaView";
 
 const PizzaTable = ({ pizzas = [] }) => {
     const [searchTerm, setSearchTerm] = useState("");
     const [filterStatus, setFilterStatus] = useState("all");
+    const [selectedPizza, setSelectedPizza] = useState(null);
+    const [actionType, setActionType] = useState(null);
+
+    const handleEdit = (pizza) => {
+        setSelectedPizza(pizza);
+        setActionType("edit");
+    };
+
+    const handleView = (pizza) => {
+        setSelectedPizza(pizza);
+        setActionType("view");
+    };
+
+    const handleDelete = (pizza) => {
+        setSelectedPizza(pizza);
+        setActionType("delete");
+    };
+
+    const priceFilters = {
+        "0-500": (price) => price > 0 && price < 500,
+        "500-800": (price) => price >= 500 && price < 800,
+        "800+": (price) => price >= 800,
+    };
 
     const filteredPizzas = pizzas.filter((pizza) => {
-        const matchesSearch =
-            pizza.name.toLowerCase().includes(searchTerm.toLowerCase())
+        const price = Number(
+            String(pizza.price).replace(/[^0-9.]/g, "")
+        );
 
-        const matchStatus =
-            filterStatus === "all" ||
-            filterStatus === "price > 0 && price < 500"
-            filterStatus === "price > 500 && price < 800" ||
-            filterStatus === "price > 800"
-        return matchesSearch && matchStatus
-    })
+        const matchesSearch =
+            pizza.name.toLowerCase().includes(searchTerm.toLowerCase());
+
+        const matchesPrice =
+            filterStatus === "all"
+                ? true
+                : priceFilters[filterStatus](price);
+
+        return matchesSearch && matchesPrice;
+    });
+
+
     return (
         <>
             <div className="w-full bg-gray-200 rounded-lg shadow-lg overflow-hidden">
@@ -45,18 +75,18 @@ const PizzaTable = ({ pizzas = [] }) => {
                             <option value="all"
                                 className="text-gray-800"
                             >All</option>
-                            <option value="price > 0 && price < 500"
+                            <option value="0-500"
                                 className="text-gray-800"
                             >0 - 500</option>
-                            <option value="price > 500 && price < 800"
+                            <option value="500-800"
                                 className="text-gray-800">500 - 800</option>
-                            <option value="price > 800"
+                            <option value="800+"
                                 className="text-gray-800">800 and above</option>
                         </select>
                     </div>
                 </div>
 
-                <div className="overfloew-x-auto">
+                <div className="overflow-x-auto">
                     <table className="w-full">
                         <thead className="bg-gray-200">
                             <tr>
@@ -84,7 +114,7 @@ const PizzaTable = ({ pizzas = [] }) => {
                         </thead>
                         <tbody>
                             {filteredPizzas.length > 0 ? (
-                                filteredPizzas.map((pizza) => <PizzaCard key={pizza.id} pizza={pizza} />)
+                                filteredPizzas.map((pizza) => <PizzaCard key={pizza.id} pizza={pizza} onEdit={handleEdit} onView={handleView} onDelete={handleDelete} />)
                             ) :
                                 (
                                     <tr className="text-center">
@@ -95,6 +125,12 @@ const PizzaTable = ({ pizzas = [] }) => {
                                 )}
                         </tbody>
                     </table>
+                    <PizzaUpdateModel
+                        pizza={selectedPizza}
+                        isOpen={!!selectedPizza}
+                        actionType={actionType}
+                        onClose={() => setSelectedPizza(null)}
+                    />
                 </div>
 
                 <div className="px-6 py-4 bg-gray-200
