@@ -38,7 +38,7 @@ const Navbar = () => {
         if (role === 'admin') {
             return [...base, { name: 'Manage Pizzas', to: '/admin/pizzas' },
             { name: 'Users', to: '/users' },
-            { name: 'Orders', to: '/orders' },
+            { name: 'Orders', to: '/admin/orders' },
             { name: 'Account', to: '/profile' }
             ];
         }
