@@ -10,6 +10,7 @@ import Policy from './pages/Policies/Policy.jsx'
 import Users from './pages/Admin/Users/Users.jsx'
 import ManagePizza from './pages/Admin/Managa_pizzas/Managepizzas.jsx'
 import Orders from './pages/Admin/Orders/Orders.jsx'
+import UserOrders from './pages/User/Orders.jsx'
 import Profile from './pages/Profile/Profile.jsx'
 import Pizza from './pages/Product/Pizza.jsx';
 import ProtectedPage from './pages/ProtectedPage.jsx'
@@ -39,12 +40,14 @@ function App() {
           <Route element={<ProtectedPage adminOnly={true} />}>
             <Route path='/users' element={<Users />}> </Route>
             <Route path='/admin/pizzas' element={<ManagePizza />} ></Route>
+            <Route path='/admin/orders' element={<Orders />}></Route>
           </Route>
 
 
           {/* User Routes */}
           <Route path='/profile' element={<Profile />}></Route>
-          <Route path='/orders' element={<Orders />}></Route>
+          <Route path='/orders' element={<UserOrders />}></Route>
+          
 
           {/* Product routes */}
           <Route path='/pizza/:id' element={<Pizza />}></Route>
