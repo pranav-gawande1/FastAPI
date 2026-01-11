@@ -2,6 +2,7 @@ import { CheckCircle2, User, Mail, Briefcase } from "lucide-react"
 
 const PersonalInfo = ({ user }) => {
     // const status = ;
+    if (!user) return <p>Loading...</p>;
     return (
         <>
             <div className="bg-white p-6 shadow-md w-full max-w-md mx-auto">
@@ -38,7 +39,7 @@ const PersonalInfo = ({ user }) => {
                             <label className="text-xs font-bold uppercase tracking widest text-[#ff4d4d]">Status</label>
                         </div>
                         <p className="inline-flex items-center gap-2 border border-green-600 rounded-full px-1">
-                            <CheckCircle2 className="w-4 h-4 text-green-600"/>
+                            <CheckCircle2 className="w-4 h-4 text-green-600" />
                             <span className={`ml-2 font-medium ${user.is_active
                                 ? "text-green-600"
                                 : "text-red-500"

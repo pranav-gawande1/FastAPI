@@ -1,36 +1,36 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
+import { apiRequest } from "../../services/api";
 
 const useFetch = (url) => {
-    const [data, setData ] = useState(null);
-    const [loading, setLoading ] = useState(false);
-    const [ error, setError ] = useState(null);
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
+    useEffect (() => {
     const fetchData = async () => {
         setLoading(true);
         setError(null);
 
-        try{
-            const res = await fetch(url, {
-                credentials : "include",
-            })
-            if(!res.ok){
-                throw new Error("Something went wrong");
-            }
+        try {
+            const result = await apiRequest({
+                endpoint: url,
+                method : 'GET',
+            });
 
-            const result = await res.json();
             setData(result);
-        } catch(err){
+        } catch (err) {
             setError(err.message);
+            setStatus("error");
+            throw err;
         } finally {
             setLoading(false);
         }
     };
 
-    useEffect(() => {
-        fetchData();
+    if(url) fetchData();
     }, [url]);
 
-    return {data, loading, error, refetch: fetchData};
+    return { data, loading, error };
 };
 
 export default useFetch;

@@ -17,24 +17,24 @@ const OrderStatusModal = ({ order, isOpen, onClose, actionType, onStatusChange }
         return (
             <>
                 <Modal isOpen={isOpen} onClose={onClose} title="Update Order Status">
-                    <div>
-                        <div className="flex flex-col gap-3">
-                            <p>Orders ID:</p>
-                            <p>{order.id}</p>
+                    <div className="space-y-4">
+                        <div className="flex flex-row items-center justify-between gap-3">
+                            <p className="text-gray-900 font-semibold">Orders ID:</p>
+                            <p className="bg-gray-400 px-2 rounded-lg hover:bg-[#ff4d4d]">{order.id}</p>
                         </div>
-                        <div>
-                            <p>Current Status:</p>
-                            <p>{order.status}</p>
+                        <div className="flex flex-row items-center justify-between gap-3">
+                            <p className="text-gray-900 font-semibold">Current Status:</p>
+                            <p className="bg-gray-400 px-2 rounded-lg hover:bg-[#ff4d4d] uppercase">{order.status}</p>
                         </div>
 
                         {availableTransitions.length > 0 ? (
-                            <div>
+                            <div className="flex items-center justify-between">
                                 <p>Update to:</p>
                                 <div>
                                     {availableTransitions.map((status) => (
                                         <button
                                             key={status}
-                                            className="w-full px-4 py-3 border border-primary text-primary rounded-lg hover:bg-primary hover:text-primary-foreground transition-colors font-medium"
+                                            className="w-full px-3 py-1 border border-primary text-primary rounded-lg hover:bg-primary hover:text-primary-foreground transition-colors font-medium uppercase"
                                             onClick={() => {
                                                 onStatusChange(status)
                                             }}
@@ -55,9 +55,23 @@ const OrderStatusModal = ({ order, isOpen, onClose, actionType, onStatusChange }
         );
     } else if (actionType === "view") {
         return (
-            <Modal isOpen={isOpen} onClose={onClose} title="User">
-                <div className="bg-white p-6 shadow-md w-full max-w-md mx-auto">
-                    <h1>Hello debugginh on top</h1>
+            <Modal isOpen={isOpen} onClose={onClose} title="Order Details">
+                <div className="space-y-4">                    <div className="flex flex-row items-center justify-between gap-3">
+                    <p className="text-gray-900 font-semibold">Orders ID:</p>
+                    <p className="bg-gray-400 px-2 rounded-lg hover:bg-[#ff4d4d]">{order.id}</p>
+                </div>
+                    <div className="flex flex-row items-center justify-between gap-3">
+                        <p className="text-gray-900 font-semibold">Current Status:</p>
+                        <p className="bg-gray-400 px-2 rounded-lg hover:bg-[#ff4d4d] uppercase">{order.status}</p>
+                    </div>
+                    <div className="flex flex-row items-center justify-between gap-3">
+                        <p className="text-gray-900 font-semibold">Payment Method:</p>
+                        <p className="bg-gray-400 px-2 rounded-lg hover:bg-[#ff4d4d] uppercase">{order.paymentMethod}</p>
+                    </div>
+                    <div className="flex flex-row items-center justify-between gap-3">
+                        <p className="text-gray-900 font-semibold">Total Amount:</p>
+                        <p className="bg-gray-400 px-2 rounded-lg hover:bg-[#ff4d4d] uppercase">{order.totalPrice}</p>
+                    </div>
                 </div >
             </Modal>
         );

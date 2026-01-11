@@ -19,14 +19,14 @@ const Modal = ({ title, onClose, isOpen, children }) => {
     return (
         <>
             <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-                <div className="bg-white w-full max-w-md rounded-xl shadow-lg"
+                <div className="bg-white w-full max-w-md shadow-lg"
                 onClick={(e) => e.stopPropagation()}
                 >
-                    <div className="flex justify-between items-center px-5 py-4 border-b"> 
-                        <h2>{title}</h2>
+                    <div className="flex justify-between items-center px-5 py-4 bg-[#ff4d4d]"> 
+                        <h2 className="font-semibold">{title}</h2>
                         <button onClick={onClose}>×</button>
                     </div>
-                    <div className="p-5">{children}</div>
+                    <div className="p-5 ">{children}</div>
                 </div>
             </div>
         </>
