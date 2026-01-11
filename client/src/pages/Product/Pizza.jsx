@@ -4,6 +4,7 @@ import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Landing/Footer";
 import PizzaInfo from "../../components/Products/PizzaInfo";
 import pizza from "../../constant/mockData";
+import ErrorState from "../../components/Loader/NotFound";
 
 const Pizza = () => {
     const { id } = useParams();
@@ -11,7 +12,7 @@ const Pizza = () => {
         (pizza) => pizza.id.toString() === id
     );
     if (!pizzaInfo) {
-        return <p>Not Found!!!</p>
+        return <ErrorState/>
     }
     return (
         <>

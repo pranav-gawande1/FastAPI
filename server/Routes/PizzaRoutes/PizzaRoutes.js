@@ -7,10 +7,10 @@ const auth = require("../../Middlewares/Auth.js")
 
 const pizza_router = express.Router();
 
-pizza_router.post("/addpizza", protect, adminOnly, upload.single("image"), AddPizza);
-pizza_router.patch("/updatepizza/:id", protect, adminOnly, upload.single("image"), UpdatePizza);
-pizza_router.get("/getallpizzas", protect , auth, GetAllPizzas);
-pizza_router.get("/getpizza/:id", protect, auth, GetPizzaById);
-pizza_router.delete("/deletepizza/:id", protect, adminOnly, DeletePizza);
+pizza_router.post("/pizza", protect, adminOnly, upload.single("image"), AddPizza);
+pizza_router.patch("/pizza/:id", protect, adminOnly, upload.single("image"), UpdatePizza);
+pizza_router.get("/pizzas", protect , auth, GetAllPizzas);
+pizza_router.get("/pizza/:id", protect, auth, GetPizzaById);
+pizza_router.delete("/pizza/:id", protect, adminOnly, DeletePizza);
 
 module.exports = pizza_router;

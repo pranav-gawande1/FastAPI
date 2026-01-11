@@ -38,7 +38,7 @@ app.use('/auth', AuthRouter);
 app.use('/pizza', PizzaRouter);
 
 // User Router
-app.use('/user', UserRouter);
+app.use('/users', UserRouter);
 
 app.listen(PORT, () => {
     console.log(`Server is running at port ${PORT}`);

@@ -53,9 +53,13 @@ const UpdatePizza = async (req, res) => {
 const GetAllPizzas = async (req, res) => {
     try {
 
-        const getpizzas = await Pizza.find({});
+        const pizzas = await Pizza.find({});
 
-        res.status(200).json({ success: true, getpizzas });
+        if(!pizzas) {
+            res.status(404).json({ success: false, message: "Pizzas Not Found"}); 
+        }
+        
+        res.status(200).json({ success: true, pizzas });
 
     } catch (err) {
         res.status(500).json({ message: err.message });

@@ -66,14 +66,14 @@ const DeleteUser = async (req, res) => {
 
 const GetAllUsers = async (req, res) => {
     try {
-        const allusers = await UserModel.find({}).select("-password, -_id");
-        if (!allusers) {
+        const users = await UserModel.find({}).select("-password, -_id");
+        if (!users) {
             res.status(404).json({ success: false, message: "Users not found!" });
         }
 
         res.status(200).json({
             success: true,
-            allusers
+            users
         })
     } catch (err) {
         res.status(500).json({ message: err.message });
