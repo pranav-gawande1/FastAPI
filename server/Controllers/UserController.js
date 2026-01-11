@@ -106,4 +106,21 @@ const UpdateUser = async (req, res) => {
     }
 };
 
-module.exports = { completeProfile, DeleteUser, GetAllUsers, UpdateUser };
+
+const GetUserById = async (req, res) => {
+    try {
+        const user = await UserModel.findById(req.user.id).select("-password");
+        if (!user) {
+            res.status(404).json({ success: false, message: "User Not found" });
+        }
+        res.status(200).json({
+            message: true,
+            user
+        })
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+        console.error(err);
+    }
+};
+
+module.exports = { completeProfile, DeleteUser, GetAllUsers, UpdateUser, GetUserById };

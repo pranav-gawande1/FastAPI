@@ -54,7 +54,7 @@ const OrderTable = ({ orders }) => {
                     setSearchTerm={setSearchTerm}
                     filterStatus={filterStatus}
                     setFilterStatus={setFilterStatus} />
-                <div>
+                <div className="overflow-x-auto">
                     <table className="w-full">
                         <thead className="bg-gray-200">
                             <tr>

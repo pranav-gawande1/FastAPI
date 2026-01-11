@@ -1,6 +1,7 @@
 import { MapPinCheck  } from "lucide-react"
 
 const AddressInfo = ({ user }) => {
+    if (!user) return <p>Loading...</p>;
     return (
         <>
             <div className="bg-white p-6 shadow-md w-full max-w-md mx-auto">
