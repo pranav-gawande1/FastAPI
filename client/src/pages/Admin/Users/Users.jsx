@@ -6,9 +6,23 @@ import UserTable from "../../../components/Admin/UserTable";
 import useFetch from "../../../shared/hooks/useFetch";
 import Loader from "../../../components/Loader/Loader";
 import ErrorState from "../../../components/Loader/NotFound";
+import { useState } from "react";
+import { useEffect } from "react";
 
 const Users = () => {
-    const { data, loading, error } = useFetch(`/users/getallusers`)
+    const [users, setUsers] = useState([]);
+    const { data, loading, error } = useFetch(`/users/users`)
+
+    const handleDeletedUser = async (userId) => {
+        setUsers(prev => prev.filter(user => user._id != userId))
+    };
+
+    useEffect(() => {
+        if (data?.users) {
+            setUsers(data.users);
+        }
+    }, [data]);
+
     return (
         <div className="min-h-screen flex flex-col">
             <Navbar />
@@ -17,7 +31,9 @@ const Users = () => {
                 {error && <ErrorState />}
                 {!loading && !error && (
                     <div className="max-w-full w-full p-8">
-                        <UserTable users={data?.users} />
+                        <UserTable users={users}
+                            onUserDelete={handleDeletedUser}
+                        />
                     </div>
                 )}
                 <Footer />

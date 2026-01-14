@@ -17,6 +17,7 @@ import ProtectedPage from './pages/ProtectedPage.jsx'
 import 'react-toastify/dist/ReactToastify.css'
 import { ToastContainer } from 'react-toastify';
 import CompleteProfile from './components/Auth/CompleteProfile/CompleteProfile.jsx'
+import ProfileUpdatePage from './pages/Profile/ProfileUpdatePage.jsx'
 
 function App() {
 
@@ -47,6 +48,8 @@ function App() {
           {/* User Routes */}
           <Route path='/profile' element={<Profile />}></Route>
           <Route path='/orders' element={<UserOrders />}></Route>
+          {/*profile edit route */}
+          <Route path="/me/update/profile" element={<ProfileUpdatePage />}></Route>
           
 
           {/* Product routes */}

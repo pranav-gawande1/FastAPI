@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 const PizzaCard = ({ pizza }) => {
     const { is_profile_completed, role } = useSelector((state) => state.auth);
     const link = `${pizza.imageUrl}`
-    const link2 = `/pizza/${pizza.id}`;
+    const link2 = `/pizza/${pizza._id}`;
     return (
         <>
             <a href={link2}> {/*future to specicfic pizza */}

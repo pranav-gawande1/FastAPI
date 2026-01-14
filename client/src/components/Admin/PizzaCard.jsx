@@ -36,7 +36,7 @@ const PizzaCard = ({ pizza , onEdit, onView, onDelete}) => {
                             <button onClick={() => onView(pizza)}
                             className="block text-gray-200 
                             w-full text-left px-4 py-2 text-sm hover:bg-gray-800">View Pizza</button>
-                            <button onClick={() => onDelete(pizza)}
+                            <button onClick={() => onDelete(pizza._id)}
                             className="block text-red-700 
                             w-full text-left px-4 py-2 text-sm hover:bg-gray-800 hover:rounded-lg">Delete Pizza</button>
                         </div>

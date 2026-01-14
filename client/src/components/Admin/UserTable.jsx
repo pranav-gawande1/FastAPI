@@ -2,8 +2,11 @@ import { useState } from "react";
 import UserCard from "./UserCard";
 import { FaSearch, FaFilter } from "react-icons/fa";
 import UserUpdateModel from "./UserUpdateModal";
+import useManualFetch from "../../shared/hooks/useManualFetch";
+import { useEffect } from "react";
+import { toast } from "react-toastify";
 
-const UserTable = ({ users = [] }) => {
+const UserTable = ({ users = [], onUserDelete}) => {
     const [searchTerm, setSearchTerm] = useState("");
     const [filterStatus, setFilterStatus] = useState("all");
     const [selectedUser, setSelectedUser] = useState(null);
@@ -19,10 +22,21 @@ const UserTable = ({ users = [] }) => {
         setActionType("view");
     }
 
-    const handleDelete = (user) => {
-        setSelectedUser(user);
-        setActionType("delete");
-    }
+    const { execute, data, error, status } = useManualFetch();
+
+    const handleDelete = async (user_id) => {
+        await execute(`/users/user/${user_id}`, "DELETE",);
+        onUserDelete(user_id);
+        console.log("done", user_id);
+    };
+
+    useEffect(() => {
+        if(status === "success" && data){
+            toast.success("User Deleted Successfully!");
+        } else if(error){{
+            toast.error("Something went wrong.");
+        }}
+    }, [status, error]);
 
     const filteredUsers = users.filter((user) => {
         const matchesSearch =
@@ -100,7 +114,7 @@ const UserTable = ({ users = [] }) => {
                         </thead>
                         <tbody>
                             {filteredUsers.length > 0 ? (
-                                filteredUsers.map((user) => <UserCard key={user.id}
+                                filteredUsers.map((user) => <UserCard key={user._id}
                                     user={user} onEdit={handleEdit} onView={handleView} onDelete={handleDelete}/>)
                             ) : (
                                 <tr className="items-center">

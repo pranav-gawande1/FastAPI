@@ -1,8 +1,10 @@
 import { CheckCircle2, User, Mail, Briefcase } from "lucide-react"
+import { useSelector } from "react-redux";
 
-const PersonalInfo = ({ user }) => {
+const PersonalInfo = () => {
+    const { name, email, role, status } = useSelector((state) => state.profile);
     // const status = ;
-    if (!user) return <p>Loading...</p>;
+    // if () return <p>Loading...</p>;
     return (
         <>
             <div className="bg-white p-6 shadow-md w-full max-w-md mx-auto">
@@ -14,7 +16,7 @@ const PersonalInfo = ({ user }) => {
                             <User className="w-4 h-4 text-[#ff4d4d]" />
                             <label className="text-xs font-bold uppercase tracking widest text-[#ff4d4d]">Name</label>
                         </div>
-                        <p className="text-base md:text-xl lg:text-2xl font-bold text-gray-900">{user.name}</p>
+                        <p className="text-base md:text-xl lg:text-2xl font-bold text-gray-900">{name}</p>
                     </div>
                     {/* email */}
                     <div className="space-y-3">
@@ -22,7 +24,7 @@ const PersonalInfo = ({ user }) => {
                             <Mail className="w-4 h-4 text-[#ff4d4d]" />
                             <label className="text-xs font-bold uppercase tracking widest text-[#ff4d4d]">Email</label>
                         </div>
-                        <p className="font-medium">{user.email}</p>
+                        <p className="font-medium">{email}</p>
 
                     </div>
                     {/* Role */}
@@ -31,7 +33,7 @@ const PersonalInfo = ({ user }) => {
                             <Briefcase className="w-4 h-4 text-[#ff4d4d]" />
                             <label className="text-xs font-bold uppercase tracking widest text-[#ff4d4d]">Role</label>
                         </div>
-                        <p className="font-semibold text-sm">{user.role}</p>
+                        <p className="font-semibold text-sm uppercase">{role}</p>
                     </div>
                     {/* status */}
                     <div className="space-y-3">
@@ -40,10 +42,10 @@ const PersonalInfo = ({ user }) => {
                         </div>
                         <p className="inline-flex items-center gap-2 border border-green-600 rounded-full px-1">
                             <CheckCircle2 className="w-4 h-4 text-green-600" />
-                            <span className={`ml-2 font-medium ${user.is_active
+                            <span className={`ml-2 font-medium ${status
                                 ? "text-green-600"
                                 : "text-red-500"
-                                }`}>{user.is_active ? "Active" : "Blocked"}</span>
+                                }`}>{status ? "Active" : "Blocked"}</span>
                         </p>
                     </div>
                 </div>

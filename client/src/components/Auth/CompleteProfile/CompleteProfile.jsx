@@ -11,8 +11,8 @@ const CompleteProfile = () => {
     const navigate = useNavigate();
 
     // for debug
-    const state = useSelector((state) => state.auth);
-    console.log("AuthStatus", state);
+    // const state = useSelector((state) => state.auth);
+    // console.log("AuthStatus", state);
     const { execute, data, status, error } = useManualFetch();
     const [form, setform] = useState({
         address: "",
@@ -27,7 +27,7 @@ const CompleteProfile = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await execute("/me/updateprofile", "PATCH",
+        await execute("/users/updateprofile", "PATCH",
             {
                 address: form.address,
                 city: form.city,
@@ -38,16 +38,16 @@ const CompleteProfile = () => {
     };
 
     useEffect(() => {
-        if (status == "success" && data) {
+        if (status === "success" && data) {
             dispatch(updateAuthState({
-                user: data.user.name,
-                email: data.user.email,
-                role: data.user.role,
+                user: data.completeuser.name,
+                email: data.completeuser.email,
+                role: data.completeuser.role,
                 isAuthenticated: true,
                 is_profile_completed: true
             }));
             toast.success("Profile Completed!!");
-            navigate("/home");
+            navigate("/");
         } else if (status == "error") {
             toast.error("Something went wrong!");
         }

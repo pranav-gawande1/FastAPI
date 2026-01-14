@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Disclosure, DisclosureButton, DisclosurePanel, } from '@headlessui/react';
 import { HiMenu, HiX } from 'react-icons/hi'
 import { Link, redirect, NavLink as RouterNavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { refreshAuthState, updateAuthState } from '../../features/auth/authSlice';
 import { useNavigate } from 'react-router-dom';
+import { refreshProfileState } from '../../features/user/profileSlice';
+import useManualFetch from '../../shared/hooks/useManualFetch';
+import { toast } from 'react-toastify';
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -14,10 +17,15 @@ const Navbar = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const { isAuthenticated, role, user } = useSelector((state) => state.auth);
+    const { isAuthenticated, role } = useSelector((state) => state.auth);
     // just in case of debugging
+
+    const { execute, data, error, status } = useManualFetch();
     const state = useSelector((state) => state.auth);
     console.log('authStatusState:', state);
+
+    const profstate = useSelector((state) => state.profile);
+    console.log('profile:', profstate);
 
     const getNavigationItems = () => {
         if (!isAuthenticated) {
@@ -47,10 +55,20 @@ const Navbar = () => {
 
     const navigationItems = getNavigationItems();
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
+
+        await execute ("/auth/logout", 
+            "POST");
         dispatch(refreshAuthState());
-        // navigate(`/`, { replace: true });
+        dispatch(refreshProfileState());
+        navigate("/");
     };
+
+    useEffect(() => {
+        if(status == "success" && data){
+            toast.success("Logout successfully!");
+        }
+    }, [status, data ]);
 
     const CustomLink = ({ item }) => {
 
