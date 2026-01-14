@@ -54,7 +54,7 @@ const UserCard = ({ user, onEdit, onView, onDelete }) => {
                                 w-full text-left px-4 py-2 text-sm hover:bg-gray-700
                                 transitions-colors
                                 ">View User</button>
-                                <button onClick={() => onDelete(user)
+                                <button onClick={() => onDelete(user._id)
                                 }
                                     className="block text-red-400
                                 w-full text-left px-4 py-2 text-sm hover:bg-gray-700

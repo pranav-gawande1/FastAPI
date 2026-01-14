@@ -6,9 +6,9 @@ const express = require("express");
 const user_router = express.Router();
 
 user_router.patch('/updateprofile',  protect, completeProfile);
-user_router.delete('/deleteuser/:id', protect, DeleteUser);
-user_router.get('/getallusers', protect, adminOnly, GetAllUsers);
-user_router.patch('/updateuser/:id', protect, UpdateUser);
+user_router.delete('/user/:id', protect, DeleteUser);
+user_router.get('/users', protect, adminOnly, GetAllUsers);
+user_router.patch('/user', protect, UpdateUser);
 user_router.get('/me',protect , GetUserById);
 
 module.exports = user_router;

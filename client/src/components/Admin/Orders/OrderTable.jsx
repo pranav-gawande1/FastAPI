@@ -41,11 +41,6 @@ const OrderTable = ({ orders }) => {
         setSelectedOrder(order);
         setActionType("view");
     }
-
-    // const handleDelete = (user) => {
-    //     setSelectedUser(user);
-    //     setActionType("delete");
-    // }
     return (
         <>
             <div className="w-full bg-gray-200 rounded-lg shadow-lg overflow-hidden">

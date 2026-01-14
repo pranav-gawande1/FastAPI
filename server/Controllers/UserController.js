@@ -10,7 +10,7 @@ const completeProfile = async (req, res) => {
         }
 
         // console.log("REQ_USER", req.user);
-        const updateUser = await UserModel.findByIdAndUpdate(
+        const completeuser = await UserModel.findByIdAndUpdate(
             req.user._id,
             {
                 address,
@@ -23,14 +23,9 @@ const completeProfile = async (req, res) => {
         );
 
         res.status(200).json({
+            success: true,
             message: "Profile Updated Successfully.",
-            user: {
-                id: updateUser._id,
-                name: updateUser.name,
-                email: updateUser.email,
-                role: updateUser.role,
-                is_profile_completed: updateUser.is_profile_completed
-            }
+            completeuser
         });
     } catch (err) {
         res.status(500)
@@ -66,7 +61,7 @@ const DeleteUser = async (req, res) => {
 
 const GetAllUsers = async (req, res) => {
     try {
-        const users = await UserModel.find({}).select("-password, -_id");
+        const users = await UserModel.find({}).select("-password");
         if (!users) {
             res.status(404).json({ success: false, message: "Users not found!" });
         }
@@ -85,14 +80,13 @@ const UpdateUser = async (req, res) => {
     try {
         const { name, email, address, city, state, pincode } = req.body;
 
-        const userId = req.params.id;
         const usertoUpdate = await UserModel.findByIdAndUpdate(
-            userId,
+            req.user.id,
             {
                 name, email, address, city, state, pincode
             },
             { new: true }
-        ).select("-password, -_id");
+        );
 
         if (!usertoUpdate) {
             res.status(404).json({ success: false, message: "User not found!" });

@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "../../../App.css";
 import useManualFetch from "../../../shared/hooks/useManualFetch.jsx";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updateAuthState } from "../../../features/auth/authSlice";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
@@ -16,6 +16,12 @@ const Login = () => {
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
     const { execute, data, status } = useManualFetch();
+
+    const state = useSelector((state) => state.auth);
+    console.log('authStatusState:', state);
+
+    const profstate = useSelector((state) => state.profile);
+    console.log('profile:', profstate);
 
     const handleLogin = async (e) => {
         e.preventDefault();

@@ -3,7 +3,7 @@ import PersonalInfo from "./PersonalInfo";
 import AddressInfo from "./AddressInfo";
 import ProfileMenu from "./ProfileMenu";
 
-const ProfileCard = ({ user }) => {
+const ProfileCard = () => {
     return (
         <>
             <div className="min-h-screen bg-gradient-to-l from-gray-200 to-white flex">
@@ -16,8 +16,8 @@ const ProfileCard = ({ user }) => {
                                 <ProfileAvtar />
                             </div>
                             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                                <PersonalInfo user={user} />
-                                <AddressInfo user={user} />
+                                <PersonalInfo  />
+                                <AddressInfo />
                             </div>
                         </div>
                     </div>

@@ -13,6 +13,19 @@ const signup = async (req, res) => {
         const userModel = new UserModel({ name, email, password, role, is_active, is_profile_completed });
         userModel.password = await bcrypt.hash(password, 10);
         await userModel.save();
+        // AUTO-LOGIN: create token & set cookie
+
+        const jwttok = jwt.sign({ id: userModel._id },
+            process.env.JWT_SECRET,
+            { expiresIn: '24h' }
+        )
+
+        res.cookie("token", jwttok, {
+            httpOnly: false,
+            secure: true,
+            sameSite: 'None',
+            maxAge: 24 * 60 * 60 * 1000,
+        });
         res.status(201)
             .json({
                 message: "SignUp Successfully",
@@ -52,7 +65,7 @@ const login = async (req, res) => {
             { expiresIn: '24h' }
         )
         res.cookie("token", jwttok, {
-            httpOnly: true,
+            httpOnly: false,
             secure: true,
             sameSite: 'None',
             maxAge: 24 * 60 * 60 * 1000,
@@ -61,7 +74,7 @@ const login = async (req, res) => {
             .json({
                 message: "Login Successfully",
                 success: true,
-                email,
+                email: user.email,
                 name: user.name,
                 role: user.role,
                 is_active: user.is_active,
@@ -78,8 +91,23 @@ const login = async (req, res) => {
     }
 }
 
+const logout = (req, res) => {
+    res.clearCookie("token", {
+        httpOnly: true,
+        sameSite: "strict",
+        secure: process.env.NODE_ENV === "production"
+    });
+
+    res.status(200).json({
+        success: true,
+        message: "Logged out successfully"
+    });
+};
+
+
 module.exports = {
     signup,
-    login
+    login,
+    logout
 }
 

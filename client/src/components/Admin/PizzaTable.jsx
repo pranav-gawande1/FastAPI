@@ -2,13 +2,18 @@ import PizzaUpdateModel from "./PizzaUpdateModal";
 import PizzaCard from "./PizzaCard";
 import { useState } from "react";
 import { FaFilter, FaSearch } from "react-icons/fa";
+import useManualFetch from "../../shared/hooks/useManualFetch";
+import { useEffect } from "react";
+import { toast } from "react-toastify";
 // import PizzaView from "./PizzaView";
 
-const PizzaTable = ({ pizzas = [] }) => {
+const PizzaTable = ({ pizzas = [], onPizzaDelete }) => {
     const [searchTerm, setSearchTerm] = useState("");
     const [filterStatus, setFilterStatus] = useState("all");
     const [selectedPizza, setSelectedPizza] = useState(null);
     const [actionType, setActionType] = useState(null);
+
+    const { execute, error, status, data } = useManualFetch();
 
     const handleEdit = (pizza) => {
         setSelectedPizza(pizza);
@@ -20,10 +25,18 @@ const PizzaTable = ({ pizzas = [] }) => {
         setActionType("view");
     };
 
-    const handleDelete = (pizza) => {
-        setSelectedPizza(pizza);
-        setActionType("delete");
+    const handleDelete = async (pizza_id) => {
+        await execute(`/pizza/pizza/${pizza_id}`, "DELETE",);
+        onPizzaDelete(pizza_id);
     };
+
+    useEffect(() => {
+        if(status === "success"){
+            toast.success("Pizza deleted successful!");
+        } else if(error){
+            toast.error("Error:", error);
+        }
+    })
 
     const priceFilters = {
         "0-500": (price) => price > 0 && price < 500,
@@ -114,7 +127,7 @@ const PizzaTable = ({ pizzas = [] }) => {
                         </thead>
                         <tbody>
                             {filteredPizzas.length > 0 ? (
-                                filteredPizzas.map((pizza) => <PizzaCard key={pizza.id} pizza={pizza} onEdit={handleEdit} onView={handleView} onDelete={handleDelete} />)
+                                filteredPizzas.map((pizza) => <PizzaCard key={pizza._id} pizza={pizza} onEdit={handleEdit} onView={handleView} onDelete={handleDelete} />)
                             ) :
                                 (
                                     <tr className="text-center">
