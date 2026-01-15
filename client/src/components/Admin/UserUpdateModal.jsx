@@ -1,45 +1,80 @@
 import Modal from "../Modal/Modal";
 import { useState } from "react";
 import { CheckCircle2, User, Mail, Briefcase } from "lucide-react"
+import useManualFetch from "../../shared/hooks/useManualFetch";
+import { useEffect } from "react";
+import { toast } from "react-toastify";
 
-const UserUpdateModel = ({ user, isOpen, onClose, onSuccess, actionType }) => {
-    const [role, setRole] = useState(user?.role);
-    const [status, setStatus] = useState(user?.is_active ? "Active" : "Blocked");
-    if(!isOpen || !user) return null;
-    if (actionType === "edit") {
-        return (
-            <>
-                <Modal isOpen={isOpen} onClose={onClose} title="Update User">
+const UserUpdateModel = ({ user, isOpen, onClose, actionType }) => {
+    const [role, setRole] = useState("");
+    const [is_active, setis_active] = useState("");
+
+    const { execute, data, status, error } = useManualFetch();
+    useEffect(() => {
+        if (actionType === "edit" && user) {
+            setRole(user.role || "");
+            setis_active(user.is_active || "");
+        }
+    }, [actionType, user]);
+
+    useEffect(() => {
+        if (status == "success" && data) {
+            // onPizzaUpdated(data);
+            toast.success("User updated successfully!");
+            // onClose();
+        }
+    }, [status, data]);
+
+    useEffect(() => {
+        if (error) {
+            toast.error("Something went wrong!");
+        }
+    }, [error]);
+
+    if (!isOpen || !user) return null;
+
+    const handleEdit = async () => {
+        if (!user) return;
+
+        const updateData = {};
+
+        if (role !== user.role) updateData.role = role;
+        if (is_active !== user.is_active) updateData.is_active = is_active;
+
+        if (Object.keys(updateData).length === 0) {
+            toast.info("No changes made");
+            return;
+        }
+        await execute(`/users/admin/user/${user._id}`, "PATCH", updateData);
+    };
+    return (
+        <>
+            <Modal isOpen={isOpen} onClose={onClose} title={actionType === "edit" ? "Update User" : "User"}>
+                {actionType === "edit" ? (
                     <div className="flex flex-col gap-3">
                         <input
-                        className="input"
-                        value={role}
-                        onChange={(e) => setRole(e.target.value)}
-                        placeholder="User role"
-                    />
+                            className="input"
+                            value={role}
+                            onChange={(e) => setRole(e.target.value)}
+                            placeholder="User role"
+                        />
 
-                    <input
-                        className="input mt-3"
-                        value={status}
-                        onChange={(e) => setStatus(e.target.value)}
-                        placeholder="User status"
-                    />
+                        <input
+                            className="input mt-3"
+                            value={is_active}
+                            onChange={(e) => setis_active(e.target.value)}
+                            placeholder="User status (true for active ,false for blocked)"
+                        />
 
-                    <button
-                        // onClick={handleUpdate}
-                        // disabled={loading}
-                        className="btn-primary w-full mt-4"
-                    >
-                        {/* {loading ? "Updating..." : "Update"} */}
-                        Update
-                    </button>
+                        <button
+                            onClick={handleEdit}
+                            // disabled={loading}
+                            className="btn-primary w-full mt-4"
+                        >
+                            {status === "loading" ? "Updating..." : "Update"}
+                        </button>
                     </div>
-                </Modal>
-            </>
-        );
-    } else if (actionType === "view") {
-        return (
-                <Modal isOpen={isOpen} onClose={onClose} title="User">
+                ) : (
                     <div className="bg-white p-6 shadow-md w-full max-w-md mx-auto">
                         <div className="px-1 py-1 space-y-8">
                             {/* name */}
@@ -82,9 +117,10 @@ const UserUpdateModel = ({ user, isOpen, onClose, onSuccess, actionType }) => {
                             </div>
                         </div>
                     </div >
-                </Modal>
-        );
-    }
+                )}
+            </Modal>
+        </>
+    );
 };
 
 export default UserUpdateModel;

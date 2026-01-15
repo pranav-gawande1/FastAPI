@@ -7,7 +7,7 @@ const PizzaCard = ({ pizza , onEdit, onView, onDelete}) => {
     return (
         <>
             <tr className="hover:translate-y-1 hover:shadow-xl bg-white" 
-            onClick={() => setisMenuOpen(!IsMenuOpen)}>
+            >
                 <td className="px-6 py-4">
                     <div className="w-40 h-40 flex item-centerjustify-center">
                         <img src={link} className="w-32 h-32" />
@@ -24,7 +24,7 @@ const PizzaCard = ({ pizza , onEdit, onView, onDelete}) => {
                     <p>Available Sizes</p>
                 </td>
                 <td className="px-6 py-4">
-                    <button>
+                    <button onClick={() => setisMenuOpen(!IsMenuOpen)}>
                         <FaEllipsisV />
                     </button>
                     {IsMenuOpen && (

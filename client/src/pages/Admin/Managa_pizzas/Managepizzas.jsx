@@ -10,7 +10,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 
 const ManagePizza = () => {
-    const [ pizzas, setPizzas ] = useState([]);
+    const [pizzas, setPizzas] = useState([]);
     const { data, loading, error } = useFetch(`/pizza/pizzas`);
 
     const handleDeletedPizza = async (pizzaId) => {
@@ -18,7 +18,7 @@ const ManagePizza = () => {
     };
 
     useEffect(() => {
-        if(data?.pizzas){
+        if (data?.pizzas) {
             setPizzas(data.pizzas);
         }
     }, [data]);
@@ -31,8 +31,8 @@ const ManagePizza = () => {
                 {!loading && !error && (
 
                     <div className="max-w-full mx-auto p-8">
-                        <PizzaTable pizzas={pizzas} 
-                                    onPizzaDelete={handleDeletedPizza}
+                        <PizzaTable pizzas={pizzas}
+                            onPizzaDelete={handleDeletedPizza}
                         />
                     </div>
                 )}

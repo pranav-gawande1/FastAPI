@@ -117,4 +117,37 @@ const GetUserById = async (req, res) => {
     }
 };
 
-module.exports = { completeProfile, DeleteUser, GetAllUsers, UpdateUser, GetUserById };
+
+////////// Route for admin to update user's role and status ////////////
+const UpdateUserByID = async (req, res) => {
+    try{
+
+        const { role, is_active } = req.body;
+        const userId = req.params.id;
+        const UserToUpdate = await UserModel.findByIdAndUpdate(
+            userId,
+            {
+                role,
+                is_active
+            },
+            { new: true }
+        );
+
+        if(!UserToUpdate){
+            res.status(404).json({ success:false, message: "User not found!"})
+        }
+
+        res.status(200).json({ success:true, message: "User Updated Successfully", 
+            id: UserToUpdate._id,
+            role,
+            is_active
+        })
+
+    }catch(err){
+        res.status(500).json({ message : err.message })
+        console.error(err);
+    }
+}
+
+
+module.exports = { completeProfile, DeleteUser, GetAllUsers, UpdateUser, GetUserById, UpdateUserByID };

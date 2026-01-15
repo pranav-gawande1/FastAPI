@@ -26,11 +26,11 @@ const Users = () => {
     return (
         <div className="min-h-screen flex flex-col">
             <Navbar />
-            <main className="mt-16 flex-1 bg-white flex flex-col items-center justify-center">
+            <main className="mt-16">
                 {loading && <Loader />}
                 {error && <ErrorState />}
                 {!loading && !error && (
-                    <div className="max-w-full w-full p-8">
+                    <div className="max-w-full mx-auto p-8">
                         <UserTable users={users}
                             onUserDelete={handleDeletedUser}
                         />

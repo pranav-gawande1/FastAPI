@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 // import PizzaView from "./PizzaView";
 
 const PizzaTable = ({ pizzas = [], onPizzaDelete }) => {
+    const [pizza, setPizzas] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
     const [filterStatus, setFilterStatus] = useState("all");
     const [selectedPizza, setSelectedPizza] = useState(null);
@@ -15,9 +16,17 @@ const PizzaTable = ({ pizzas = [], onPizzaDelete }) => {
 
     const { execute, error, status, data } = useManualFetch();
 
-    const handleEdit = (pizza) => {
+    const handleEdit = async (pizza) => {
         setSelectedPizza(pizza);
         setActionType("edit");
+    };
+
+    const handlePizzaUpdated = (updatedPizza) => {
+        setPizzas(prev =>
+            prev.map(p =>
+                p._id === updatedPizza._id ? updatedPizza : p
+            )
+        );
     };
 
     const handleView = (pizza) => {
@@ -31,12 +40,12 @@ const PizzaTable = ({ pizzas = [], onPizzaDelete }) => {
     };
 
     useEffect(() => {
-        if(status === "success"){
+        if (status === "success") {
             toast.success("Pizza deleted successful!");
-        } else if(error){
+        } else if (error) {
             toast.error("Error:", error);
         }
-    })
+    }, [status, error]);
 
     const priceFilters = {
         "0-500": (price) => price > 0 && price < 500,
@@ -142,6 +151,7 @@ const PizzaTable = ({ pizzas = [], onPizzaDelete }) => {
                         pizza={selectedPizza}
                         isOpen={!!selectedPizza}
                         actionType={actionType}
+                        onPizzaUpdated={handlePizzaUpdated}
                         onClose={() => setSelectedPizza(null)}
                     />
                 </div>
