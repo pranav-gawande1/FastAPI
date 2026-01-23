@@ -15,7 +15,7 @@ const Hero = ({ Hero }) => {
                     {!isAuthenticated ? (
                         <a href="/" className="bg-[#ff4d4d] py-[9.6px] px-[19.2px] rounded-full text-white mt-[16px] hover:bg-red-500">Explore Menu</a>
                     ) : (
-                        <a href="/home" className="bg-[#ff4d4d] py-[9.6px] px-[19.2px] rounded-full text-white mt-[16px] hover:bg-red-500">Welcome Back, {user.name}</a>
+                        <a href="/home" className="bg-[#ff4d4d] py-[9.6px] px-[19.2px] rounded-full text-white mt-[16px] hover:bg-red-500">Welcome Back, {user}</a>
                     )
                     }
                 </div>

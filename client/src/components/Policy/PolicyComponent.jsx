@@ -1,9 +1,9 @@
-import React from "react";
+import Texture from "../../assets/texture.jpeg"
 
 const PolicyComponent = () => {
     return (
-        <>
-            <div className="container mx-auto max-w-[900px] px-4 sm:px-8 md:px-16">
+            <section className="bg-repeat mt-8" style={{ backgroundImage: `url(${Texture})`, backgroundSize: "25%" }}>
+                {/* <div className="container mx-auto max-w-[900px] px-4 sm:px-8 md:px-16"> */}
                 <h1 className="mt-8 text-center lg:text-3xl py-4"><b>Pizza Paradise Policies</b></h1>
                 <p className="p-8 lg:px-32 text-justify text-base lg:text-2xl tracking-wide leading-relaxed mx-auto max-w-[1200px]">
                     <b>Dietary & Allergy Policy</b>
@@ -39,8 +39,8 @@ const PolicyComponent = () => {
                     India-Specific: Complies with FSSAI regulations. License #MH-FSSAI-2025-XXXXX
                 </p>
 
-            </div>
-            <div className="container mt-8 mx-auto max-w-[900px] px-4 sm:px-8 md:px-16">
+                {/* </div> */}
+                {/* <div className="container mt-8 mx-auto max-w-[900px] px-4 sm:px-8 md:px-16"> */}
                 <h1 className="text-center lg:text-3xl"><b>Terms of Service - Pizza Paradise</b></h1>
                 <p className="p-8 lg:px-32 text-justify text-base lg:text-2xl tracking-wide leading-relaxed mx-auto max-w-[1200px]">
                     <br />
@@ -90,8 +90,8 @@ const PolicyComponent = () => {
                     </ui>
                 </p>
 
-            </div>
-            <div className="container mt-8 mx-auto max-w-[900px] px-4 sm:px-8 md:px-16">
+                {/* </div> */}
+                {/* <div className="container mt-8 mx-auto max-w-[900px] px-4 sm:px-8 md:px-16"> */}
                 <h1 className="text-center lg:text-3xl"><b>Refund Policy - Pizza Paradise</b></h1>
                 <p className="p-8 lg:px-32 text-justify text-base lg:text-2xl tracking-wide leading-relaxed mx-auto max-w-[1200px]">
                     <br></br>
@@ -127,8 +127,8 @@ const PolicyComponent = () => {
                         <li>Refund processed within 5-7 business days to original payment method</li>
                     </ui>
                 </p>
-            </div>
-        </>
+                {/* </div> */}
+            </section>
     );
 };
 
