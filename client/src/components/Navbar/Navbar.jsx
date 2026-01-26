@@ -8,12 +8,13 @@ import { useNavigate } from 'react-router-dom';
 import { refreshProfileState } from '../../features/user/profileSlice';
 import useManualFetch from '../../shared/hooks/useManualFetch';
 import { toast } from 'react-toastify';
+import { ShoppingCart } from 'lucide-react';
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
-const Navbar = () => {
+const Navbar = ({ onCartClick, cartCount }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -57,7 +58,7 @@ const Navbar = () => {
 
     const handleLogout = async () => {
 
-        await execute ("/auth/logout", 
+        await execute("/auth/logout",
             "POST");
         dispatch(refreshAuthState());
         dispatch(refreshProfileState());
@@ -65,10 +66,10 @@ const Navbar = () => {
     };
 
     useEffect(() => {
-        if(status == "success" && data){
+        if (status == "success" && data) {
             toast.success("Logout successfully!");
         }
-    }, [status, data ]);
+    }, [status, data]);
 
     const CustomLink = ({ item }) => {
 
@@ -79,7 +80,7 @@ const Navbar = () => {
             return (
                 <a
                     href={item.to}
-                    className={`${baseClasses} text-gray`}
+                    className={`${baseClasses} text-gray-900`}
                 >
                     {item.name}
                 </a>
@@ -134,6 +135,28 @@ const Navbar = () => {
                                         Logout
                                     </Link>
                                 )}
+
+                                {role === "user" ? (
+                                    <button
+                                        onClick={onCartClick}
+                                        className='relative p-2 rounded-lg hover:bg-muted transition-colors"'
+                                    >
+                                        <ShoppingCart className='text-gray-900 hover:text-[#ff4d4d] ' />
+                                        {cartCount > 0 && (
+                                            <span
+                                                className='absolute -top-1 -right-1 bg-gray-200
+                                                text-[#ff4d4d]-foreground text-xs font-bold 
+                                                rounded-full w-5 h-5 flex items-center justify-center'>
+                                                {cartCount}
+                                            </span>
+                                        )}
+                                    </button>
+                                ) : null}
+
+                                {!isAuthenticated && role === null ? (
+                                    <ShoppingCart className='text-gray-900 hover:text-[#ff4d4d] ' />
+                                ) : null}
+
                             </nav>
 
                             <div className="md:hidden flex-shrink-0">
@@ -165,6 +188,23 @@ const Navbar = () => {
                                     </DisclosureButton>
                                 )
                             })}
+
+                            {role === "user" ? (
+                                <button
+                                    onClick={onCartClick}
+                                    className='relative p-2 rounded-lg hover:bg-muted transition-colors"'
+                                >
+                                    <ShoppingCart className='text-gray-900 hover:text-[#ff4d4d] ' />
+                                    {cartCount > 0 && (
+                                        <span
+                                            className='absolute -top-1 -right-1 bg-gray-200
+                                                text-[#ff4d4d]-foreground text-xs font-bold 
+                                                rounded-full w-5 h-5 flex items-center justify-center'>
+                                            {cartCount}
+                                        </span>
+                                    )}
+                                </button>
+                            ) : null}
 
                             <div className="px-3 pt-2">
                                 {!isAuthenticated ? (

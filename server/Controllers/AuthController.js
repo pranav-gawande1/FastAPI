@@ -22,8 +22,8 @@ const signup = async (req, res) => {
 
         res.cookie("token", jwttok, {
             httpOnly: false,
-            secure: true,
-            sameSite: 'None',
+            secure: false,
+            sameSite: 'lax',
             maxAge: 24 * 60 * 60 * 1000,
         });
         res.status(201)
@@ -37,9 +37,11 @@ const signup = async (req, res) => {
                 is_profile_completed: userModel.is_profile_completed
             })
     } catch (err) {
+        console.log("Error in signup:", err);
         res.status(500)
             .json({
                 message: "Internal Server error",
+                error:  err,
                 success: false
             })
     }
@@ -66,8 +68,8 @@ const login = async (req, res) => {
         )
         res.cookie("token", jwttok, {
             httpOnly: false,
-            secure: true,
-            sameSite: 'None',
+            secure: false,
+            sameSite: 'lax',
             maxAge: 24 * 60 * 60 * 1000,
         });
         res.status(200)
@@ -87,6 +89,7 @@ const login = async (req, res) => {
         res.status(500)
             .json({
                 message: "Internal Server error",
+                error:  err,
                 success: false
             })
     }
