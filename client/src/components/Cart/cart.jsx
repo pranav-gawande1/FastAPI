@@ -50,7 +50,7 @@ const Cart = ({ items, isOpen, onClose, onRemove, onUpdateQuantity }) => {
                         </div>
                     ) : (
                         items.map(item => (
-                            <div key={item.id} className="bg-gray-100 p-4 flex gap-4">
+                            <div key={item._id} className="bg-gray-100 p-4 flex gap-4">
                                 <img
                                     src={item.imageUrl}
                                     alt={item.name}
@@ -64,13 +64,15 @@ const Cart = ({ items, isOpen, onClose, onRemove, onUpdateQuantity }) => {
                                         <button
                                             className="p-1 hover:bg-border rounded
                                         transition-colors"
+                                            onClick={() => onUpdateQuantity(item._id, item.quantity - 1)}
                                         >
                                             <Minus className="w-4 h-4" />
                                         </button>
-                                        {/* <span>{item.quantity}</span> */}
+                                        <span>{item.quantity}</span>
                                         <button
                                             className="p-1 hover:bg-border rounded
                                         transition-colors"
+                                            onClick={() => onUpdateQuantity(item._id, item.quantity + 1)}
                                         >
                                             <Plus className="w-4 h-4" />
                                         </button>
@@ -83,6 +85,7 @@ const Cart = ({ items, isOpen, onClose, onRemove, onUpdateQuantity }) => {
                                         className="p-1 hover:bg-gray-300
                                     rounded transition-colors text-gray-900"
                                         aria-label="Remove item"
+                                        onClick={() => onRemove(item._id)}
                                     >
                                         <Trash2 className="w-4 h-4" />
                                     </button>

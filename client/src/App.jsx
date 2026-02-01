@@ -18,6 +18,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import { ToastContainer } from 'react-toastify';
 import CompleteProfile from './components/Auth/CompleteProfile/CompleteProfile.jsx'
 import ProfileUpdatePage from './pages/Profile/ProfileUpdatePage.jsx'
+import { PizzaCart } from './context/PizzaCart.jsx'
 
 function App() {
 
@@ -29,7 +30,11 @@ function App() {
           <Route path='/account/login' element={<Login />}></Route>
           <Route path='/account/register' element={<Register />}></Route>
           <Route element={<ProtectedPage />}>
-            <Route path='/home' element={<Home />}></Route>
+            <Route path='/home' element={
+              
+              <Home />
+              
+              }></Route>
           </Route>
 
           {/* Landing Page Routes */}

@@ -1,5 +1,5 @@
 import PizzaUpdateModel from "./PizzaUpdateModal";
-import PizzaCard from "./PizzaCard";
+import PizzaCardAdmin from "./PizzaCardAdmin.jsx";
 import { useState } from "react";
 import { FaFilter, FaSearch } from "react-icons/fa";
 import useManualFetch from "../../shared/hooks/useManualFetch";
@@ -136,7 +136,12 @@ const PizzaTable = ({ pizzas = [], onPizzaDelete }) => {
                         </thead>
                         <tbody>
                             {filteredPizzas.length > 0 ? (
-                                filteredPizzas.map((pizza) => <PizzaCard key={pizza._id} pizza={pizza} onEdit={handleEdit} onView={handleView} onDelete={handleDelete} />)
+                                filteredPizzas.map((pizza) => <PizzaCardAdmin 
+                                key={pizza._id} 
+                                pizza={pizza} 
+                                onEdit={handleEdit} 
+                                onView={handleView} 
+                                onDelete={handleDelete} />)
                             ) :
                                 (
                                     <tr className="text-center">

@@ -9,17 +9,20 @@ import { refreshProfileState } from '../../features/user/profileSlice';
 import useManualFetch from '../../shared/hooks/useManualFetch';
 import { toast } from 'react-toastify';
 import { ShoppingCart } from 'lucide-react';
+import { useCart } from '../../context/PizzaCart';
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
-const Navbar = ({ onCartClick, cartCount }) => {
+const Navbar = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const { isAuthenticated, role } = useSelector((state) => state.auth);
     // just in case of debugging
+
+    const { totalItems, setIsCartOpen } = useCart();
 
     const { execute, data, error, status } = useManualFetch();
     const state = useSelector((state) => state.auth);
@@ -138,24 +141,24 @@ const Navbar = ({ onCartClick, cartCount }) => {
 
                                 {role === "user" ? (
                                     <button
-                                        onClick={onCartClick}
+                                        onClick={() => setIsCartOpen(true)}
                                         className='relative p-2 rounded-lg hover:bg-muted transition-colors"'
                                     >
                                         <ShoppingCart className='text-gray-900 hover:text-[#ff4d4d] ' />
-                                        {cartCount > 0 && (
+                                        {totalItems > 0 && (
                                             <span
                                                 className='absolute -top-1 -right-1 bg-gray-200
                                                 text-[#ff4d4d]-foreground text-xs font-bold 
                                                 rounded-full w-5 h-5 flex items-center justify-center'>
-                                                {cartCount}
+                                                {totalItems}
                                             </span>
                                         )}
                                     </button>
                                 ) : null}
-
+{/* 
                                 {!isAuthenticated && role === null ? (
                                     <ShoppingCart className='text-gray-900 hover:text-[#ff4d4d] ' />
-                                ) : null}
+                                ) : null} */}
 
                             </nav>
 
@@ -191,16 +194,16 @@ const Navbar = ({ onCartClick, cartCount }) => {
 
                             {role === "user" ? (
                                 <button
-                                    onClick={onCartClick}
+                                    onClick={() => setIsCartOpen(true)}
                                     className='relative p-2 rounded-lg hover:bg-muted transition-colors"'
                                 >
                                     <ShoppingCart className='text-gray-900 hover:text-[#ff4d4d] ' />
-                                    {cartCount > 0 && (
+                                    {totalItems > 0 && (
                                         <span
                                             className='absolute -top-1 -right-1 bg-gray-200
                                                 text-[#ff4d4d]-foreground text-xs font-bold 
                                                 rounded-full w-5 h-5 flex items-center justify-center'>
-                                            {cartCount}
+                                            {totalItems}
                                         </span>
                                     )}
                                 </button>
