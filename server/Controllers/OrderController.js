@@ -5,38 +5,61 @@ const UserModel = require("../models/User.js");
 
 const PlaceOrder = async (req, res) => {
     try {
-        const { pizzaId, quantity, size } = req.body;
+        // const { pizzaId, quantity, size } = req.body;
+        const { items } = req.body;
 
-        if (!pizzaId || !quantity || !size) {
-            return res.status(400).json({ message: "All Fields are required! " });
+        // if (!pizzaId || !quantity || !size) {
+        //     return res.status(400).json({ message: "All Fields are required! " });
+        // }
+        if (!items || items.length === 0) {
+            return res.status(400).json({ message: "Cart is empty" });
         }
 
-        const user = await UserModel.findById(req.user.id).select("-password");
+        const user = await UserModel.findById(req.user._id).select("-password");
         if (user.role === "admin") {
             return res.status(400).json({ message: "You are Admin" });
         }
+        console.log("USer is: ", user.id);
 
-        const pizza = await Pizza.findById(pizzaId);
-        if (!pizza) {
-            return res.status(404).json({ message: "Pizza not available!" });
+        let total_price = 0;
+        const orderItems = [];
+        for (const item of items) {
+            const pizza = await Pizza.findById(item.pizzaId);
+            if (!pizza) {
+                return res.status(404).json({ message: "Pizza not found" })
+            }
+            const price = Number(pizza.price);
+
+            total_price += price * item.quantity;
+
+            orderItems.push({
+                pizza: pizza._id,
+                quantity: item.quantity,
+                size: item.size,
+            });
         }
+        // const pizza = await Pizza.findById(pizzaId);
+        // if (!pizza) {
+        //     return res.status(404).json({ message: "Pizza not available!" });
+        // }
 
-        const price = Number(
-            String(pizza.price).replace(/[^0-9.]/g, "")
-        );
-        const total_price = price * quantity;
+        // solved issue by updating modal
+        // const price = Number(
+        //     String(pizza.price).replace(/[^0-9.]/g, "")
+        // );
+        // const total_price = price * quantity;
 
+
+        console.log("User id before is:", user._id)
         const order = await OrderModel.create({
             user: user._id,
-            pizza: pizzaId,
-            quantity,
-            size,
+            // pizza: pizzaId,
+            // quantity,
+            // size,
+            items: orderItems,
             total_price,
             order_status: "pending"
-        },
-            {
-                runValidators: true
-            })
+        })
 
         res.status(201).json({ success: true, message: "Order placed successfully", order })
     } catch (err) {

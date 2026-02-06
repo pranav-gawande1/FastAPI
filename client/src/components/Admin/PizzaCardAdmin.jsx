@@ -20,7 +20,7 @@ const PizzaCardAdmin = ({ pizza , onEdit, onView, onDelete}) => {
                     <p className="inline-block px-3 py-1 text-xs font-medium ">{pizza.description}</p>
                 </td>
                 <td className="px-6 py-4">
-                    <p className="inline-block px-3 py-1 text-xs font-medium bg-gray-200 rounded-full">{pizza.price}</p>
+                    <p className="inline-block px-3 py-1 text-xs font-medium bg-gray-200 rounded-full">₹{pizza.price}</p>
                     <p>Available Sizes</p>
                 </td>
                 <td className="px-6 py-4">

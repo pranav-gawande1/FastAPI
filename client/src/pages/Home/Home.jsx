@@ -4,9 +4,11 @@ import Hero from "../../components/Landing/Hero.jsx";
 import { useCart } from "../../context/PizzaCart.jsx";
 import Cart from "../../components/Cart/cart.jsx";
 import PizzaList from "../../components/Products/PizzaList.jsx";
+import { useSelector } from "react-redux";
 
 const Home = () => {
     const { cartItems, isCartOpen, setIsCartOpen, updateQuantity, removeFromCart } = useCart();
+    const { isAuthenticated, role } = useSelector((state) => state.auth);
 
     return (
         <>
@@ -14,13 +16,15 @@ const Home = () => {
             <main className="mt-16">
                 <Hero />
                 <PizzaList />
-                <Cart
-                    items={cartItems}
-                    isOpen={isCartOpen}
-                    onClose={() => setIsCartOpen(false)}
-                    onRemove={removeFromCart}
-                    onUpdateQuantity={updateQuantity}
-                />
+                {role === "user" &&
+                    <Cart
+                        items={cartItems}
+                        isOpen={isCartOpen}
+                        onClose={() => setIsCartOpen(false)}
+                        onRemove={removeFromCart}
+                        onUpdateQuantity={updateQuantity}
+                    />
+                }
                 <Footer />
             </main>
         </>

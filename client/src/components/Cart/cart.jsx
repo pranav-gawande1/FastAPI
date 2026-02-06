@@ -12,6 +12,13 @@ const Cart = ({ items, isOpen, onClose, onRemove, onUpdateQuantity }) => {
         }, 300)
     }
 
+    const total = items.reduce((sum, item) => {
+        return sum + item.price * item.quantity;
+    }, 0);
+
+    const tax = (total * 0.1).toFixed(2);
+    const subtotal = (total - tax).toFixed(2);
+
     return (
         <>
             {isOpen && (
@@ -99,17 +106,17 @@ const Cart = ({ items, isOpen, onClose, onRemove, onUpdateQuantity }) => {
                                 <div className="flex justify-between
                                     text-gray-900">
                                     <span>Subtotal:</span>
-                                    {/* <span>${subtotal}</span> */}
+                                    <span>₹{subtotal}</span>
                                 </div>
                                 <div className="flex justify-between
                                     text-gray-900">
                                     <span>Tax(10%):</span>
-                                    {/* <span>${tax}</span> */}
+                                    <span>₹{tax}</span>
                                 </div>
                                 <div className="flex justify-between
                                     text-gray-900">
-                                    <span>Total:</span>
-                                    {/* <span>${total}</span> */}
+                                    <span className="text-[#ff4d4d] font-bold font-2xl">Total:</span>
+                                    <span>₹{total}</span>
                                 </div>
                             </div>
 
