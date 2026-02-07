@@ -19,6 +19,7 @@ import { ToastContainer } from 'react-toastify';
 import CompleteProfile from './components/Auth/CompleteProfile/CompleteProfile.jsx'
 import ProfileUpdatePage from './pages/Profile/ProfileUpdatePage.jsx'
 import { PizzaCart } from './context/PizzaCart.jsx'
+import ConfirmOrder from './pages/Payment/ConfirmOrder.jsx'
 
 function App() {
 
@@ -31,10 +32,10 @@ function App() {
           <Route path='/account/register' element={<Register />}></Route>
           <Route element={<ProtectedPage />}>
             <Route path='/home' element={
-              
+
               <Home />
-              
-              }></Route>
+
+            }></Route>
           </Route>
 
           {/* Landing Page Routes */}
@@ -54,14 +55,24 @@ function App() {
           <Route path='/orders' element={<UserOrders />}></Route>
           {/*profile edit route */}
           <Route path="/me/update/profile" element={<ProfileUpdatePage />}></Route>
-          
+
           {/* Product routes */}
           <Route path='/pizza/:id' element={<Pizza />}></Route>
 
           {/* Complete Profile on Signup */}
           {/* <Route element={<ProtectedPage />}> */}
-            <Route path='/complete-profile' element={<CompleteProfile />} ></Route>
+          <Route path='/complete-profile' element={<CompleteProfile />} ></Route>
           {/* </Route> */}
+
+          {/* Payment routes */}
+          <Route element={<ProtectedPage />}>
+            <Route
+              path='/confirm-order' element={
+                <ConfirmOrder />
+              }
+            >
+            </Route>
+          </Route>
         </Routes>
       </BrowserRouter >
 

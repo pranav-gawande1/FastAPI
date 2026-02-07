@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { Minus, Plus, Trash2, X } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const Cart = ({ items, isOpen, onClose, onRemove, onUpdateQuantity }) => {
 
     const [isClosing, setIsClosing] = useState(false);
+    const navigate = useNavigate();
     const handleClose = () => {
         setIsClosing(true)
         setTimeout(() => {
@@ -19,6 +21,9 @@ const Cart = ({ items, isOpen, onClose, onRemove, onUpdateQuantity }) => {
     const tax = (total * 0.1).toFixed(2);
     const subtotal = (total - tax).toFixed(2);
 
+    const onConfirm = () => {
+        navigate('/confirm-order');
+    };
     return (
         <>
             {isOpen && (
@@ -122,7 +127,9 @@ const Cart = ({ items, isOpen, onClose, onRemove, onUpdateQuantity }) => {
 
                             <button className="w-full bg-[#ff4d4d] text-white
                             hover:bg-red-600 font-bold py-3 rounded-lg transition-all
-                            duration-200 active:scale-95">
+                            duration-200 active:scale-95"
+                                onClick={onConfirm}
+                            >
                                 Proceed to Checkout
                             </button>
                         </div>
