@@ -2,47 +2,79 @@ import { createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 
 const initialState = {
-    cart: localStorage.getItem("cart")
-        ? JSON.parse(localStorage.getItem("cart"))
+    cartItems: localStorage.getItem("cartItems")
+        ? JSON.parse(localStorage.getItem("cartItems"))
         : [],
-    total: localStorage.getItem("total")
-        ? JSON.parse(localStorage.getItem("total"))
-        : [],
-    totalItems : localStorage.getItem("totalItems")
-        ? JSON.parse(localStorage.getItem("totalItems"))
-        : 0,
+    isCartOpen: false,
 }
+
+const saveCartItems = (cartItems) => {
+    localStorage.setItem("cartItems", JSON.stringify(cartItems))
+};
 
 const cartSlice = createSlice({
     name: "cart",
     initialState,
     reducers: {
         addToCart: (state, action) => {
-            const item = action.payload
+            const pizza = action.payload
 
-            state.cart.push(item)
-            state.totalItems++
-            state.total += item.price
-            localStorage.setItem("cart", JSON.stringify(state.cart))
-            localStorage.setItem("total", JSON.stringify(state.total))
-            localStorage.setItem("totalItems",
-                JSON.stringify(state.totalItems))
-            toast.success("Pizza Added to cart")
+            const totalItems = state.cartItems.reduce((sum, item) => sum + item.quantity, 0);
+
+            if (totalItems >= 8) {
+                toast.error("You can add only 8 items at a time in the cart.");
+                return;
+            }
+
+            const exisitingItem = state.cartItems.find(item => item._id === pizza._id);
+
+            if (exisitingItem) {
+                exisitingItem.quantity += 1;
+            } else {
+                state.cartItems.push({ ...pizza, quantity: 1 });
+            }
+
+            state.isCartOpen = true;
+            saveCartItems(state.cartItems);
+            toast.success(`${pizza.name} added to cart!!!`);
         },
 
         removeFromCart: (state, action) => {
-            const itemId = action.payload
-            const index = state.cart.findIndex((item) => item._id === itemId)
-            if(index > 0){
-                state.totalItems--
-                state.total -= state.cart[index].price
-                state.cart.splice(index, 1)
-                localStorage.setItem("cart", JSON.stringify(state.cart))
-                localStorage.setItem("total", JSON.stringify(state.total))
-                localStorage.setItem("totalItems", 
-                    JSON.stringify(state.totalItems))
-                toast.success("Pizza removed from cart")
-            }
+            const pizzaId = action.payload;
+
+            state.cartItems = state.cartItems.filter(item => item._id !== pizzaId);
+
+            saveCartItems(state.cartItems);
+            toast.info("Pizza removed from cart.");
         },
-    }
-})
+
+        updateQuantity: (state, action) => {
+            const { pizzaId, newQuantity } = action.payload;
+
+            const item = state.cartItems.find(item => item._id === pizzaId);
+            if (!item) return;
+
+            if (newQuantity < 1) {
+                state.cartItems = cartItems.filter(item => item._id !== pizzaId);
+            } else {
+                item.quantity = newQuantity;
+            }
+
+            saveCartItems(state.cartItems);
+        },
+
+        toggleCart: (state, action) => {
+            state.isCartOpen = action.payload;
+        },
+    },
+});
+
+export const selectCartItems = state => state.cart.cartItems;
+export const selectTotalItems = state => 
+    state.cart.cartItems.reduce((sum ,item) => sum + item.quantity, 0);
+// export const selectTotal
+export const selectIsCartOpen = state => state.cart.isCartOpen;
+
+export const { addToCart, removeFromCart, updateQuantity, toggleCart } = cartSlice.actions;
+
+export default cartSlice.reducer;

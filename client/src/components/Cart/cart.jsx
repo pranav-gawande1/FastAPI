@@ -1,20 +1,27 @@
 import { useState } from "react";
 import { Minus, Plus, Trash2, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { removeFromCart, updateQuantity, selectIsCartOpen, toggleCart, selectCartItems } from "../../features/Cart/cartSlice";
 
-const Cart = ({ items, isOpen, onClose, onRemove, onUpdateQuantity }) => {
+const Cart = () => {
 
     const [isClosing, setIsClosing] = useState(false);
+    const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    const isCartOpen = useSelector(selectIsCartOpen);
+    const cartItems = useSelector(selectCartItems);
+
     const handleClose = () => {
         setIsClosing(true)
         setTimeout(() => {
-            onClose()
+            dispatch(toggleCart(false))
             setIsClosing(false)
         }, 300)
     }
 
-    const total = items.reduce((sum, item) => {
+    const total = cartItems.reduce((sum, item) => {
         return sum + item.price * item.quantity;
     }, 0);
 
@@ -26,7 +33,7 @@ const Cart = ({ items, isOpen, onClose, onRemove, onUpdateQuantity }) => {
     };
     return (
         <>
-            {isOpen && (
+            {isCartOpen && (
                 <div
                     className={`fixed inset-0 transition-opacity
                 duration-300 ${isClosing ? "opacity-0" : "opacity-100"
@@ -36,7 +43,7 @@ const Cart = ({ items, isOpen, onClose, onRemove, onUpdateQuantity }) => {
             )}
 
             <div
-                className={`fixed top-0 right-0 h-full w-full md:w-96 bg-white shadow-xl z-50 flex flex-col transition-transform duration-300 transform ${isOpen && !isClosing ? 'translate-x-0' : 'translate-x-full'
+                className={`fixed top-0 right-0 h-full w-full md:w-96 bg-white shadow-xl z-50 flex flex-col transition-transform duration-300 transform ${isCartOpen && !isClosing ? 'translate-x-0' : 'translate-x-full'
                     }`}>
                 {/* Header */}
                 <div
@@ -54,14 +61,14 @@ const Cart = ({ items, isOpen, onClose, onRemove, onUpdateQuantity }) => {
 
                 {/* Items */}
                 <div className="flex-1 overflow-y-auto p-6 space-y-4">
-                    {items.length === 0 ? (
+                    {cartItems.length === 0 ? (
                         <div className="text-center py-12">
                             <div className="text-5xl mb-4">🛒</div>
                             <p className="text-gray-900 font-medium">Your Cart is Empty!</p>
                             <p className="text-sm text-gray-900 mt-2">Add some delicious pizza into it!</p>
                         </div>
                     ) : (
-                        items.map(item => (
+                        cartItems.map(item => (
                             <div key={item._id} className="bg-gray-100 p-4 flex gap-4">
                                 <img
                                     src={item.imageUrl}
@@ -76,7 +83,11 @@ const Cart = ({ items, isOpen, onClose, onRemove, onUpdateQuantity }) => {
                                         <button
                                             className="p-1 hover:bg-border rounded
                                         transition-colors"
-                                            onClick={() => onUpdateQuantity(item._id, item.quantity - 1)}
+                                            onClick={() => dispatch(updateQuantity({
+                                                pizzaId: item._id,
+                                                newQuantity: item.quantity - 1
+                                            }))}
+
                                         >
                                             <Minus className="w-4 h-4" />
                                         </button>
@@ -84,7 +95,10 @@ const Cart = ({ items, isOpen, onClose, onRemove, onUpdateQuantity }) => {
                                         <button
                                             className="p-1 hover:bg-border rounded
                                         transition-colors"
-                                            onClick={() => onUpdateQuantity(item._id, item.quantity + 1)}
+                                            onClick={() => dispatch(updateQuantity({
+                                                pizzaId: item._id,
+                                                newQuantity: item.quantity + 1
+                                            }))}
                                         >
                                             <Plus className="w-4 h-4" />
                                         </button>
@@ -97,7 +111,7 @@ const Cart = ({ items, isOpen, onClose, onRemove, onUpdateQuantity }) => {
                                         className="p-1 hover:bg-gray-300
                                     rounded transition-colors text-gray-900"
                                         aria-label="Remove item"
-                                        onClick={() => onRemove(item._id)}
+                                        onClick={() => dispatch(removeFromCart(item._id))}
                                     >
                                         <Trash2 className="w-4 h-4" />
                                     </button>
@@ -105,7 +119,7 @@ const Cart = ({ items, isOpen, onClose, onRemove, onUpdateQuantity }) => {
                             </div>
                         ))
                     )}
-                    {items.length > 0 && (
+                    {cartItems.length > 0 && (
                         <div className="border-t border-border p-6 space-y-4">
                             <div className="space-y2">
                                 <div className="flex justify-between

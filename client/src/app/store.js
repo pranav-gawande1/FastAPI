@@ -3,6 +3,7 @@ import { persistStore, persistReducer } from "redux-persist"
 import storage from "redux-persist/lib/storage"
 import authReducer from '../features/auth/authSlice';
 import profileReducer from "../features/user/profileSlice";
+import cartReducer from "../features/Cart/cartSlice"
 
 const persistConfig = {
   key: "auth",
@@ -14,13 +15,20 @@ const profiePersistConfig = {
   storage
 }
 
-const persistedReducer = persistReducer(persistConfig, authReducer, profiePersistConfig, profileReducer);
+const cartPersistConfig = {
+  key: "cart",
+  storage
+}
+
+const persistedReducer = persistReducer(persistConfig, authReducer);
 const persistedprofileReducer = persistReducer(profiePersistConfig, profileReducer);
+const persistedcartReducer = persistReducer(cartPersistConfig, cartReducer);
 export const store = configureStore({
- 
+
   reducer: {
     auth: persistedReducer,
-    profile: persistedprofileReducer
+    profile: persistedprofileReducer,
+    cart: persistedcartReducer
   },
   devTools: process.env.NODE_ENV !== "production",
   middleware: (getDefaultMiddleware) =>

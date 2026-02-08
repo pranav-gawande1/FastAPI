@@ -18,7 +18,6 @@ import 'react-toastify/dist/ReactToastify.css'
 import { ToastContainer } from 'react-toastify';
 import CompleteProfile from './components/Auth/CompleteProfile/CompleteProfile.jsx'
 import ProfileUpdatePage from './pages/Profile/ProfileUpdatePage.jsx'
-import { PizzaCart } from './context/PizzaCart.jsx'
 import ConfirmOrder from './pages/Payment/ConfirmOrder.jsx'
 
 function App() {

@@ -1,11 +1,11 @@
 import { ShoppingCart } from "lucide-react";
-import { useSelector } from "react-redux";
-import { useCart } from "../../context/PizzaCart";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart } from "../../features/Cart/cartSlice";
 
 const PizzaCard = ({ pizza }) => {
     const { is_profile_completed, role } = useSelector((state) => state.auth);
-    const { addToCart } = useCart();
     const link = `${pizza.imageUrl}`
+    const dispatch = useDispatch();
     const link2 = `/pizza/${pizza._id}`;
     // console.log(onAddCart);
     //   console.log("🔥 CUSTOMER CARD RENDER", typeof onAddToCart);
@@ -28,7 +28,7 @@ const PizzaCard = ({ pizza }) => {
                             <button
                                 onClick={() => {
                                     console.log("CLICKED", typeof addToCart),
-                                        addToCart?.(pizza)
+                                        dispatch(addToCart?.(pizza))
                                 }}
                                 className="bg-[#ff4d4d] text-white  px-2 py-1 rounded-xl
                                     flex items-center gap-2 transition-all duration-200 active:scale-95 focus:outline-none"

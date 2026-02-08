@@ -9,7 +9,7 @@ import { refreshProfileState } from '../../features/user/profileSlice';
 import useManualFetch from '../../shared/hooks/useManualFetch';
 import { toast } from 'react-toastify';
 import { ShoppingCart } from 'lucide-react';
-import { useCart } from '../../context/PizzaCart';
+import { selectTotalItems, selectIsCartOpen, toggleCart } from '../../features/Cart/cartSlice';
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -22,7 +22,8 @@ const Navbar = () => {
     const { isAuthenticated, role } = useSelector((state) => state.auth);
     // just in case of debugging
 
-    const { totalItems, setIsCartOpen } = useCart();
+    const totalItems = useSelector(selectTotalItems);
+
 
     const { execute, data, error, status } = useManualFetch();
     const state = useSelector((state) => state.auth);
@@ -30,6 +31,9 @@ const Navbar = () => {
 
     const profstate = useSelector((state) => state.profile);
     console.log('profile:', profstate);
+
+    const cartstate = useSelector((state) => state.cart);
+    console.log("Cartstate:", cartstate);
 
     const getNavigationItems = () => {
         if (!isAuthenticated) {
@@ -133,6 +137,8 @@ const Navbar = () => {
                                 ) : (
                                     <Link
                                         onClick={handleLogout} to='/'
+
+
                                         className="hover:underline decoration-[#ff4d4d] decoration-2 underline-offset-4"
                                     >
                                         Logout
@@ -141,7 +147,7 @@ const Navbar = () => {
 
                                 {role === "user" ? (
                                     <button
-                                        onClick={() => setIsCartOpen(true)}
+                                        onClick={() => dispatch(toggleCart(true))}
                                         className='relative p-2 rounded-lg hover:bg-muted transition-colors"'
                                     >
                                         <ShoppingCart className='text-gray-900 hover:text-[#ff4d4d] ' />
@@ -155,7 +161,7 @@ const Navbar = () => {
                                         )}
                                     </button>
                                 ) : null}
-{/* 
+                                {/* 
                                 {!isAuthenticated && role === null ? (
                                     <ShoppingCart className='text-gray-900 hover:text-[#ff4d4d] ' />
                                 ) : null} */}
@@ -194,7 +200,7 @@ const Navbar = () => {
 
                             {role === "user" ? (
                                 <button
-                                    onClick={() => setIsCartOpen(true)}
+                                    onClick={() => dispatch(toggleCart(true))}
                                     className='relative p-2 rounded-lg hover:bg-muted transition-colors"'
                                 >
                                     <ShoppingCart className='text-gray-900 hover:text-[#ff4d4d] ' />
