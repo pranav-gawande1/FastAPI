@@ -19,6 +19,7 @@ import { ToastContainer } from 'react-toastify';
 import CompleteProfile from './components/Auth/CompleteProfile/CompleteProfile.jsx'
 import ProfileUpdatePage from './pages/Profile/ProfileUpdatePage.jsx'
 import ConfirmOrder from './pages/Payment/ConfirmOrder.jsx'
+import PlaceOrder from './pages/Payment/PlaceOrder.jsx'
 
 function App() {
 
@@ -71,6 +72,9 @@ function App() {
               }
             >
             </Route>
+            <Route path='/place-order' 
+                   element={<PlaceOrder />}
+            ></Route>
           </Route>
         </Routes>
       </BrowserRouter >
