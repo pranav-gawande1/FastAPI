@@ -5,6 +5,9 @@ import { FaFilter, FaSearch } from "react-icons/fa";
 import useManualFetch from "../../shared/hooks/useManualFetch";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
+import PizzaAddModal from "./PizzaAddModal.jsx";
+import { Plus } from "lucide-react";
+import { apiRequest } from "../../services/api.js";
 // import PizzaView from "./PizzaView";
 
 const PizzaTable = ({ pizzas = [], onPizzaDelete }) => {
@@ -12,6 +15,7 @@ const PizzaTable = ({ pizzas = [], onPizzaDelete }) => {
     const [searchTerm, setSearchTerm] = useState("");
     const [filterStatus, setFilterStatus] = useState("all");
     const [selectedPizza, setSelectedPizza] = useState(null);
+    const [isAddPizza, setIsAddPizza] = useState(false);
     const [actionType, setActionType] = useState(null);
 
     const { execute, error, status, data } = useManualFetch();
@@ -19,6 +23,10 @@ const PizzaTable = ({ pizzas = [], onPizzaDelete }) => {
     const handleEdit = async (pizza) => {
         setSelectedPizza(pizza);
         setActionType("edit");
+    };
+
+    const handleAddPizza = async () => {
+        setIsAddPizza(!isAddPizza);
     };
 
     const handlePizzaUpdated = (updatedPizza) => {
@@ -106,6 +114,13 @@ const PizzaTable = ({ pizzas = [], onPizzaDelete }) => {
                                 className="text-gray-800">800 and above</option>
                         </select>
                     </div>
+                    <div className="flex items-center gap-2 bg-white
+                    border border-gray-700 rounded-lg px-4 py-2 hover:bg-[#ff4d4d] hover:text-white 
+                    focus:">
+                        <button onClick={() => handleAddPizza()}>
+                            Add Pizza
+                        </button>
+                    </div>
                 </div>
 
                 <div className="overflow-x-auto">
@@ -136,12 +151,12 @@ const PizzaTable = ({ pizzas = [], onPizzaDelete }) => {
                         </thead>
                         <tbody>
                             {filteredPizzas.length > 0 ? (
-                                filteredPizzas.map((pizza) => <PizzaCardAdmin 
-                                key={pizza._id} 
-                                pizza={pizza} 
-                                onEdit={handleEdit} 
-                                onView={handleView} 
-                                onDelete={handleDelete} />)
+                                filteredPizzas.map((pizza) => <PizzaCardAdmin
+                                    key={pizza._id}
+                                    pizza={pizza}
+                                    onEdit={handleEdit}
+                                    onView={handleView}
+                                    onDelete={handleDelete} />)
                             ) :
                                 (
                                     <tr className="text-center">
@@ -158,6 +173,10 @@ const PizzaTable = ({ pizzas = [], onPizzaDelete }) => {
                         actionType={actionType}
                         onPizzaUpdated={handlePizzaUpdated}
                         onClose={() => setSelectedPizza(null)}
+                    />
+                    <PizzaAddModal
+                        isOpen={isAddPizza}
+                        onClose={() => setIsAddPizza(false)}
                     />
                 </div>
 

@@ -6,6 +6,7 @@ const initialState = {
         ? JSON.parse(localStorage.getItem("cartItems"))
         : [],
     isCartOpen: false,
+    userId: localStorage.getItem("")
 }
 
 const saveCartItems = (cartItems) => {

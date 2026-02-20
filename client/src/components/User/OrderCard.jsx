@@ -1,6 +1,15 @@
 import { Eye } from "lucide-react";
+import { useState } from "react";
+import OrderUpdateModal from "./OrderUpdateModal";
 
 const OrderCard = ({ order }) => {
+
+    const [selectedOrder, setSelectedOrder] = useState(null);
+
+    const handleView = (order) => {
+        setSelectedOrder(order);
+    }
+
     const statusColors = {
         pending: "bg-yellow-700 text-yellow-100",
         confirmed: "bg-blue-700 text-blue-100",
@@ -8,7 +17,7 @@ const OrderCard = ({ order }) => {
         ready: "bg-green-700 text-green-100",
         completed: "bg-emerald-700 text-emerald-100"
     }
-    return(
+    return (
         <>
             <div className="rounded-lg p-4 bg-white hover:bg-gray-200 transition-colors shadow-xl">
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
@@ -35,12 +44,17 @@ const OrderCard = ({ order }) => {
                             <p className="text-xs text-muted-foreground">Total</p>
                             <p className="text-xl font-bold text-primary">${order.totalPrice.toFixed(2)}</p>
                         </div>
-                        <button onClick={() => onViewOrder(order.id)}>
+                        <button onClick={() => handleView(order)}>
                             <Eye className="w-4 h-4 mr-2" />
                             View Details
                         </button>
                     </div>
                 </div>
+                <OrderUpdateModal
+                    order={selectedOrder}
+                    isOpen={!!selectedOrder}
+                    onClose={() => setSelectedOrder(null)}
+                />
             </div>
         </>
     );
