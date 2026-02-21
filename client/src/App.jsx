@@ -25,6 +25,7 @@ import CartPage from './pages/User/Cart.jsx'
 import Favorites from './pages/Profile/Favourite.jsx'
 import Notifications from './pages/Profile/Notifications.jsx'
 import Security from './pages/Profile/Security.jsx'
+import Settings from './pages/Profile/Seetings.jsx'
 
 function App() {
 
@@ -65,6 +66,7 @@ function App() {
           <Route path="/me/favourites" element={<Favorites />}></Route>
           <Route path="/me/notifications" element={<Notifications />}></Route>
           <Route path='/me/security' element={<Security />}></Route>
+          <Route path='/me/settings' element={<Settings />}></Route>
 
           {/* Product routes */}
           <Route path='/pizza/:id' element={<Pizza />}></Route>
