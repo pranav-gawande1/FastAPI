@@ -6,10 +6,11 @@ const ProfileMenu = () => {
         { label: "Notifications", href: '/me/notifications' },
         { label: "Favorites", href: '/me/favourites' },
         { label: "Support", href: "#" },
-        { label: "Settings", href: "#" }
+        { label: "Settings", href: '/me/settings' }
     ]
     return (
         <>
+
             <div className="w-64 bg-gradient-to-r from-gray-200 to-white min-h-screen p-6 shadow-lg">
                 {/* sidebar header */}
                 <div className="mb-8">
