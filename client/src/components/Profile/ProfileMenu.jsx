@@ -2,7 +2,7 @@ const ProfileMenu = () => {
 
     const menuOptions = [
         { label: "Edit Profile", href: "/me/update/profile" },
-        { label: "Security", href: "#" },
+        { label: "Security", href: '/me/security' },
         { label: "Notifications", href: '/me/notifications' },
         { label: "Favorites", href: '/me/favourites' },
         { label: "Support", href: "#" },
