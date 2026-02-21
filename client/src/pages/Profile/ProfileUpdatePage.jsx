@@ -18,12 +18,12 @@ const ProfileUpdatePage = () => {
         pincode: profilePincode
     } = useSelector((state) => state.profile);
 
-    const [ name, setName ] = useState(profileName || "");
-    const [ email, setEmail ] = useState(profileEmail || "");
-    const [ address, setAddress ] = useState(profileAddress || "");
-    const [ city, setCity ] = useState(profileCity || "");
-    const [ state, setState ] = useState(profileState || "");
-    const [ pincode, setPincode ] = useState(profilePincode || "");
+    const [name, setName] = useState(profileName || "");
+    const [email, setEmail] = useState(profileEmail || "");
+    const [address, setAddress] = useState(profileAddress || "");
+    const [city, setCity] = useState(profileCity || "");
+    const [state, setState] = useState(profileState || "");
+    const [pincode, setPincode] = useState(profilePincode || "");
 
     const { execute, data, status, error } = useManualFetch();
 
