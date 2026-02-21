@@ -4,7 +4,7 @@ const ProfileMenu = () => {
         { label: "Edit Profile", href: "/me/update/profile" },
         { label: "Security", href: "#" },
         { label: "Notifications", href: "#" },
-        { label: "Favorites", href: "/me/favourites" },
+        { label: "Favorites", href: '/me/favourites' },
         { label: "Support", href: "#" },
         { label: "Settings", href: "#" }
     ]

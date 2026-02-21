@@ -1,132 +1,105 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { Heart } from 'lucide-react';
+import ProfileMenu from '../../components/Profile/ProfileMenu';
+import Footer from '../../components/Landing/Footer';
+import Navbar from '../../components/Navbar/Navbar';
 
 const Favorites = () => {
     const [favorites, setFavorites] = useState([
-        { id: 1, name: 'Margherita Pizza', price: '$12.99', category: 'Pizza' },
-        { id: 2, name: 'Pepperoni Pizza', price: '$14.99', category: 'Pizza' },
-        { id: 3, name: 'Veggie Supreme', price: '$13.99', category: 'Pizza' },
-        { id: 4, name: 'BBQ Chicken Pizza', price: '$15.99', category: 'Pizza' },
+        {
+            id: 1,
+            name: 'Margherita Pizza',
+            price: '₹12.99',
+            image: 'bg-gradient-to-br from-orange-300 to-orange-400',
+        },
+        {
+            id: 3,
+            name: 'Caesar Salad',
+            price: '₹8.99',
+            image: 'bg-gradient-to-br from-green-300 to-green-400',
+        },
+        {
+            id: 4,
+            name: 'Sushi Roll Mix',
+            price: '₹15.99',
+            image: 'bg-gradient-to-br from-red-300 to-red-400',
+        },
+        {
+            id: 5,
+            name: 'Spicy Thai Curry',
+            price: '₹11.99',
+            image: 'bg-gradient-to-br from-yellow-300 to-yellow-400',
+        },
+        {
+            id: 6,
+            name: 'Chocolate Cake',
+            price: '₹6.99',
+            image: 'bg-gradient-to-br from-purple-300 to-purple-400',
+        },
     ]);
 
-    const handleRemove = (id) => {
-        setFavorites((prev) => prev.filter((item) => item.id !== id));
+    const removeFavorite = (id) => {
+        setFavorites(favorites.filter(item => item.id !== id));
     };
 
     return (
-        <div>
-            <h1 className="page-title">❤️ My Favorites</h1>
+        <>
+            <Navbar />
+            <main className="mt-16">
+                <div className="max-w-[1200px] mx-auto p-4">
+                    <div className="min-h-screen bg-gradient-to-l from-gray-200 to-white flex">
+                        <ProfileMenu />
+                        <div className="flex-1 flex items-center justify-center p-4">
+                            <div className="bg-white rounded-2xl shadow-xl overflow-hidden w-full max-w-2xl hover:shadow-2xl transition-shadow duration-300">
+                                <h1 className="text-4xl font-bold text-dark mb-8">Your Favorites</h1>
+                                {favorites.length > 0 ? (
+                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                        {favorites.map((item) => (
+                                            <div
+                                                key={item.id}
+                                                className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
+                                            >
+                                                {/* Image Placeholder */}
+                                                <div className={`${item.image} h-40 flex items-center justify-center`}>
+                                                    <span className="text-white text-4xl">🍽️</span>
+                                                </div>
 
-            {favorites.length === 0 ? (
-                <div className="empty-state">
-                    <div className="empty-state-icon">🍽️</div>
-                    <h2 className="empty-state-title">No Favorites Yet</h2>
-                    <p className="empty-state-text">
-                        Start adding your favorite dishes to see them here. Heart any item to add it to your favorites!
-                    </p>
-                    <button className="btn btn-primary">
-                        🛍️ Browse Restaurants
-                    </button>
-                </div>
-            ) : (
-                <>
-                    <div style={{ marginBottom: '20px' }}>
-                        <p style={{ color: '#666', fontSize: '14px' }}>
-                            You have <strong>{favorites.length}</strong> favorite {favorites.length === 1 ? 'item' : 'items'}
-                        </p>
-                    </div>
+                                                {/* Content */}
+                                                <div className="p-4">
+                                                    <h3 className="text-lg font-semibold text-dark">{item.name}</h3>
+                                                    <p className="text-primary font-bold text-xl mt-2">{item.price}</p>
 
-                    <div className="grid grid-3">
-                        {favorites.map((item) => (
-                            <div key={item.id} className="product-card">
-                                <div
-                                    className="product-image"
-                                    style={{
-                                        background: `linear-gradient(135deg, ${['#667eea', '#764ba2', '#f093fb', '#4facfe'][item.id % 4]} 0%, ${['#764ba2', '#667eea', '#00f2fe', '#00a1ff'][item.id % 4]} 100%)`,
-                                    }}
-                                >
-                                    🍕
-                                </div>
-                                <div className="product-info">
-                                    <h3 className="product-name">{item.name}</h3>
-                                    <p style={{ fontSize: '12px', color: '#999', marginBottom: '8px' }}>
-                                        {item.category}
-                                    </p>
-                                    <div className="product-price">{item.price}</div>
-                                    <div className="product-actions">
-                                        <button className="btn btn-primary" style={{ flex: 1 }}>
-                                            🛒 Add to Cart
-                                        </button>
-                                        <button
-                                            className="btn btn-danger"
-                                            onClick={() => handleRemove(item.id)}
-                                            style={{ flex: '0 0 40px', padding: '8px' }}
-                                            title="Remove from favorites"
-                                        >
-                                            ✕
+                                                    <button
+                                                        onClick={() => removeFavorite(item.id)}
+                                                        className="w-full mt-4 flex items-center justify-center gap-2 bg-red-50 text-red-600 font-semibold py-2 rounded-lg hover:bg-red-100 transition-colors"
+                                                    >
+                                                        <Heart size={18} fill="currentColor" />
+                                                        Remove from Favorites
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <div className="bg-white rounded-lg shadow-md p-12 text-center max-w-2xl mx-auto">
+                                        <div className="mb-4 text-6xl">🍕</div>
+                                        <h2 className="text-2xl font-semibold text-dark mb-2">No Favorites Yet</h2>
+                                        <p className="text-gray-600 mb-6">
+                                            Start adding your favorite meals to quickly order them later!
+                                        </p>
+                                        <button className="bg-primary text-white font-semibold py-3 px-8 rounded-lg hover:bg-orange-600 transition-colors">
+                                            Browse Menu
                                         </button>
                                     </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </>
-            )}
-
-            {favorites.length > 0 && (
-                <div className="card" style={{ marginTop: '40px' }}>
-                    <h2 className="card-title">💡 Quick Stats</h2>
-
-                    <div style={{
-                        display: 'grid',
-                        gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
-                        gap: '16px',
-                    }}>
-                        <div style={{
-                            padding: '16px',
-                            backgroundColor: '#f8f9fa',
-                            borderRadius: '8px',
-                            textAlign: 'center',
-                        }}>
-                            <div style={{ fontSize: '28px', fontWeight: 'bold', color: '#ff6b35' }}>
-                                {favorites.length}
-                            </div>
-                            <div style={{ fontSize: '12px', color: '#666', marginTop: '8px' }}>
-                                Total Favorites
-                            </div>
-                        </div>
-
-                        <div style={{
-                            padding: '16px',
-                            backgroundColor: '#f8f9fa',
-                            borderRadius: '8px',
-                            textAlign: 'center',
-                        }}>
-                            <div style={{ fontSize: '28px', fontWeight: 'bold', color: '#004e89' }}>
-                                {new Set(favorites.map((f) => f.category)).size}
-                            </div>
-                            <div style={{ fontSize: '12px', color: '#666', marginTop: '8px' }}>
-                                Categories
-                            </div>
-                        </div>
-
-                        <div style={{
-                            padding: '16px',
-                            backgroundColor: '#f8f9fa',
-                            borderRadius: '8px',
-                            textAlign: 'center',
-                        }}>
-                            <div style={{ fontSize: '28px', fontWeight: 'bold', color: '#27ae60' }}>
-                                ${(favorites.length * 14.99).toFixed(2)}
-                            </div>
-                            <div style={{ fontSize: '12px', color: '#666', marginTop: '8px' }}>
-                                Total Value
+                                )}
                             </div>
                         </div>
                     </div>
                 </div>
-            )}
-        </div>
+                <Footer />
+            </main>
+        </>
     );
-}
+};
 
 export default Favorites;
