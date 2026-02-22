@@ -52,7 +52,7 @@ const Notifications = () => {
                                                     className="sr-only"
                                                 />
                                                 <div
-                                                    className={`w-12 h-6 rounded-full transition-colors ${preferences.orderUpdates ? 'bg-primary' : 'bg-gray-300'
+                                                    className={`w-12 h-6 rounded-full transition-colors ${preferences.orderUpdates ? 'bg-green-400' : 'bg-red-400'
                                                         }`}
                                                 >
                                                     <div
@@ -79,7 +79,7 @@ const Notifications = () => {
                                                     className="sr-only"
                                                 />
                                                 <div
-                                                    className={`w-12 h-6 rounded-full transition-colors ${preferences.promoOffers ? 'bg-primary' : 'bg-gray-300'
+                                                    className={`w-12 h-6 rounded-full transition-colors ${preferences.promoOffers ? 'bg-green-400' : 'bg-red-400'
                                                         }`}
                                                 >
                                                     <div
@@ -106,7 +106,7 @@ const Notifications = () => {
                                                     className="sr-only"
                                                 />
                                                 <div
-                                                    className={`w-12 h-6 rounded-full transition-colors ${preferences.newsletter ? 'bg-primary' : 'bg-gray-300'
+                                                    className={`w-12 h-6 rounded-full transition-colors ${preferences.newsletter ? 'bg-green-400' : 'bg-red-400'
                                                         }`}
                                                 >
                                                     <div
@@ -133,7 +133,7 @@ const Notifications = () => {
                                                     className="sr-only"
                                                 />
                                                 <div
-                                                    className={`w-12 h-6 rounded-full transition-colors ${preferences.smsNotifications ? 'bg-primary' : 'bg-gray-300'
+                                                    className={`w-12 h-6 rounded-full transition-colors ${preferences.smsNotifications ? 'bg-green-400' : 'bg-red-400'
                                                         }`}
                                                 >
                                                     <div

@@ -50,8 +50,8 @@ const Settings = () => {
                                             <button
                                                 onClick={() => setTheme('light')}
                                                 className={`flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all ${theme === 'light'
-                                                    ? 'bg-primary text-white'
-                                                    : 'bg-gray-200 text-dark hover:bg-gray-300'
+                                                    ? 'bg-green-400 text-gray-800'
+                                                    : 'bg-red-400 text-black hover:bg-red-300'
                                                     }`}
                                             >
                                                 <Sun size={20} />
@@ -60,8 +60,8 @@ const Settings = () => {
                                             <button
                                                 onClick={() => setTheme('dark')}
                                                 className={`flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all ${theme === 'dark'
-                                                    ? 'bg-secondary text-white'
-                                                    : 'bg-gray-200 text-dark hover:bg-gray-300'
+                                                    ? 'bg-green-400 text-gray-800'
+                                                    : 'bg-red-400 text-black hover:bg-red-300'
                                                     }`}
                                             >
                                                 <Moon size={20} />
@@ -101,7 +101,7 @@ const Settings = () => {
                                     <div className="space-y-3">
                                         <button
                                             onClick={handleLogout}
-                                            className="w-full bg-primary text-white font-semibold py-3 rounded-lg hover:bg-orange-600 transition-colors"
+                                            className="w-full bg-gray-300 text-black font-semibold py-3 rounded-lg hover:bg-gray-800 hover:text-white transition-colors"
                                         >
                                             Logout
                                         </button>
@@ -147,7 +147,7 @@ const Settings = () => {
                                 )}
 
                                 {/* Save Settings Button */}
-                                <button className="w-full bg-primary text-white font-semibold py-3 rounded-lg hover:bg-orange-600 transition-colors">
+                                <button className="w-full bg-gray-500 text-white font-semibold py-3 rounded-lg hover:bg-gray-600 transition-colors">
                                     Save Settings
                                 </button>
                             </div>

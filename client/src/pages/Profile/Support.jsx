@@ -62,9 +62,6 @@ const Support = () => {
                         <ProfileMenu />
                         <div className="flex-1 flex items-center justify-center p-4">
                             <div className="bg-white rounded-2xl shadow-xl overflow-hidden w-full max-w-2xl hover:shadow-2xl transition-shadow duration-300">
-
-
-
                                 {/* Contact Form */}
                                 <div className="bg-white rounded-lg shadow-md p-6 mb-8">
                                     <h1 className="text-4xl font-bold text-dark mb-8">Support Center</h1>
@@ -137,7 +134,7 @@ const Support = () => {
 
                                         <button
                                             type="submit"
-                                            className="w-full bg-primary text-white font-semibold py-3 rounded-lg hover:bg-orange-600 transition-colors"
+                                            className="w-full bg-[#ff4d4d] text-white font-semibold py-3 rounded-lg hover:bg-red-600 transition-colors"
                                         >
                                             Submit
                                         </button>
