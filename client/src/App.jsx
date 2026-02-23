@@ -27,6 +27,8 @@ import Notifications from './pages/Profile/Notifications.jsx'
 import Security from './pages/Profile/Security.jsx'
 import Settings from './pages/Profile/Seetings.jsx'
 import Support from './pages/Profile/Support.jsx'
+import AnalyticsHome from './pages/Admin/Analytics/home.jsx'
+import Main from './pages/Admin/Analytics/main.jsx'
 
 function App() {
 
@@ -55,6 +57,8 @@ function App() {
             <Route path='/users' element={<Users />}> </Route>
             <Route path='/admin/pizzas' element={<ManagePizza />} ></Route>
             <Route path='/admin/orders' element={<Orders />}></Route>
+            <Route path='/admin/analytics' element={<AnalyticsHome />}></Route>
+            <Route path='/admin/analytics/table' element={<Main />}></Route>
           </Route>
 
           {/* User Routes */}
