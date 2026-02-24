@@ -11,7 +11,7 @@ const useManualFetch = () => {
         setError(null);
 
         try {
-            const result = await apiRequest( {
+            const result = await apiRequest({
                 endpoint,
                 method,
                 body,
@@ -21,7 +21,11 @@ const useManualFetch = () => {
             setStatus("success");
             return result;
         } catch (err) {
-            setError(err.message);
+            const backendError =
+                err.response?.data?.error?.message ||
+                err.message
+
+            setError(backendError);
             setStatus("error");
             throw err;
         }

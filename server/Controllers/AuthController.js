@@ -41,7 +41,7 @@ const signup = async (req, res) => {
         res.status(500)
             .json({
                 message: "Internal Server error",
-                error:  err,
+                error: err,
                 success: false
             })
     }
@@ -51,6 +51,12 @@ const login = async (req, res) => {
     try {
         const { email, password } = req.body;
         const user = await UserModel.findOne({ email });
+        if (user.is_active === false) {
+            return res.status(403).json({
+                message: "Your account is deactivated, please contact support", 
+                success: false
+            });
+        }
         const errMsg = 'Auth failed ,email or password is wrong'
         if (!user) {
             return res.status(409)
@@ -89,7 +95,7 @@ const login = async (req, res) => {
         res.status(500)
             .json({
                 message: "Internal Server error",
-                error:  err,
+                error: err,
                 success: false
             })
     }

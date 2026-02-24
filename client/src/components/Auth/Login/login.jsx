@@ -15,7 +15,7 @@ const Login = () => {
 
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
-    const { execute, data, status } = useManualFetch();
+    const { execute, data, status, error } = useManualFetch();
 
     const state = useSelector((state) => state.auth);
     console.log('authStatusState:', state);
@@ -45,14 +45,17 @@ const Login = () => {
             if (!data.is_profile_completed) {
                 toast.info("Please complete your Profile First!!");
                 navigate("/complete-profile");
-            } else {
+            }
+            else if (data.is_active === true) {
                 navigate("/home");
             }
         }
         else if (status === "error") {
-            toast.error("Email or Password Incorrect!");
+            // console.log("error", error);
+            toast.error(error);
+            navigate("/");
         }
-    }, [status, data, dispatch, navigate]);
+    }, [status, data, error, dispatch, navigate]);
     return (
         <>
             <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-[#ff4d4d] to-[#ff9900]">
