@@ -29,6 +29,7 @@ import Settings from './pages/Profile/Seetings.jsx'
 import Support from './pages/Profile/Support.jsx'
 import AnalyticsHome from './pages/Admin/Analytics/home.jsx'
 import Main from './pages/Admin/Analytics/main.jsx'
+import AdminHome from './pages/Home/AdminHome.jsx'
 
 function App() {
 
@@ -59,6 +60,7 @@ function App() {
             <Route path='/admin/orders' element={<Orders />}></Route>
             <Route path='/admin/analytics' element={<AnalyticsHome />}></Route>
             <Route path='/admin/analytics/table' element={<Main />}></Route>
+            <Route path='/admin-home' element={<AdminHome />}></Route>
           </Route>
 
           {/* User Routes */}

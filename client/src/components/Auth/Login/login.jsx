@@ -46,8 +46,10 @@ const Login = () => {
                 toast.info("Please complete your Profile First!!");
                 navigate("/complete-profile");
             }
-            else if (data.is_active === true) {
+            else if (data.is_active === true && data.role === "user") {
                 navigate("/home");
+            } else if (data.is_active === true && data.role === "admin") {
+                navigate("/admin-home");
             }
         }
         else if (status === "error") {

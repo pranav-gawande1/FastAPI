@@ -44,18 +44,22 @@ const Navbar = () => {
                 { name: 'Contact', to: '/#ContactUS' }
             ]
         }
-        const base = [{ name: 'Home', to: '/home' }];
+        // !change for side bar
+        // const base = [{ name: 'Home', to: '/home' }];
         if (role === "user") {
-            return [...base,
-            { name: 'Orders', to: '/orders' },
-            { name: 'Account', to: '/profile' }
+            return [
+                { name: 'Home', to: '/home' },
+                { name: 'Orders', to: '/orders' },
+                { name: 'Account', to: '/profile' }
             ];
         }
         if (role === 'admin') {
-            return [...base, { name: 'Manage Pizzas', to: '/admin/pizzas' },
-            { name: 'Users', to: '/users' },
-            { name: 'Orders', to: '/admin/orders' },
-            { name: 'Account', to: '/profile' }
+            return [
+                { name: 'Home', to: '/admin-home' },
+                { name: 'Manage Pizzas', to: '/admin/pizzas' },
+                { name: 'Users', to: '/users' },
+                { name: 'Orders', to: '/admin/orders' },
+                { name: 'Account', to: '/profile' }
             ];
         }
         return base;
