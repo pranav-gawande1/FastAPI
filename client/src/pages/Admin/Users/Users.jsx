@@ -8,6 +8,7 @@ import Loader from "../../../components/Loader/Loader";
 import ErrorState from "../../../components/Loader/NotFound";
 import { useState } from "react";
 import { useEffect } from "react";
+import SideBar from "../../../components/Admin/SideBar/SideBar";
 
 const Users = () => {
     const [users, setUsers] = useState([]);
@@ -24,21 +25,26 @@ const Users = () => {
     }, [data]);
 
     return (
-        <div className="min-h-screen flex flex-col">
-            <Navbar />
-            <main className="mt-16">
-                {loading && <Loader />}
-                {error && <ErrorState />}
-                {!loading && !error && (
-                    <div className="max-w-full mx-auto p-8">
-                        <UserTable users={users}
-                            onUserDelete={handleDeletedUser}
-                        />
+        <>
+            {/* <div className="min-h-screen flex flex-col"> */}
+                <Navbar />
+                <div className="flex mt-16">
+                    <SideBar />
+                    <div className="flex-1">
+                        {loading && <Loader />}
+                        {error && <ErrorState />}
+                        {!loading && !error && (
+                            <div className="max-w-full mx-auto p-8">
+                                <UserTable users={users}
+                                    onUserDelete={handleDeletedUser}
+                                />
+                            </div>
+                        )}
                     </div>
-                )}
-                <Footer />
-            </main>
-        </div>
+                </div>
+            {/* </div> */}
+            <Footer />
+        </>
     );
 };
 
