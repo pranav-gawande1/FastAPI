@@ -56,9 +56,6 @@ const Navbar = () => {
         if (role === 'admin') {
             return [
                 { name: 'Home', to: '/admin-home' },
-                { name: 'Manage Pizzas', to: '/admin/pizzas' },
-                { name: 'Users', to: '/users' },
-                { name: 'Orders', to: '/admin/orders' },
                 { name: 'Account', to: '/profile' }
             ];
         }
@@ -111,10 +108,10 @@ const Navbar = () => {
     };
 
     return (
-        <Disclosure as="header" className="fixed top-0 left-0 right-0 max-w-full z-50 bg-white/10 backdrop-blur-lg shadow-md overflow-x-hidden">
+        <Disclosure as="header" className="fixed top-0 left-0 right-0 max-w-full z-50 bg-gray-100 backdrop-blur-lg overflow-x-hidden">
             {({ open }) => (
                 <>
-                    <div className="max-w-[1200px] w-full mx-auto px-4 sm:px-6">
+                    <div className="w-full mx-auto px-4 sm:px-6">
                         <div className="flex justify-between items-center h-16">
 
                             <div className="flex-shrink-0">

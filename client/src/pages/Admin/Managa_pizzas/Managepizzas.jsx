@@ -8,6 +8,7 @@ import Loader from "../../../components/Loader/Loader";
 import ErrorState from "../../../components/Loader/NotFound";
 import { useState } from "react";
 import { useEffect } from "react";
+import SideBar from "../../../components/Admin/SideBar/SideBar";
 
 const ManagePizza = () => {
     const [pizzas, setPizzas] = useState([]);
@@ -25,18 +26,21 @@ const ManagePizza = () => {
     return (
         <>
             <Navbar />
-            <main className="mt-16">
-                {loading && <Loader />}
-                {error && <ErrorState />}
-                {!loading && !error && (
+            <div className="flex mt-16">
+                <SideBar />
+                <div className="flex-1">
+                    {loading && <Loader />}
+                    {error && <ErrorState />}
+                    {!loading && !error && (
 
-                    <div className="max-w-full mx-auto p-8">
-                        <PizzaTable pizzas={pizzas}
-                            onPizzaDelete={handleDeletedPizza}
-                        />
-                    </div>
-                )}
-            </main>
+                        <div className="max-w-full mx-auto p-8">
+                            <PizzaTable pizzas={pizzas}
+                                onPizzaDelete={handleDeletedPizza}
+                            />
+                        </div>
+                    )}
+                </div>
+            </div>
             <Footer />
         </>
     );
