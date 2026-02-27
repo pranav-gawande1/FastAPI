@@ -9,7 +9,7 @@ import { refreshProfileState } from '../../features/user/profileSlice';
 import useManualFetch from '../../shared/hooks/useManualFetch';
 import { toast } from 'react-toastify';
 import { ShoppingCart } from 'lucide-react';
-import { selectTotalItems, selectIsCartOpen, toggleCart } from '../../features/Cart/cartSlice';
+import { selectTotalItems, toggleCart } from '../../features/Cart/cartSlice';
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -108,7 +108,7 @@ const Navbar = () => {
     };
 
     return (
-        <Disclosure as="header" className={`fixed top-0 left-0 right-0 max-w-full z-50 ${role === "admin" ? "bg-gray-100" : "bg-white"} backdrop-blur-lg overflow-x-hidden`}>
+        <Disclosure as="header" className={`fixed top-0 left-0 right-0 max-w-full z-50 ${role === "admin" ? "bg-gray-100" : "bg-white"} ${role === "admin" ? "" : "shadow-md"} backdrop-blur-lg overflow-x-hidden`}>
             {({ open }) => (
                 <>
                     <div className={`${role === "admin" ? "w-full" : "max-w-6xl"} mx-auto px-4 sm:px-6`}>
