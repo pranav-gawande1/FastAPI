@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import useManualFetch from "../../shared/hooks/useManualFetch";
 
 const ProfileUpdatePage = () => {
+    const { isOpen } = useSelector((state) => state.sideBarStatus);
     const dispatch = useDispatch();
     const {
         name: profileName,

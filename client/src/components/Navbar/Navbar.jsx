@@ -108,10 +108,10 @@ const Navbar = () => {
     };
 
     return (
-        <Disclosure as="header" className="fixed top-0 left-0 right-0 max-w-full z-50 bg-gray-100 backdrop-blur-lg overflow-x-hidden">
+        <Disclosure as="header" className={`fixed top-0 left-0 right-0 max-w-full z-50 ${role === "admin" ? "bg-gray-100" : "bg-white"} backdrop-blur-lg overflow-x-hidden`}>
             {({ open }) => (
                 <>
-                    <div className="w-full mx-auto px-4 sm:px-6">
+                    <div className={`${role === "admin" ? "w-full" : "max-w-6xl"} mx-auto px-4 sm:px-6`}>
                         <div className="flex justify-between items-center h-16">
 
                             <div className="flex-shrink-0">

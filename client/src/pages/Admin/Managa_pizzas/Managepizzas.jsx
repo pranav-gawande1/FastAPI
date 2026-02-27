@@ -9,10 +9,13 @@ import ErrorState from "../../../components/Loader/NotFound";
 import { useState } from "react";
 import { useEffect } from "react";
 import SideBar from "../../../components/Admin/SideBar/SideBar";
+import SideBarToggle from "../../../components/Admin/SideBar/sideBarToggle";
+import { useSelector } from "react-redux";
 
 const ManagePizza = () => {
     const [pizzas, setPizzas] = useState([]);
     const { data, loading, error } = useFetch(`/pizza/pizzas`);
+    const { isOpen } = useSelector((state) => state.sideBarStatus);
 
     const handleDeletedPizza = async (pizzaId) => {
         setPizzas(prev => prev.filter(pizza => pizza._id != pizzaId))
@@ -27,7 +30,8 @@ const ManagePizza = () => {
         <>
             <Navbar />
             <div className="flex mt-16">
-                <SideBar />
+                <SideBarToggle />
+                {isOpen && <SideBar />}
                 <div className="flex-1">
                     {loading && <Loader />}
                     {error && <ErrorState />}
@@ -41,7 +45,7 @@ const ManagePizza = () => {
                     )}
                 </div>
             </div>
-            <Footer />
+            {/* <Footer /> */}
         </>
     );
 };

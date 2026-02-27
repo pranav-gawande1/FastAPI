@@ -3,6 +3,7 @@ import Hero from "../../components/Landing/Hero.jsx";
 import PizzaList from "../../components/Products/PizzaList.jsx";
 import SideBar from "../../components/Admin/SideBar/SideBar.jsx";
 import { useSelector } from "react-redux";
+import SideBarToggle from "../../components/Admin/SideBar/sideBarToggle.jsx";
 
 
 const AdminHome = () => {
@@ -11,6 +12,7 @@ const AdminHome = () => {
         <>
             <Navbar />
             <div className="flex mt-16">
+                <SideBarToggle />
                 {isOpen && <SideBar />}
                 <div className="flex-1 bg-gray-100 min-h-screen">
                     <Hero />
