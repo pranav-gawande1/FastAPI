@@ -7,6 +7,7 @@ const PizzaRouter = require("./Routes/PizzaRoutes/PizzaRoutes.js")
 const UserRouter = require("./Routes/UserRoutes.js")
 const OrderRouter = require("./Routes/OrderRoutes/OrderRoutes.js")
 const cookieParser = require("cookie-parser");
+const CartRouter = require('./Routes/CartRoutes/CartRoutes.js');
 
 require("dotenv").config();
 
@@ -44,6 +45,9 @@ app.use('/users', UserRouter);
 
 // Order Router
 app.use('/orders', OrderRouter);
+
+// cart Routet
+app.use('/carts', CartRouter)
 
 app.listen(PORT, () => {
     console.log(`Server is running at port ${PORT}`);
