@@ -2,7 +2,6 @@ import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar";
 import OrderSummary from "../../components/Payment/OrderSummary";
 import PriceBreakDown from "../../components/Payment/PriceBreakDown";
-import AddressInfo from "../../components/Profile/AddressInfo";
 import { useEffect, useState } from "react";
 
 const PROCESSING_STEPS = [
@@ -33,7 +32,8 @@ const PlaceOrder = () => {
                 navigate("/payment-success")
             }
         }
-        processSteps();
+        processSteps()
+            ;
     }, []);
     return (
         <>

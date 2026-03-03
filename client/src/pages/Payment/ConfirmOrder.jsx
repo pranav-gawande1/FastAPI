@@ -3,11 +3,44 @@ import Navbar from "../../components/Navbar/Navbar";
 import OrderSummary from "../../components/Payment/OrderSummary";
 import PriceBreakDown from "../../components/Payment/PriceBreakDown";
 import AddressInfo from "../../components/Profile/AddressInfo";
+import useManualFetch from "../../shared/hooks/useManualFetch";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { selectCartItems } from "../../features/Cart/cartSlice";
+import { toast } from "react-toastify";
 
 
 const ConfirmOrder = () => {
 
     const navigate = useNavigate();
+    const cartItems = useSelector(selectCartItems);
+
+    const { status, execute, data, loading } = useManualFetch();
+    const handlePlaceOrder = async (orderItems) => {
+        if (cartItems.length === 0) {
+            toast.error("Cart is empty!");
+            return;
+        }
+
+        const formattedItems = orderItems.map(item => ({
+            pizzaId: item.pizza._id,
+            quantity: item.quantity,
+            size: item.size
+        }));
+
+        await execute(`/orders/orders`, 'POST',
+            { items: formattedItems }
+        )
+    }
+    useEffect(() => {
+        if (status === "success" && data) {
+            setTimeout(() => {
+                toast.success(data.message);
+            }, 300)
+            navigate("/place-order");
+
+        }
+    }, [status, data, navigate])
     return (
         <>
             <Navbar />
@@ -34,12 +67,13 @@ const ConfirmOrder = () => {
                                 {/* <h1>Price summary</h1> */}
                                 <PriceBreakDown />
                                 <button
-                                    onClick={() => navigate("/place-order")}
+                                    onClick={() => handlePlaceOrder(cartItems)}
+                                    disabled={loading}
                                     className="w-full rounded-lg bg-[#ff4d4d] text-white
                                             px-6 py-3 font-semibold transistion-opacity 
                                             hover:opacity-90 disabled:opacity-50"
                                 >
-                                    Proceed to Payment
+                                    {loading ? "Processing..." : "Proceed to Payment"}
                                 </button>
 
                                 <Link

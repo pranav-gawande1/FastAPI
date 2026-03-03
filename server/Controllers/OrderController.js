@@ -5,12 +5,8 @@ const UserModel = require("../models/User.js");
 
 const PlaceOrder = async (req, res) => {
     try {
-        // const { pizzaId, quantity, size } = req.body;
         const { items } = req.body;
 
-        // if (!pizzaId || !quantity || !size) {
-        //     return res.status(400).json({ message: "All Fields are required! " });
-        // }
         if (!items || items.length === 0) {
             return res.status(400).json({ message: "Cart is empty" });
         }
@@ -38,24 +34,11 @@ const PlaceOrder = async (req, res) => {
                 size: item.size,
             });
         }
-        // const pizza = await Pizza.findById(pizzaId);
-        // if (!pizza) {
-        //     return res.status(404).json({ message: "Pizza not available!" });
-        // }
-
-        // solved issue by updating modal
-        // const price = Number(
-        //     String(pizza.price).replace(/[^0-9.]/g, "")
-        // );
-        // const total_price = price * quantity;
 
 
         console.log("User id before is:", user._id)
         const order = await OrderModel.create({
-            user: user._id,
-            // pizza: pizzaId,
-            // quantity,
-            // size,
+            user: req.user._id,
             items: orderItems,
             total_price,
             order_status: "pending"
@@ -213,17 +196,17 @@ const CancelOrderAdmin = async (req, res) => {
 
 const GetOrdersUserWise = async (req, res) => {
     try {
-        const user = await UserModel.findById(req.user.id).select("-password");
+        const user = await UserModel.findById(req.user._id).select("-password");
         if (user.role === "admin") {
             return res.status(400).json({ message: "You are Admin" });
         }
 
-        const AllOrderoFUser = await OrderModel.find({ user: req.user.id });
-        if (!AllOrderoFUser) {
+        const AllOrderoFUser = await OrderModel.find({ user: req.user._id });
+        if (AllOrderoFUser.length === 0) {
             return res.status(404).json({ message: `No order found for user ${user.name}` });
         }
 
-        res.status(200).json({ success: true, orders: AllOrderoFUser });
+        res.status(200).json({ success: true, AllOrderoFUser });
     } catch (err) {
         res.status(500).json({ message: err.message });
         console.log(err);
