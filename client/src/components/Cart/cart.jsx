@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 const Cart = () => {
     const { data: manualData, loading: manualLoading, error: manualError, status: manualStatus, execute: clearExecute } = useManualFetch();
     const { data: updateData, loading: updateLoading, error: updateError, status: updateStatus, execute: updateExecute } = useManualFetch();
+    const { data: deleteData, loading: deleteLoading, error: deleteError, status: deleteStatus, execute: deleteExecute } = useManualFetch();
 
     const [isClosing, setIsClosing] = useState(false);
     const dispatch = useDispatch();
@@ -34,6 +35,10 @@ const Cart = () => {
             { quantity: newQuantity }
         )
     };
+
+    const handleRemove = async (itemId) => {
+        await deleteExecute(`/carts/cart/${itemId}`, 'PATCH',)
+    }
     useEffect(() => {
         if (manualStatus === 'success' && manualData) {
             setIsClosing(true)
@@ -44,15 +49,21 @@ const Cart = () => {
             }, 300);
         }
 
-        if (updateStatus === 'success' && updateData) {
+        if ((updateStatus === 'success' && updateData) || (deleteStatus === 'success' && deleteData)) {
             setIsClosing(true)
             setTimeout(() => {
-                dispatch(setCart(updateData?.updateCartItem));
-                setIsClosing(false)
-                toast.success(updateData.message);
+                if (updateData) {
+                    dispatch(setCart(updateData?.updateCartItem));
+                    setIsClosing(false)
+                    toast.success(updateData.message);
+                } else {
+                    dispatch(setCart(deleteData?.deletedItem));
+                    setIsClosing(false)
+                    toast.success(deleteData.message);
+                }
             }, 300);
         }
-    }, [manualStatus, updateStatus]);
+    }, [manualStatus, updateStatus, deleteStatus]);
 
     const total = cartItems.reduce((sum, item) => {
         return sum + item.pizza.price * item.quantity;
@@ -150,7 +161,10 @@ const Cart = () => {
                                         className="p-1 hover:bg-gray-300
                                     rounded transition-colors text-gray-900"
                                         aria-label="Remove item"
-                                        onClick={() => dispatch(removeFromCart(item._id))}
+                                        onClick={() =>
+                                            // dispatch(removeFromCart(item._id))
+                                            handleRemove(item._id)
+                                        }
                                     >
                                         <Trash2 className="w-4 h-4" />
                                     </button>

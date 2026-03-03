@@ -119,7 +119,7 @@ const DeleteCartItem = async (req, res) => {
 
         await deletedItem.save();
 
-        res.status(200).json({ success: true, deletedItem })
+        res.status(200).json({ success: true, message: "Item deleted successfully", deletedItem })
     } catch (err) {
         res.status(500).json({ message: err.message });
         console.log(err);

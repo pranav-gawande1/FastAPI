@@ -1,6 +1,6 @@
 import { ShoppingCart } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
-import { setCart } from "../../features/Cart/cartSlice";
+import { setCart, toggleCart } from "../../features/Cart/cartSlice";
 import useManualFetch from "../../shared/hooks/useManualFetch";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
@@ -22,6 +22,7 @@ const PizzaCard = ({ pizza }) => {
     useEffect(() => {
         if (status === "success" && data) {
             dispatch(setCart(data?.cart));
+            dispatch(toggleCart(true));
             toast.success(`Item added to cart!!!`);
         }
     }, [status, data, error, dispatch]);
