@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setCart } from "../../features/Cart/cartSlice";
 import useManualFetch from "../../shared/hooks/useManualFetch";
 import { useEffect } from "react";
+import { toast } from "react-toastify";
 
 const PizzaCard = ({ pizza }) => {
     const { role } = useSelector((state) => state.auth);
@@ -21,6 +22,7 @@ const PizzaCard = ({ pizza }) => {
     useEffect(() => {
         if (status === "success" && data) {
             dispatch(setCart(data?.cart));
+            toast.success(`Item added to cart!!!`);
         }
     }, [status, data, error, dispatch]);
 

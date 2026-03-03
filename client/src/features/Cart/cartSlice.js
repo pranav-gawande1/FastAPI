@@ -22,7 +22,6 @@ const cartSlice = createSlice({
             state.totalPrice = Cart.total_price;
             state.isCartOpen = false;
             saveCartItems(state.cart);
-            toast.success(`Item added to cart!!!`);
         },
 
         // addToCart: (state, action) => {
@@ -49,29 +48,29 @@ const cartSlice = createSlice({
         //     toast.success(`${newItem.pizza.name} added to cart!!!`);
         // },
 
-        removeFromCart: (state, action) => {
-            const pizzaId = action.payload;
+        // removeFromCart: (state, action) => {
+        //     const pizzaId = action.payload;
 
-            state.cartItems = state.cartItems.filter(item => item._id !== pizzaId);
+        //     state.cartItems = state.cartItems.filter(item => item._id !== pizzaId);
 
-            saveCartItems(state.cartItems);
-            toast.info("Pizza removed from cart.");
-        },
+        //     saveCartItems(state.cartItems);
+        //     toast.info("Pizza removed from cart.");
+        // },
 
-        updateQuantity: (state, action) => {
-            const { pizzaId, newQuantity } = action.payload;
+        // updateQuantity: (state, action) => {
+        //     const { pizzaId, newQuantity } = action.payload;
 
-            const item = state.cartItems.find(item => item._id === pizzaId);
-            if (!item) return;
+        //     const item = state.cartItems.find(item => item._id === pizzaId);
+        //     if (!item) return;
 
-            if (newQuantity < 1) {
-                state.cartItems = cartItems.filter(item => item._id !== pizzaId);
-            } else {
-                item.quantity = newQuantity;
-            }
+        //     if (newQuantity < 1) {
+        //         state.cartItems = cartItems.filter(item => item._id !== pizzaId);
+        //     } else {
+        //         item.quantity = newQuantity;
+        //     }
 
-            saveCartItems(state.cartItems);
-        },
+        //     saveCartItems(state.cartItems);
+        // },
 
         toggleCart: (state, action) => {
             state.isCartOpen = action.payload;
@@ -93,6 +92,6 @@ export const selectTotalItems = state =>
 // export const selectTotal
 export const selectIsCartOpen = state => state.cart.isCartOpen;
 
-export const { setCart, addToCart, removeFromCart, updateQuantity, toggleCart, clearCart } = cartSlice.actions;
+export const { setCart, toggleCart, clearCart } = cartSlice.actions;
 
 export default cartSlice.reducer;

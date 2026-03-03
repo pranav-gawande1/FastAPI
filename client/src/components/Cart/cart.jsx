@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import { Minus, Plus, Trash2, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-// removeFromCart, updateQuantity, selectIsCartOpen, toggleCart, selectCartItems
-import { removeFromCart, updateQuantity, selectIsCartOpen, toggleCart, clearCart, selectCartItems,  } from "../../features/Cart/cartSlice";
+import { selectIsCartOpen, toggleCart, clearCart, selectCartItems, setCart, } from "../../features/Cart/cartSlice";
 import useManualFetch from "../../shared/hooks/useManualFetch";
 import { toast } from "react-toastify";
 
 const Cart = () => {
-    const { data: manualData, loading: manualLoading, error: manualError, status, execute } = useManualFetch();
+    const { data: manualData, loading: manualLoading, error: manualError, status: manualStatus, execute: clearExecute } = useManualFetch();
+    const { data: updateData, loading: updateLoading, error: updateError, status: updateStatus, execute: updateExecute } = useManualFetch();
 
     const [isClosing, setIsClosing] = useState(false);
     const dispatch = useDispatch();
@@ -26,10 +26,16 @@ const Cart = () => {
     }
 
     const handleClear = async () => {
-        await execute('/carts/cart', "PATCH");
+        await clearExecute('/carts/cart', "PATCH");
+    };
+
+    const handleUpdate = async (itemId, newQuantity) => {
+        await updateExecute(`/carts/updatecart/${itemId}`, 'PATCH',
+            { quantity: newQuantity }
+        )
     };
     useEffect(() => {
-        if (status === 'success' && manualData) {
+        if (manualStatus === 'success' && manualData) {
             setIsClosing(true)
             setTimeout(() => {
                 dispatch(clearCart());
@@ -37,7 +43,16 @@ const Cart = () => {
                 toast.success(manualData.message);
             }, 300);
         }
-    }, [status, manualError, manualLoading]);
+
+        if (updateStatus === 'success' && updateData) {
+            setIsClosing(true)
+            setTimeout(() => {
+                dispatch(setCart(updateData?.updateCartItem));
+                setIsClosing(false)
+                toast.success(updateData.message);
+            }, 300);
+        }
+    }, [manualStatus, updateStatus]);
 
     const total = cartItems.reduce((sum, item) => {
         return sum + item.pizza.price * item.quantity;
@@ -103,10 +118,12 @@ const Cart = () => {
                                         <button
                                             className="p-1 hover:bg-gray-300 rounded
                                         transition-colors"
-                                            onClick={() => dispatch(updateQuantity({
-                                                pizzaId: item?.pizza._id,
-                                                newQuantity: item.quantity - 1
-                                            }))}
+                                            onClick={() => {
+                                                if (item.quantity > 1) {
+                                                    handleUpdate(item._id, item.quantity - 1)
+                                                }
+                                            }
+                                            }
 
                                         >
                                             <Minus className="w-4 h-4" />
@@ -115,10 +132,12 @@ const Cart = () => {
                                         <button
                                             className="p-1 hover:bg-border rounded
                                         transition-colors"
-                                            onClick={() => dispatch(updateQuantity({
-                                                pizzaId: item._id,
-                                                newQuantity: item.quantity + 1
-                                            }))}
+                                            onClick={() => {
+                                                if (item.quantity > 1) {
+                                                    handleUpdate(item._id, item.quantity + 1)
+                                                }
+                                            }
+                                            }
                                         >
                                             <Plus className="w-4 h-4" />
                                         </button>
