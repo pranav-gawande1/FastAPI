@@ -1,16 +1,28 @@
-import { Eye } from "lucide-react";
+import { Edit, Eye } from "lucide-react";
 import { useEffect, useState } from "react";
 import OrderUpdateModal from "./OrderUpdateModal";
 import useFetch from "../../shared/hooks/useFetch";
+import useManualFetch from "../../shared/hooks/useManualFetch"
 import ErrorState from "../Loader/NotFound";
 import Loader from "../Loader/Loader";
 import { toast } from "react-toastify";
 
 const OrderCard = () => {
+    const [menuOpenId, setMenuOpenId] = useState(false);
 
     const [selectedOrder, setSelectedOrder] = useState(null);
 
     const { data, error, loading } = useFetch(`/orders/myorders`);
+    const { data: cancelData, error: cancelError, loading: cancelLoading, status: cancelStatus, execute: cancelExecute } = useManualFetch();
+
+    const handleCancelOrder = async (orderId) => {
+        try {
+            await cancelExecute(`/orders/order/${orderId}/cancel`, "PATCH");
+            toast.success("Order cancelled successfully");
+        } catch (err) {
+            toast.error(err.message || "Failed to cancel order");
+        }
+    };
 
     useEffect(() => {
         if (error) {
@@ -61,10 +73,95 @@ const OrderCard = () => {
                                     <p className="text-xs text-muted-foreground">Total</p>
                                     <p className="text-xl font-bold text-primary">₹{order?.total_price.toFixed(2)}</p>
                                 </div>
-                                <button onClick={() => handleView(order)}>
+                                {/* <button onClick={() => handleView(order)}
+                                    className="focus:outline-none"
+                                >
                                     <Eye className="w-4 h-4 mr-2" />
-                                    View Details
-                                </button>
+                                    <span
+                                        className="
+                                                    relative bottom-[130%] left-1/2 -translate-x-1/2
+                                                    bg-black text-white text-sm
+                                                    px-2 py-1 rounded
+                                                    opacity-0 invisible
+                                                    group-hover:opacity-100 group-hover:visible
+                                                    transition-all duration-200
+                                                    whitespace-nowrap
+                                                    z-50
+                                                "
+                                    >
+                                        View Order
+                                    </span>
+                                </button> */}
+                                <div className="flex flex-col items-center space-y-4">
+                                    <button
+                                        onClick={() => handleView(order)}
+                                        className="relative group focus:outline-none"
+                                    >
+                                        <Eye className="w-4 h-4" />
+
+                                        <span
+                                            className="
+                                                    absolute bottom-[130%] right-1/2 -translate-x-1/2
+                                                    bg-black text-white text-sm
+                                                    px-2 py-1 rounded
+                                                    opacity-0 invisible
+                                                    group-hover:opacity-100 group-hover:visible
+                                                    transition-all duration-200
+                                                    whitespace-nowrap
+                                                    z-50
+                                                "
+                                        >
+                                            View Order
+                                        </span>
+                                    </button>
+                                    <div className="relative ">
+                                        <button
+                                            onClick={() =>
+                                                setMenuOpenId(menuOpenId === order._id ? null : order._id)
+                                            }
+                                            className="relative group focus:outline-none">
+                                            <Edit className="w-4 h-4" />
+                                            <span
+                                                className="
+                                                    absolute bottom-[130%] right-1/2 -translate-x-1/2
+                                                    bg-black text-white text-sm
+                                                    px-2 py-1 rounded
+                                                    opacity-0 invisible
+                                                    group-hover:opacity-100 group-hover:visible
+                                                    transition-all duration-200
+                                                    whitespace-nowrap
+                                                    z-50
+                                                "
+                                            >
+                                                Edit Order
+                                            </span>
+                                        </button>
+                                        {menuOpenId === order._id && (
+                                            <div className="absolute right-0 mt-2 w-48
+                                            bg-gray-800 rounded-lg  shadow-xl z-10">
+                                                <button onClick={() => handleCancelOrder(order._id)
+                                                }
+                                                    className="block text-gray-200
+                                            w-full text-left px-4 py-2 text-sm hover:bg-gray-700
+                                            hover:rounded-lg transitions-colors
+                                            ">Cancel Order</button>
+                                                <button onClick={() => onView(user)
+                                                }
+                                                    className="block text-gray-200
+                                            w-full text-left px-4 py-2 text-sm hover:bg-gray-700
+                                            transitions-colors
+                                            ">Update Order</button>
+                                                {/* <button onClick={() => onDelete(user._id)
+                                                }
+                                                    className="block text-red-400
+                                            w-full text-left px-4 py-2 text-sm hover:bg-gray-700
+                                            hover:rounded-lg transitions-colors
+                                            ">Delete Order</button> */}
+                                            </div>
+                                        )
+                                        }
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
