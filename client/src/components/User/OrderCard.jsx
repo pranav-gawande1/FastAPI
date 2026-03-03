@@ -38,6 +38,8 @@ const OrderCard = () => {
     }
 
     const statusColors = {
+        cancelled_by_admin: "bg-gray-800 text-gray-100",
+        cancelled_by_user: "bg-red-700 text-red-100",
         pending: "bg-yellow-700 text-yellow-100",
         confirmed: "bg-blue-700 text-blue-100",
         preparing: "bg-purple-700 text-purple-100",
@@ -54,7 +56,7 @@ const OrderCard = () => {
                             <div className="flex-1 space-y-2">
                                 <div className="flex items-center gap-3">
                                     <h3 className="font-semibold text-lg">{`ORD${order._id.slice(-6).toUpperCase()}`}</h3>
-                                    <span className={`px-3 py-1 rounded-full text-xs font-medium capitalize ${statusColors[order?.order_status]}`}>
+                                    <span className={`px-3 py-1 rounded-full text-xs font-medium uppercase ${statusColors[order?.order_status]}`}>
                                         {order.order_status}
                                     </span>
                                 </div>
