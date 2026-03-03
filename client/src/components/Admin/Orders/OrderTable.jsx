@@ -1,10 +1,39 @@
-import { Eye } from "lucide-react";
-import { useState } from "react";
+import { Delete, Edit, Eye } from "lucide-react";
+import { useEffect, useState } from "react";
 import OrderFilter from "./OrderFilter";
 import OrderStatusModal from "./OrderStatusModal";
+import useFetch from "../../../shared/hooks/useFetch";
+import Loader from "../../Loader/Loader";
+import { toast } from "react-toastify";
+import useManualFetch from "../../../shared/hooks/useManualFetch";
 
-const OrderTable = ({ orders }) => {
+const OrderTable = () => {
+
+    const { data: orderData, error: orderError, loading: orderLoading } = useFetch(`/orders/orders`);
+    useEffect(() => {
+        if (orderError) {
+            toast.error(orderError.message || "Failed to fetch orders");
+        }
+
+        if (orderData) {
+            toast.success("Orders loaded successfully");
+        }
+    }, [orderError, orderData]);
+
+    const { data: cancelData, error: cancelError, loading: cancelLoading, status: cancelStatus, execute: cancelExecute } = useManualFetch();
+
+    const handleCancelOrder = async (orderId) => {
+        try {
+            await cancelExecute(`/orders/admin/order/${orderId}/cancel`, "PATCH");
+            toast.success("Order cancelled successfully");
+        } catch (err) {
+            toast.error(err.message || "Failed to cancel order");
+        }
+    };
+
     const OrderStatusColor = {
+        cancelled_by_admin: "bg-gray-800 text-gray-100",
+        cancelled_by_user: "bg-red-700 text-red-100",
         pending: "bg-yellow-700 text-yellow-100",
         confirmed: "bg-blue-700 text-blue-100",
         preparing: "bg-purple-700 text-purple-100",
@@ -15,11 +44,11 @@ const OrderTable = ({ orders }) => {
     const [searchTerm, setSearchTerm] = useState("");
     const [filterStatus, setFilterStatus] = useState("all");
 
-    const filteredOrders = orders.filter((order) => {
+    const filteredOrders = orderData?.GetAllOrders?.filter((order) => {
 
         const matchesSearch =
-            order.customerName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            order.items.some((item) =>
+            order?.user?.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            order?.items?.some((item) =>
                 item.name.toLowerCase().includes(searchTerm.toLowerCase())
             );
 
@@ -40,6 +69,12 @@ const OrderTable = ({ orders }) => {
     const handleView = (order) => {
         setSelectedOrder(order);
         setActionType("view");
+    }
+
+    if (orderLoading) {
+        return (
+            <Loader />
+        )
     }
     return (
         <>
@@ -72,49 +107,100 @@ const OrderTable = ({ orders }) => {
                             </tr>
                         </thead>
                         <tbody >
-                            {filteredOrders.length > 0 ? (filteredOrders.map((order) => (
-                                <tr key={order.id} className="bg-white hover:bg-gray-100">
+                            {filteredOrders?.length > 0 ? (filteredOrders?.map((order) => (
+                                <tr key={order._id} className="bg-white hover:bg-gray-100">
                                     <td className="px-6 py-4 ">
-                                        {order.id}
+                                        {`ORD${order._id.slice(-6).toUpperCase()}`}
                                     </td>
                                     <td className="px-6 py-4">
-                                        {order.customerName}
+                                        {order?.user?.name}
                                     </td>
                                     <td className="px-6 py-4">
                                         <div className="flex flex-col gap-2">
-                                            {order.items.map((item, idx) => (
-                                                <span key={idx}>{item.name}
-                                                    <span>{item.quantity}</span>
+                                            {order?.items?.map((item) => (
+                                                <span className=" flex items-center gap-3" key={item._id}>{item?.pizza?.name}
+                                                    <span>{item?.quantity}</span>
+                                                    <span>{item?.size}</span>
                                                 </span>
                                             ))}
                                         </div>
                                     </td>
                                     <td className="px-6 py-4">
-                                        {order.totalPrice}
+                                        ₹{order?.total_price}
                                     </td>
                                     <td className="px-6 py-4">
                                         <span className="bg-gray-200 px-3 py-1 rounded-full uppercase text-xs font-medium">
-                                            {order.paymentMethod}
+                                            {/* {order.paymentMethod} */}
+                                            online
                                         </span>
                                     </td>
                                     <td className="px-6 py-4">
                                         <span className={`px-3 py-1 rounded-full text-xs 
-                                        font-medium uppercase ${OrderStatusColor[order.status]}`}>
-                                            {order.status}
+                                        font-medium uppercase ${OrderStatusColor[order?.order_status]}`}>
+                                            {order?.order_status}
                                         </span>
                                     </td>
                                     <td className="px-6 py-4">
-                                        {order.orderDate}
+                                        {/* {order?.createdAt} */}
+                                        {new Date(order?.createdAt).toLocaleString()}
                                     </td>
                                     <td className="px-6 py-4">
-                                        <div className="flex items-center justify-center gap-3">
+                                        <div className="flex items-center justify-center gap-4">
                                             <button onClick={() => handleView(order)}
-                                            className="text-gray-900 hover:text-[#ff4d4d] focus:outline-none">
-                                                <Eye />
+                                                className="relative group focus:outline-none text-gray-900 hover:text-[#ff4d4d] focus:outline-none">
+                                                <Eye className="w-4 h-4" />
+                                                <span
+                                                    className="
+                                                    absolute bottom-[130%] right-1/2 -translate-x-1/2
+                                                    bg-black text-white text-sm
+                                                    px-2 py-1 rounded
+                                                    opacity-0 invisible
+                                                    group-hover:opacity-100 group-hover:visible
+                                                    transition-all duration-200
+                                                    whitespace-nowrap
+                                                    z-50
+                                                "
+                                                >
+                                                    View Order
+                                                </span>
                                             </button>
                                             <button onClick={() => handleEdit(order)}
-                                            className="bg-gray-200 px-3 py-1 rounded-lg hover:bg-[#ff4d4d] focus:outline-none">
-                                                Update
+                                                className="relative group focus:outline-none text-gray-900 hover:text-[#ff4d4d] focus:outline-none">
+                                                <Edit className="w-4 h-4" />
+                                                <span
+                                                    className="
+                                                    absolute bottom-[130%] right-1/2 -translate-x-1/2
+                                                    bg-black text-white text-sm
+                                                    px-2 py-1 rounded
+                                                    opacity-0 invisible
+                                                    group-hover:opacity-100 group-hover:visible
+                                                    transition-all duration-200
+                                                    whitespace-nowrap
+                                                    z-50
+                                                "
+                                                >
+                                                    Update Order
+                                                </span>
+                                            </button>
+                                            <button
+                                                // onClick={() => handleEdit(order)}
+                                                onClick={() => handleCancelOrder(order?._id)}
+                                                className=" relative group focus:outline-none text-gray-900 hover:text-[#ff4d4d] focus:outline-none">
+                                                <Delete className="w-4 h-4" />
+                                                <span
+                                                    className="
+                                                    absolute bottom-[130%] right-1/2 -translate-x-1/2
+                                                    bg-black text-white text-sm
+                                                    px-2 py-1 rounded
+                                                    opacity-0 invisible
+                                                    group-hover:opacity-100 group-hover:visible
+                                                    transition-all duration-200
+                                                    whitespace-nowrap
+                                                    z-50
+                                                "
+                                                >
+                                                    Cancel Order
+                                                </span>
                                             </button>
                                         </div>
                                     </td>
@@ -141,7 +227,7 @@ const OrderTable = ({ orders }) => {
 
                 <div className="px-6 py-4 bg-gray-200
                 text-sm test-gray-900 flex items-center justify-between">
-                    <p>Showing {filteredOrders.length} of {orders.length} orders</p>
+                    <p>Showing {filteredOrders?.length} of {orderData?.GetAllOrders?.length} orders</p>
                     <div className="flex gap-4">
                         <button>← Previous</button>
                         <button>Next →</button>

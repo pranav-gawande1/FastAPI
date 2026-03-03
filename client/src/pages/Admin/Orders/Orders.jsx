@@ -1,7 +1,5 @@
 import Navbar from "../../../components/Navbar/Navbar";
-import Footer from "../../../components/Landing/Footer";
 import OrderTable from "../../../components/Admin/Orders/OrderTable";
-import OrderData from "../../../constant/OrderData";
 import SideBar from "../../../components/Admin/SideBar/SideBar";
 import SideBarToggle from "../../../components/Admin/SideBar/sideBarToggle";
 import { useSelector } from "react-redux";
@@ -17,7 +15,9 @@ const Orders = () => {
                 {isOpen && <SideBar />}
                 <div className="flex-1">
                     <div className="p-8 max-w-full mx-auto">
-                        <OrderTable orders={OrderData} />
+                        <OrderTable 
+                        // orders={OrderData} 
+                        />
                     </div>
 
                 </div>

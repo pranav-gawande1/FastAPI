@@ -22,11 +22,11 @@ const OrderStatusModal = ({ order, isOpen, onClose, actionType, onStatusChange }
                         {/* */}
                         <div className="flex flex-row items-center justify-between gap-3">
                             <p className="text-gray-900 font-semibold">Orders ID:</p>
-                            <p className="bg-gray-400 px-2 rounded-lg hover:bg-[#ff4d4d]">{order.id}</p>
+                            <p className="bg-gray-400 px-2 rounded-lg hover:bg-[#ff4d4d]">{`ORD${order._id.slice(-6).toUpperCase()}`}</p>
                         </div>
                         <div className="flex flex-row items-center justify-between gap-3">
                             <p className="text-gray-900 font-semibold">Current Status:</p>
-                            <p className="bg-gray-400 px-2 rounded-lg hover:bg-[#ff4d4d] uppercase">{order.status}</p>
+                            <p className="bg-gray-400 px-2 rounded-lg hover:bg-[#ff4d4d] uppercase">{order?.order_status}</p>
                         </div>
 
                         {availableTransitions.length > 0 ? (
@@ -60,19 +60,19 @@ const OrderStatusModal = ({ order, isOpen, onClose, actionType, onStatusChange }
             <Modal isOpen={isOpen} onClose={onClose} title="Order Details">
                 <div className="space-y-4">                    <div className="flex flex-row items-center justify-between gap-3">
                     <p className="text-gray-900 font-semibold">Orders ID:</p>
-                    <p className="bg-gray-400 px-2 rounded-lg hover:bg-[#ff4d4d]">{order.id}</p>
+                    <p className="bg-gray-400 px-2 rounded-lg hover:bg-[#ff4d4d]">{`ORD${order._id.slice(-6).toUpperCase()}`}</p>
                 </div>
                     <div className="flex flex-row items-center justify-between gap-3">
                         <p className="text-gray-900 font-semibold">Current Status:</p>
-                        <p className="bg-gray-400 px-2 rounded-lg hover:bg-[#ff4d4d] uppercase">{order.status}</p>
+                        <p className="bg-gray-400 px-2 rounded-lg hover:bg-[#ff4d4d] uppercase">{order?.order_status}</p>
                     </div>
                     <div className="flex flex-row items-center justify-between gap-3">
                         <p className="text-gray-900 font-semibold">Payment Method:</p>
-                        <p className="bg-gray-400 px-2 rounded-lg hover:bg-[#ff4d4d] uppercase">{order.paymentMethod}</p>
+                        <p className="bg-gray-400 px-2 rounded-lg hover:bg-[#ff4d4d] uppercase">online</p>
                     </div>
                     <div className="flex flex-row items-center justify-between gap-3">
                         <p className="text-gray-900 font-semibold">Total Amount:</p>
-                        <p className="bg-gray-400 px-2 rounded-lg hover:bg-[#ff4d4d] uppercase">{order.totalPrice}</p>
+                        <p className="bg-gray-400 px-2 rounded-lg hover:bg-[#ff4d4d] uppercase">₹{order?.total_price}</p>
                     </div>
                 </div >
             </Modal>

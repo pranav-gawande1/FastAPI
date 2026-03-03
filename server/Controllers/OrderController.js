@@ -66,7 +66,9 @@ const GetOrderById = async (req, res) => {
 
 const GetAllOrder = async (req, res) => {
     try {
-        const GetAllOrders = await OrderModel.find();
+        const GetAllOrders = await OrderModel.find()
+            .populate("user", "name")
+            .populate("items.pizza", "name");
         res.status(200).json({ success: true, GetAllOrders });
     } catch (err) {
         res.status(500).json({ message: err.message });

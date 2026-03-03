@@ -18,8 +18,8 @@ const cartSlice = createSlice({
         setCart: (state, action) => {
             const Cart = action.payload;
 
-            state.cartItems = Cart.cart_items;
-            state.totalPrice = Cart.total_price;
+            state.cartItems = Cart?.cart_items;
+            state.totalPrice = Cart?.total_price;
             saveCartItems(state.cartItems);
         },
         toggleCart: (state, action) => {
@@ -38,8 +38,8 @@ const cartSlice = createSlice({
 
 export const selectCartItems = state => state.cart.cartItems;
 export const selectTotalItems = state =>
-    state.cart.cartItems.reduce((sum, item) => sum + item.quantity, 0);
-export const selectIsCartOpen = state => state.cart.isCartOpen;
+    state.cart?.cartItems?.reduce((sum, item) => sum + item.quantity, 0);
+export const selectIsCartOpen = state => state.cart?.isCartOpen;
 
 export const { setCart, toggleCart, clearCart } = cartSlice.actions;
 
