@@ -77,15 +77,11 @@ const ConfirmOrder = () => {
             });
 
             if (res?.success) {
-                // Clear cart in DB
-                await clearExecute('/carts/cart', "PATCH");
-
-                // Clear Redux
-                dispatch(clearCart());
+                const orderId = res.order._id;
 
                 toast.success(res.message);
 
-                navigate("/place-order");
+                navigate(`/place-order/${orderId}`);
             }
 
         } catch (err) {
@@ -107,7 +103,7 @@ const ConfirmOrder = () => {
                         <div className="grid gap-8 lg:grid-cols-3">
                             <div className="lg:col-span-2 space-y-8">
                                 {/* <h1>Order & Address</h1> */}
-                                <OrderSummary />
+                                <OrderSummary cartItems={cartItems} />
                                 <AddressInfo className="rounded-lg border border-gray-200 bg-gray-100 p-6"
                                     titlestyle="mb-6 text-lg font-semibold text-gray-900"
                                     textcolor="text-gray-900"
@@ -116,7 +112,7 @@ const ConfirmOrder = () => {
                             </div>
                             <div className="space-y-6">
                                 {/* <h1>Price summary</h1> */}
-                                <PriceBreakDown />
+                                <PriceBreakDown cartItems={cartItems} />
                                 <button
                                     onClick={() => handlePlaceOrder(cartItems)}
                                     disabled={placeLoading}

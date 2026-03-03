@@ -2,25 +2,20 @@ import Loader from "../Loader/Loader";
 import useFetch from "../../shared/hooks/useFetch";
 import ErrorState from "../Loader/NotFound";
 
-const OrderSummary = () => {
-    const { data, loading, error } = useFetch(`/carts/cart`);
+const OrderSummary = ({ cartItems }) => {
 
-    if (loading) return (
+    if (!cartItems) return (
         <div className="rounded-lg border border-gray-200 bg-gray-100 p-6">
             <Loader />
         </div>
-    ); else if(error) return (
-        <div className="rounded-lg border border-gray-200 bg-gray-100 p-6">
-            <ErrorState />
-        </div>
-    );
+    )
     return (
         <div className="rounded-lg border border-gray-200 bg-gray-100 p-6">
             <h3 className="mb-6 text-lg font-semibold text-gray-900">
                 Order Summary
             </h3>
             <div className="space-y-4">
-                {data?.getcart?.cart_items.map((item) => (
+                {cartItems.map((item) => (
                     <div key={item.id} className="flex items-center justify-between">
                         <div className="flex-1">
                             <p className="text-sm font-medium text-gray-900">{item.pizza.name}</p>

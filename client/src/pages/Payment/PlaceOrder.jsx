@@ -3,6 +3,9 @@ import Navbar from "../../components/Navbar/Navbar";
 import OrderSummary from "../../components/Payment/OrderSummary";
 import PriceBreakDown from "../../components/Payment/PriceBreakDown";
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectCartItems } from "../../features/Cart/cartSlice";
 
 const PROCESSING_STEPS = [
     { id: 1, name: 'Validating Payment Info', duration: 2000 },
@@ -14,7 +17,9 @@ const PlaceOrder = () => {
     const [currentStep, setCurrentStep] = useState(0);
     const [isProcessing, setIsProcessing] = useState(false);
 
+    const cartItems = useSelector(selectCartItems);
     const navigate = useNavigate();
+    const { id } = useParams();
 
     useEffect(() => {
         setIsProcessing(true);
@@ -29,7 +34,7 @@ const PlaceOrder = () => {
                     processSteps()
                 }, delay)
             } else {
-                navigate("/payment-success")
+                navigate(`/payment-success/${id}`)
             }
         }
         processSteps()
@@ -113,8 +118,8 @@ const PlaceOrder = () => {
                             </div>
 
                             <div className="space-y-6">
-                                <OrderSummary />
-                                <PriceBreakDown />
+                                <OrderSummary cartItems={cartItems} />
+                                <PriceBreakDown cartItems={cartItems} />
                             </div>
                         </div>
                     </main>

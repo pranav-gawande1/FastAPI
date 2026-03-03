@@ -92,11 +92,11 @@ function App() {
               }
             >
             </Route>
-            <Route path='/place-order'
+            <Route path='/place-order/:id'
               element={<PlaceOrder />}
             ></Route>
 
-            <Route path='/payment-success'
+            <Route path='/payment-success/:id'
               element={<PaymentSuccess />}
             ></Route>
           </Route>

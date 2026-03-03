@@ -55,7 +55,7 @@ const GetOrderById = async (req, res) => {
     try {
         const orderId = req.params.id;
 
-        const getOrder = await OrderModel.findById(orderId);
+        const getOrder = await OrderModel.findById(orderId).populate("items.pizza");
 
         res.status(200).json({ success: true, getOrder });
     } catch (err) {

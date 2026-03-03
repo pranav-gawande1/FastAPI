@@ -2,8 +2,31 @@ import { Link } from "react-router-dom";
 import OrderSummary from "../../components/Payment/OrderSummary";
 import PriceBreakDown from "../../components/Payment/PriceBreakDown";
 import Navbar from "../../components/Navbar/Navbar";
+import { useParams } from "react-router-dom";
+import useFetch from "../../shared/hooks/useFetch";
+import useManualFetch from "../../shared/hooks/useManualFetch";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { clearCart } from "../../features/Cart/cartSlice";
 
 const PaymentSuccess = () => {
+    const { id } = useParams();
+    // console.log("ID", id);
+
+    const { data } = useFetch(`/orders/order/${id}`, 'GET');
+    const { execute: clearExecute } = useManualFetch();
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (data) {
+            // Clear cart in DB
+            clearExecute('/carts/cart', "PATCH");
+
+            // Clear Redux
+            dispatch(clearCart());
+        }
+    }, [data, dispatch]);
+
     return (
         <>
             <Navbar />
@@ -55,7 +78,7 @@ const PaymentSuccess = () => {
                                         <div className="rounded-md bg-white bg-opacity-60 p-4">
                                             <p className="text-sm text-gray-600">Order Number</p>
                                             <p className="mt-1 font-mono text-lg font-semibold text-gray-900">
-                                                #ORD-2024-001847
+                                                {`ORD-${id?.slice(-6).toUpperCase()}`}
                                             </p>
                                         </div>
 
@@ -118,8 +141,8 @@ const PaymentSuccess = () => {
 
                             {/* Right Column - Order Summary */}
                             <div className="space-y-6">
-                                <OrderSummary />
-                                <PriceBreakDown />
+                                <OrderSummary cartItems={data?.getOrder?.items} />
+                                <PriceBreakDown cartItems={data?.getOrder?.items} />
 
                                 <div className="space-y-3">
                                     <Link

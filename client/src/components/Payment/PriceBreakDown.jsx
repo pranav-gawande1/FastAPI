@@ -1,11 +1,14 @@
 import { useSelector } from "react-redux";
 import Loader from "../Loader/Loader";
+// import { selectCartItems } from "../../features/Cart/cartSlice";
 
-const PriceBreakDown = () => {
+const PriceBreakDown = ({ cartItems }) => {
 
-    const { cartItems } = useSelector((state) => state.cart);
-    const total = cartItems.reduce((sum, item) => {
-        return sum + item.price * item.quantity;
+    // const cartItems = useSelector(selectCartItems);
+    // console.log("Cart", cartItems);
+
+    const total = cartItems?.reduce((sum, item) => {
+        return sum + item?.pizza?.price * item?.quantity;
     }, 0);
 
     const tax = (total * 0.1).toFixed(2);

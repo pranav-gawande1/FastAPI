@@ -20,7 +20,7 @@ const cartSlice = createSlice({
 
             state.cartItems = Cart.cart_items;
             state.totalPrice = Cart.total_price;
-            saveCartItems(state.cart);
+            saveCartItems(state.cartItems);
         },
         toggleCart: (state, action) => {
             state.isCartOpen = action.payload;
