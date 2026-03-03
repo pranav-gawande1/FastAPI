@@ -4,43 +4,94 @@ import OrderSummary from "../../components/Payment/OrderSummary";
 import PriceBreakDown from "../../components/Payment/PriceBreakDown";
 import AddressInfo from "../../components/Profile/AddressInfo";
 import useManualFetch from "../../shared/hooks/useManualFetch";
-import { useEffect } from "react";
-import { useSelector } from "react-redux";
-import { selectCartItems } from "../../features/Cart/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { clearCart, selectCartItems } from "../../features/Cart/cartSlice";
 import { toast } from "react-toastify";
 
 
 const ConfirmOrder = () => {
 
+    const { execute: clearExecute } = useManualFetch();
+    const { execute: placeExecute, loading: placeLoading } = useManualFetch();
     const navigate = useNavigate();
+    const dispatch = useDispatch()
     const cartItems = useSelector(selectCartItems);
 
-    const { status, execute, data, loading } = useManualFetch();
+    // const handlePlaceOrder = async (orderItems) => {
+    //     if (cartItems.length === 0) {
+    //         toast.error("Cart is empty!");
+    //         return;
+    //     }
+
+    //     const formattedItems = orderItems.map(item => ({
+    //         pizzaId: item.pizza._id,
+    //         quantity: item.quantity,
+    //         size: item.size
+    //     }));
+
+    //     await execute(`/orders/orders`, 'POST',
+    //         { items: formattedItems }
+    //     )
+    // }
+
+    // const handleClear = async () => {
+    //     try {
+    //         const res = await clearExecute('/carts/cart', "PATCH");
+
+    //         if (res?.success) {
+    //             dispatch(clearCart());
+    //             toast.success(res.message);
+    //         }
+    //     } catch (err) {
+    //         toast.error("Failed to clear cart");
+    //     }
+    // };
+
+
+    // useEffect(() => {
+    //     if (status === "success" && data) {
+    //         setTimeout(() => {
+    //             toast.success(data.message);
+    //         }, 300)
+    //         handleClear();
+    //         navigate("/place-order");
+
+    //     }
+    // }, [status, data, navigate])
+
     const handlePlaceOrder = async (orderItems) => {
         if (cartItems.length === 0) {
             toast.error("Cart is empty!");
             return;
         }
 
-        const formattedItems = orderItems.map(item => ({
-            pizzaId: item.pizza._id,
-            quantity: item.quantity,
-            size: item.size
-        }));
+        try {
+            const formattedItems = orderItems.map(item => ({
+                pizzaId: item.pizza._id,
+                quantity: item.quantity,
+                size: item.size
+            }));
 
-        await execute(`/orders/orders`, 'POST',
-            { items: formattedItems }
-        )
-    }
-    useEffect(() => {
-        if (status === "success" && data) {
-            setTimeout(() => {
-                toast.success(data.message);
-            }, 300)
-            navigate("/place-order");
+            const res = await placeExecute(`/orders/orders`, 'POST', {
+                items: formattedItems
+            });
 
+            if (res?.success) {
+                // Clear cart in DB
+                await clearExecute('/carts/cart', "PATCH");
+
+                // Clear Redux
+                dispatch(clearCart());
+
+                toast.success(res.message);
+
+                navigate("/place-order");
+            }
+
+        } catch (err) {
+            toast.error("Order failed");
         }
-    }, [status, data, navigate])
+    };
     return (
         <>
             <Navbar />
@@ -68,12 +119,12 @@ const ConfirmOrder = () => {
                                 <PriceBreakDown />
                                 <button
                                     onClick={() => handlePlaceOrder(cartItems)}
-                                    disabled={loading}
+                                    disabled={placeLoading}
                                     className="w-full rounded-lg bg-[#ff4d4d] text-white
                                             px-6 py-3 font-semibold transistion-opacity 
                                             hover:opacity-90 disabled:opacity-50"
                                 >
-                                    {loading ? "Processing..." : "Proceed to Payment"}
+                                    {placeLoading ? "Processing..." : "Proceed to Payment"}
                                 </button>
 
                                 <Link
