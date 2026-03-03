@@ -15,27 +15,27 @@ const OrderUpdateModal = ({ order, isOpen, onClose }) => {
             <div className="space-y-4">
                 <div className="">
                     <p className="text-gray-900 font-semibold">Items: </p>
-                    {order.items.map((item) => (
+                    {order?.items?.map((item) => (
                         <div key={item.id} item={item} className="flex justify-between">
                             <div>
-                                <p>{item.name}</p>
-                                <p>{item.quantity}×</p>
+                                <p>{item?.pizza?.name}</p>
+                                <p>{item?.pizza?.quantity}×</p>
                             </div>
-                            <p>₹{item.price}</p>
+                            <p>₹{item?.pizza?.price}</p>
                         </div>
                     ))}
                 </div>
                 <div className="flex flex-row items-center justify-between gap-3">
                     <p className="text-gray-900 font-semibold">Current Status:</p>
-                    <p className={`px-2 rounded-lg uppercase ${OrderStatusColor[order.status]}`}>{order.status}</p>
+                    <p className={`px-2 rounded-lg uppercase ${OrderStatusColor[order?.order_status]}`}>{order.order_status}</p>
                 </div>
-                <div className="flex flex-row items-center justify-between gap-3">
+                {/* <div className="flex flex-row items-center justify-between gap-3">
                     <p className="text-gray-900 font-semibold">Payment Method:</p>
                     <p className="bg-gray-200 px-2 rounded-lg uppercase">{order.paymentMethod}</p>
-                </div>
+                </div> */}
                 <div className="flex flex-row items-center justify-between gap-3">
                     <p className="text-gray-900 font-semibold">Total Amount:</p>
-                    <p className="bg-gray-200 px-2 rounded-lg uppercase">₹ {order.totalPrice}</p>
+                    <p className="bg-gray-200 px-2 rounded-lg uppercase">₹ {order?.total_price}</p>
                 </div>
             </div >
         </Modal>

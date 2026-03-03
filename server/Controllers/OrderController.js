@@ -201,9 +201,10 @@ const GetOrdersUserWise = async (req, res) => {
             return res.status(400).json({ message: "You are Admin" });
         }
 
-        const AllOrderoFUser = await OrderModel.find({ user: req.user._id });
-        if (AllOrderoFUser.length === 0) {
-            return res.status(404).json({ message: `No order found for user ${user.name}` });
+        const AllOrderoFUser = await OrderModel.find({ user: req.user._id })
+            .populate("items.pizza");
+        if (!AllOrderoFUser || AllOrderoFUser.length === 0) {
+            return res.status(200).json({ message: `No order found for user ${user.name}`, success: true, AllOrderoFUser });
         }
 
         res.status(200).json({ success: true, AllOrderoFUser });

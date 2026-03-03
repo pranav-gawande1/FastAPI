@@ -1,6 +1,6 @@
 import OrderCard from "./OrderCard";
 
-const OrdersTable = ({ orders }) => {
+const OrdersTable = () => {
 
     return (
         <div className="w-full rounded-lg overflow-hidden">
@@ -9,8 +9,7 @@ const OrdersTable = ({ orders }) => {
                 <p className="text-muted-foreground mt-2">Track and manage your pizza orders.</p>
             </div>
             <div className="space-y-3">
-                {orders.map((order) => (<OrderCard key={order.id} order={order} />
-                ))}
+                <OrderCard />
             </div>
         </div>
     );
