@@ -13,7 +13,7 @@ const Orders = () => {
             <div className="flex mt-16">
                 <SideBarToggle />
                 {isOpen && <SideBar />}
-                <div className={`flex-1  ${isOpen ? "ml-64" : "ml-16"} mr-16 w-full transition-all duration-300`}>
+                <div className={`flex-1  ${isOpen ? "ml-40": "ml-0"} w-full transition-all duration-300`}>
                     <div className="p-8 max-w-full mx-auto">
                         <OrderTable 
                         // orders={OrderData} 
