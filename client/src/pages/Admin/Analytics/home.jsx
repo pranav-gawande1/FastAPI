@@ -12,11 +12,11 @@ const AnalyticsHome = () => {
     const { isOpen } = useSelector((state) => state.sideBarStatus);
     return (
         <>
-            {/* <Navbar /> */}
+            <Navbar />
             <div className="flex mt-16">
                 <SideBarToggle />
                 {isOpen && <SideBar />}
-                <div className={`flex-1  ${isOpen ? "ml-40": "ml-0"} w-full transition-all duration-300`}>
+                <div className={`flex-1  ${isOpen ? "ml-50": "ml-0"} w-full transition-all duration-300`}>
                     <CategoryChart />
                     <CustomerChart />
                     <GrowthChart />

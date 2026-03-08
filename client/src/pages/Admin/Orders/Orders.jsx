@@ -3,6 +3,7 @@ import OrderTable from "../../../components/Admin/Orders/OrderTable";
 import SideBar from "../../../components/Admin/SideBar/SideBar";
 import SideBarToggle from "../../../components/Admin/SideBar/sideBarToggle";
 import { useSelector } from "react-redux";
+import OrderSummary from "../../../components/Admin/Orders/OrderSummary";
 
 const Orders = () => {
 
@@ -15,6 +16,7 @@ const Orders = () => {
                 {isOpen && <SideBar />}
                 <div className={`flex-1  ${isOpen ? "ml-40": "ml-0"} w-full transition-all duration-300`}>
                     <div className="p-8 max-w-full mx-auto">
+                        <OrderSummary />
                         <OrderTable 
                         // orders={OrderData} 
                         />
