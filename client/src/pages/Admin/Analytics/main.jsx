@@ -7,10 +7,15 @@ import OrdersTable from "../../../components/Admin/Analytic_Dashborad/Tables/ord
 import OrderData from "../../../constant/OrderData";
 import ProductTable from "../../../components/Admin/Analytic_Dashborad/Tables/products";
 import pizza from "../../../constant/mockData";
+import Navbar from "../../../components/Navbar/Navbar";
+import SideBarToggle from "../../../components/Admin/SideBar/sideBarToggle";
+import SideBar from "../../../components/Admin/SideBar/SideBar";
+import { useSelector } from "react-redux";
 
 const Main = () => {
     const [users, setUsers] = useState([]);
-    const { data, loading, error } = useFetch(`/users/users`)
+    const { data, loading, error } = useFetch(`/users/users`);
+    const { isOpen } = useSelector((state) => state.sideBarStatus);
 
     useEffect(() => {
         if (data?.users) {
@@ -27,9 +32,16 @@ const Main = () => {
     }, [data]);
     return (
         <>
-            <CustomerTable customers={users} title={"USERS"} />
-            <OrdersTable orders={OrderData} title={"ORDERS"}/>
-            <ProductTable products={pizza} title={"PIZZAS"}/>
+            <Navbar />
+            <div className="flex mt-16">
+                <SideBarToggle />
+                {isOpen && <SideBar />}
+                <div className={`flex-1  ${isOpen ? "ml-50" : "ml-0"} w-full transition-all duration-300`}>
+                    <CustomerTable customers={users} title={"USERS"} />
+                    <OrdersTable orders={OrderData} title={"ORDERS"} />
+                    <ProductTable products={pizza} title={"PIZZAS"} />
+                </div>
+            </div>
         </>
     )
 }
