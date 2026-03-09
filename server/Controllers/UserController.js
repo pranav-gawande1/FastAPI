@@ -61,13 +61,24 @@ const DeleteUser = async (req, res) => {
 
 const GetAllUsers = async (req, res) => {
     try {
-        const users = await UserModel.find({}).select("-password");
+        const { page = 1, limit = 10 } = req.query;
+
+        const skip = (page - 1) * limit;
+
+        const users = await UserModel.find({})
+        .select("-password")
+        .skip(skip)
+        .limit(Number(limit));
         if (!users) {
             res.status(404).json({ success: false, message: "Users not found!" });
         }
+        const totalUsers = await UserModel.countDocuments();
 
         res.status(200).json({
             success: true,
+            page: Number(page),
+            totalPages: Math.ceil(totalUsers / limit),
+            totalUsers,
             users
         })
     } catch (err) {

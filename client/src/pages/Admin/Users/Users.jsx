@@ -13,19 +13,19 @@ import SideBarToggle from "../../../components/Admin/SideBar/sideBarToggle";
 import { useSelector } from "react-redux";
 
 const Users = () => {
-    const [users, setUsers] = useState([]);
-    const { data, loading, error } = useFetch(`/users/users`);
+    // const [users, setUsers] = useState([]);
+    // const { data, loading, error } = useFetch(`/users/users?page=${page}&limit=${limit}`);
     const { isOpen } = useSelector((state) => state.sideBarStatus);
 
-    const handleDeletedUser = async (userId) => {
-        setUsers(prev => prev.filter(user => user._id != userId))
-    };
+    // const handleDeletedUser = async (userId) => {
+    //     setUsers(prev => prev.filter(user => user._id != userId))
+    // };
 
-    useEffect(() => {
-        if (data?.users) {
-            setUsers(data.users);
-        }
-    }, [data]);
+    // useEffect(() => {
+    //     if (data?.users) {
+    //         setUsers(data.users);
+    //     }
+    // }, [data]);
 
     return (
         <>
@@ -35,15 +35,16 @@ const Users = () => {
                     <SideBarToggle />
                 {isOpen && <SideBar />}
                     <div className={`flex-1  ${isOpen ? "ml-50": "ml-0"} w-full transition-all duration-300`}>
-                        {loading && <Loader />}
-                        {error && <ErrorState />}
-                        {!loading && !error && (
+                        {/* {loading && <Loader />}
+                        {error && <ErrorState />} */}
+                        {/* {!loading && !error && ( */}
                             <div className="p-8 max-w-full mx-auto">
-                                <UserTable users={users}
-                                    onUserDelete={handleDeletedUser}
+                                <UserTable 
+                                // users={users}
+                                //     onUserDelete={handleDeletedUser}
                                 />
                             </div>
-                        )}
+                        {/* )} */}
                     </div>
                 </div>
             {/* </div> */}
