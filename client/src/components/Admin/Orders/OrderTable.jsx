@@ -250,26 +250,27 @@ const OrderTable = () => {
                     <p>Showing {orderData?.GetAllOrders?.length} of {orderData?.GetAllOrders?.length} orders</p>
                     <p>Page {orderData?.page} of {orderData?.totalPages}</p>
                     <div className="flex items-center gap-4">
-                            <span>Show</span>
-                            <select
-                                value={limit}
-                                onChange={(e) => {
-                                    setLimit(Number(e.target.value));
-                                    setPage(1);
-                                }}
-                                className="border border-gray-300 rounded px-2 py-1"
-                            >
-                                <option value={5}>5</option>
-                                <option value={10}>10</option>
-                                <option value={25}>25</option>
-                                <option value={50}>50</option>
-                                <option value={100}>100</option>
-                            </select>
-                            <span>entries</span>
-                        </div>
+                        <span>Show</span>
+                        <select
+                            value={limit}
+                            onChange={(e) => {
+                                setLimit(Number(e.target.value));
+                                setPage(1);
+                            }}
+                            className="border border-gray-300 rounded px-2 py-1"
+                        >
+                            <option value={5}>5</option>
+                            <option value={10}>10</option>
+                            <option value={25}>25</option>
+                            <option value={50}>50</option>
+                            <option value={100}>100</option>
+                        </select>
+                        <span>entries</span>
+                    </div>
                     <div className="flex gap-4">
                         <button onClick={() => setPage(page - 1)} disabled={page === 1}>← Previous</button>
-                        <button onClick={() => setPage(page + 1)}>Next →</button>
+                        <button onClick={() => setPage(page + 1)}
+                            disabled={page === orderData?.totalPages}>Next →</button>
                     </div>
                 </div>
 
