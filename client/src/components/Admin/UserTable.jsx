@@ -5,12 +5,17 @@ import UserUpdateModel from "./UserUpdateModal";
 import useManualFetch from "../../shared/hooks/useManualFetch";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
+import useFetch from "../../shared/hooks/useFetch";
 
-const UserTable = ({ users = [], onUserDelete}) => {
+const UserTable = () => {
+    const [page, setPage] = useState(1);
+    const [limit, setLimit] = useState(10);
     const [searchTerm, setSearchTerm] = useState("");
     const [filterStatus, setFilterStatus] = useState("all");
     const [selectedUser, setSelectedUser] = useState(null);
     const [actionType, setActionType] = useState(null);
+
+    const { data: userData, loading: userLoading, error: userError } = useFetch(`/users/users?page=${page}&limit=${limit}`);
 
     const handleEdit = (user) => {
         setSelectedUser(user);
@@ -26,19 +31,21 @@ const UserTable = ({ users = [], onUserDelete}) => {
 
     const handleDelete = async (user_id) => {
         await execute(`/users/user/${user_id}`, "DELETE",);
-        onUserDelete(user_id);
+        // onUserDelete(user_id);
         console.log("done", user_id);
     };
 
     useEffect(() => {
-        if(status === "success" && data){
+        if (status === "success" && data) {
             toast.success("User Deleted Successfully!");
-        } else if(error){{
-            toast.error("Something went wrong.");
-        }}
+        } else if (error) {
+            {
+                toast.error("Something went wrong.");
+            }
+        }
     }, [status, error]);
 
-    const filteredUsers = users.filter((user) => {
+    const filteredUsers = userData?.users?.filter((user) => {
         const matchesSearch =
             user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
             user.email.toLowerCase().includes(searchTerm.toLowerCase())
@@ -113,9 +120,9 @@ const UserTable = ({ users = [], onUserDelete}) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {filteredUsers.length > 0 ? (
-                                filteredUsers.map((user) => <UserCard key={user._id}
-                                    user={user} onEdit={handleEdit} onView={handleView} onDelete={handleDelete}/>)
+                            {filteredUsers?.length > 0 ? (
+                                filteredUsers?.map((user) => <UserCard key={user._id}
+                                    user={user} onEdit={handleEdit} onView={handleView} onDelete={handleDelete} />)
                             ) : (
                                 <tr className="items-center">
                                     <td className="px-6 py-8 text-center text-gray-400">
@@ -137,13 +144,36 @@ const UserTable = ({ users = [], onUserDelete}) => {
                 <div className="px-6 py-4 bg-gray-200
                  flex items-center justify-between text-sm text-gray-900">
                     <p>
-                        Showing {filteredUsers.length} of {users.length} users
+                        Showing {filteredUsers?.length} of {userData?.users?.length} users
                     </p>
+                    <p>Page {userData?.page} of {userData?.totalPages}</p>
+                    <div className="flex items-center gap-4">
+                            <span>Show</span>
+                            <select
+                                value={limit}
+                                onChange={(e) => {
+                                    setLimit(Number(e.target.value));
+                                    setPage(1);
+                                }}
+                                className="border border-gray-300 rounded px-2 py-1"
+                            >
+                                <option value={1}>5</option>
+                                <option value={10}>10</option>
+                                <option value={25}>25</option>
+                                <option value={50}>50</option>
+                                <option value={100}>100</option>
+                            </select>
+                            <span>entries</span>
+                        </div>
                     <div className="flex gap-4">
-                        <button className="text-gray-900 hover:text-gray-500 transitions-colors">
+                        
+                        <button className="text-gray-900 hover:text-gray-500 transitions-colors"
+                            onClick={() => setPage(page - 1)} disabled={page === 1}>
                             ← Previous
                         </button>
-                        <button className="text-gray-900 hover:text-gray-500 transitions-colors">
+                        <button className="text-gray-900 hover:text-gray-500 transitions-colors"
+                            onClick={() => setPage(page + 1)}
+                            disabled={page === userData?.totalPages}>
                             Next →
                         </button>
                     </div>
