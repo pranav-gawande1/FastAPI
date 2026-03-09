@@ -1,29 +1,19 @@
-'use client';
-
-import {
-    PieChart,
-    Pie,
-    Cell,
-    ResponsiveContainer,
-    Legend,
-    Tooltip,
-} from 'recharts';
+import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
 import { getCategoryData } from '../../../../constant/analyticsData';
 
 const COLORS = [
-    'hsl(var(--chart-1))',
-    'hsl(var(--chart-2))',
-    'hsl(var(--chart-3))',
-    'hsl(var(--chart-4))',
-    'hsl(var(--chart-5))',
+    '#3B82F6', // blue
+    '#10B981', // green
+    '#F59E0B', // yellow
+    '#EF4444', // red
+    '#8B5CF6', // purple
 ];
 
 const CategoryChart = () => {
     const data = getCategoryData();
 
     return (
-        <div className="chart-container">
-            {/* Header */}
+        <div className="p-6 rounded-xl shadow-sm border border-border border-gray-300 hover:shadow-md transition overflow-hidden">
             <div>
                 <h3 className="text-lg font-semibold text-foreground">Sales by Category</h3>
                 <p className="text-sm text-muted-foreground mt-1">
@@ -31,7 +21,6 @@ const CategoryChart = () => {
                 </p>
             </div>
 
-            {/* Chart */}
             <ResponsiveContainer width="100%" height={300}>
                 <PieChart>
                     <Pie
@@ -54,8 +43,8 @@ const CategoryChart = () => {
                     </Pie>
                     <Tooltip
                         contentStyle={{
-                            backgroundColor: 'hsl(var(--card))',
-                            border: '1px solid hsl(var(--border))',
+                            backgroundColor: '#3B82F6',
+                            border: '1px solid #3B82F6',
                             borderRadius: '8px',
                         }}
                         labelStyle={{ color: 'hsl(var(--foreground))' }}

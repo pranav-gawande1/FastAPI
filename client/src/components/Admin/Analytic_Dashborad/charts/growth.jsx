@@ -1,23 +1,11 @@
-'use client';
-
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { getCustomerGrowthData } from '../../../../constant/analyticsData';
 
 const GrowthChart = () => {
   const data = getCustomerGrowthData();
 
   return (
-    <div className="chart-container">
-      {/* Header */}
+    <div className="p-6 rounded-xl shadow-sm border border-border border-gray-300 hover:shadow-md transition overflow-hidden">
       <div>
         <h3 className="text-lg font-semibold text-foreground">Customer Growth</h3>
         <p className="text-sm text-muted-foreground mt-1">
@@ -25,17 +13,16 @@ const GrowthChart = () => {
         </p>
       </div>
 
-      {/* Chart */}
       <ResponsiveContainer width="100%" height={300}>
         <LineChart data={data}>
           <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
           <XAxis
             dataKey="month"
-            stroke="hsl(var(--muted-foreground))"
+            stroke="#6B7280"
             style={{ fontSize: '12px' }}
           />
           <YAxis
-            stroke="hsl(var(--muted-foreground))"
+            stroke="#6B7280"
             style={{ fontSize: '12px' }}
           />
           <Tooltip
@@ -53,18 +40,18 @@ const GrowthChart = () => {
           <Line
             type="monotone"
             dataKey="total"
-            stroke="hsl(var(--primary))"
+            stroke="#2563EB"
             strokeWidth={2}
-            dot={{ fill: 'hsl(var(--primary))', r: 4 }}
+            dot={{ fill: '#2563EB', r: 4 }}
             activeDot={{ r: 6 }}
             name="Total Customers"
           />
           <Line
             type="monotone"
             dataKey="new"
-            stroke="hsl(var(--accent))"
+            stroke="#F59E0B"
             strokeWidth={2}
-            dot={{ fill: 'hsl(var(--accent))', r: 4 }}
+            dot={{ fill: '#F59E0B', r: 4 }}
             activeDot={{ r: 6 }}
             name="New Customers"
           />

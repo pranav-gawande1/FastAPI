@@ -32,7 +32,7 @@ const ManagePizza = () => {
             <div className="flex mt-16">
                 <SideBarToggle />
                 {isOpen && <SideBar />}
-                <div className={`flex-1  ${isOpen ? "ml-40": "ml-0"}  w-full transition-all duration-300`}>
+                <div className={`flex-1  ${isOpen ? "ml-50": "ml-0"}  w-full transition-all duration-300`}>
                     {loading && <Loader />}
                     {error && <ErrorState />}
                     {!loading && !error && (

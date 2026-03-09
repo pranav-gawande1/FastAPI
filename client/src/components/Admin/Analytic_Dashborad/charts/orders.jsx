@@ -1,22 +1,11 @@
-'use client';
-
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from 'recharts';
+import {BarChart,Bar,XAxis,YAxis,CartesianGrid,Tooltip,Legend,ResponsiveContainer,Cell} from 'recharts';
 import { getOrdersData } from '../../../../constant/analyticsData';
 
 const statusColors = {
-  completed: 'hsl(var(--chart-1))',
-  pending: 'hsl(var(--chart-2))',
-  cancelled: 'hsl(var(--chart-3))',
-  refunded: 'hsl(var(--chart-4))',
+  completed: '#047857',
+  pending: '#A16207',
+  cancelled: '#B91C1C',
+  refunded: '#1F2937',
 };
 
 const statusLabels = {
@@ -30,8 +19,7 @@ const OrdersChart = () => {
   const data = getOrdersData();
 
   return (
-    <div className="chart-container">
-      {/* Header */}
+    <div className="p-6 rounded-xl shadow-sm border border-border border-gray-300 hover:shadow-md transition overflow-hidden">
       <div>
         <h3 className="text-lg font-semibold text-foreground">Order Overview</h3>
         <p className="text-sm text-muted-foreground mt-1">
@@ -39,26 +27,24 @@ const OrdersChart = () => {
         </p>
       </div>
 
-      {/* Chart */}
       <ResponsiveContainer width="100%" height={300}>
         <BarChart
           data={data}
           margin={{ top: 20, right: 30, left: 0, bottom: 0 }}
         >
+
           <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
           <XAxis
             dataKey="status"
-            stroke="hsl(var(--muted-foreground))"
             style={{ fontSize: '12px' }}
             tickFormatter={(value) => statusLabels[value] || value}
           />
           <YAxis
-            stroke="hsl(var(--muted-foreground))"
             style={{ fontSize: '12px' }}
           />
           <Tooltip
             contentStyle={{
-              backgroundColor: 'hsl(var(--card))',
+              backgroundColor: '#ffff',
               border: '1px solid hsl(var(--border))',
               borderRadius: '8px',
             }}
@@ -67,10 +53,16 @@ const OrdersChart = () => {
           />
           <Bar
             dataKey="value"
-            fill="hsl(var(--primary))"
             radius={[8, 8, 0, 0]}
             name="Number of Orders"
-          />
+          >
+            {data.map((entry, index) => (
+              <Cell
+                key={`cell-${index}`}
+                fill={statusColors[entry.status]}
+              />
+            ))}
+          </Bar>
         </BarChart>
       </ResponsiveContainer>
     </div>

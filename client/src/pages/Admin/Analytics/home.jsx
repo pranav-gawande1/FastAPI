@@ -20,11 +20,15 @@ const AnalyticsHome = () => {
                 <div className={`flex-1  ${isOpen ? "ml-50" : "ml-0"} w-full transition-all duration-300 p-`}>
                     <div className="p-8 max-w-full mx-auto">
                         <DashBoardSummary />
-                        <CategoryChart />
-                        <CustomerChart />
-                        <GrowthChart />
-                        <OrdersChart />
-                        <RevenueChart />
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-4">
+                            <CategoryChart />
+                            {/* <CustomerChart /> */}
+                            <OrdersChart />
+                        </div>
+                        <div className="flex flex-col gap-6">
+                            <RevenueChart />
+                            <GrowthChart />
+                        </div>
                     </div>
                 </div>
             </div>
