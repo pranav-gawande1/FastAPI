@@ -1,6 +1,7 @@
 import { FaChevronCircleLeft, FaChevronCircleRight, FaChevronLeft } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { updatesideBarStatus } from "../../../shared/slices/sharedslice";
+import Tooltip from "../../ToolTip";
 
 const SideBarToggle = () => {
     const dispatch = useDispatch();
@@ -20,20 +21,9 @@ const SideBarToggle = () => {
                 )}
             </button>
 
-            <span
-                className="
-                    relative bottom-[130%] left-1/2 -translate-x-1/2
-                    bg-black text-white text-sm
-                    px-2 py-1 rounded
-                    opacity-0 invisible
-                    group-hover:opacity-100 group-hover:visible
-                    transition-all duration-200
-                    whitespace-nowrap
-                    z-50
-                "
-            >
-                {isOpen ? "Close Sidebar" : "Open Sidebar"}
-            </span>
+            <Tooltip text={isOpen ? "Close Sidebar" : "Open Sidebar"} className="bg-black text-white text-sm font-semibold
+        px-2 py-1 rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible
+        transition-all duration-200 whitespace-nowrap z-50"/>
         </div>
     );
 };

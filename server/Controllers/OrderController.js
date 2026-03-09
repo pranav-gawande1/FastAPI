@@ -64,17 +64,48 @@ const GetOrderById = async (req, res) => {
     }
 };
 
+// const GetAllOrder = async (req, res) => {
+//     try {
+//         const GetAllOrders = await OrderModel.find()
+//             .populate("user", "name")
+//             .populate("items.pizza", "name");
+//         res.status(200).json({ success: true, GetAllOrders });
+//     } catch (err) {
+//         res.status(500).json({ message: err.message });
+//         console.error(err);
+//     }
+// }
+
 const GetAllOrder = async (req, res) => {
     try {
+        const { page = 1, limit = 10, sort = "", order = "desc" } = req.query;
+
+        const skip = (page - 1) * limit;
+
+        const sortOrder = order === "asc" ? 1 : -1;
+
         const GetAllOrders = await OrderModel.find()
             .populate("user", "name")
-            .populate("items.pizza", "name");
-        res.status(200).json({ success: true, GetAllOrders });
+            .populate("items.pizza", "name")
+            .sort({ [sort]: sortOrder })
+            .skip(skip)
+            .limit(Number(limit));
+
+        const totalOrders = await OrderModel.countDocuments();
+
+        res.status(200).json({
+            success: true,
+            page: Number(page),
+            totalPages: Math.ceil(totalOrders / limit),
+            totalOrders,
+            GetAllOrders
+        });
+
     } catch (err) {
-        res.status(500).json({ message: err.message });
         console.error(err);
+        res.status(500).json({ message: err.message });
     }
-}
+};
 
 const UpdateOrderStatus = async (req, res) => {
     try {

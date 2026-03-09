@@ -6,22 +6,25 @@ import useFetch from "../../../shared/hooks/useFetch";
 import Loader from "../../Loader/Loader";
 import { toast } from "react-toastify";
 import useManualFetch from "../../../shared/hooks/useManualFetch";
+import { FaSort } from "react-icons/fa";
+import Tooltip from "../../ToolTip";
 
 const OrderTable = () => {
 
-    const { data: orderData, error: orderError, loading: orderLoading } = useFetch(`/orders/orders`);
+    const [page, setPage] = useState(1);
+    const [limit, setLimit] = useState(10);
+    const [sort, setSort] = useState("total_price");
+    const [order, setOrder] = useState("desc");
+
+    const { data: orderData, error: orderError, loading: orderLoading } = useFetch(`/orders/orders?page=${page}&limit=${limit}&sort=${sort}&order=${order}`);
     useEffect(() => {
         if (orderError) {
             toast.error(orderError.message || "Failed to fetch orders");
         }
-
-        if (orderData) {
-            toast.success("Orders loaded successfully");
-        }
-    }, [orderError, orderData]);
+    }, [orderError, orderData, page, sort, order]);
 
     const { execute: cancelExecute } = useManualFetch();
-    
+
     const handleCancelOrder = async (orderId) => {
         try {
             await cancelExecute(`/orders/admin/order/${orderId}/cancel`, "PATCH");
@@ -31,7 +34,7 @@ const OrderTable = () => {
         }
     };
 
-    
+
 
     const OrderStatusColor = {
         cancelled_by_admin: "bg-gray-800 text-gray-100",
@@ -96,14 +99,47 @@ const OrderTable = () => {
                             font-semibold text-gray-900 uppercase tracking-wider">Customer</th>
                                 <th className="px-6 py-4 text-left text-xs
                             font-semibold text-gray-900 uppercase tracking-wider"> Items</th>
-                                <th className="px-6 py-4 text-left text-xs
-                            font-semibold text-gray-900 uppercase tracking-wider">Total</th>
+                                <th className="px-6 py-4 text-left tracking-wider"
+                                    onClick={() => {
+                                        setSort("total_price");
+                                        setOrder(order === "asc" ? "desc" : "asc");
+                                    }}
+                                >
+                                    <div className="group flex items-center gap-2">
+                                        <FaSort />
+                                        <span className="text-xs
+                            font-semibold text-gray-900 uppercase">Total</span>
+                                        <Tooltip text={order === "asc" ? "High price first" : "Low price first"} className="relative bottom-[130%] left-1/2 -translate-x-1/2
+        bg-black text-white text-sm font-semibold
+        px-2 py-1 rounded
+        opacity-0 invisible
+        group-hover:opacity-100 group-hover:visible
+        transition-all duration-200
+        whitespace-nowrap
+        z-50" />
+                                    </div>
+                                </th>
                                 <th className="px-6 py-4 text-left text-xs
                             font-semibold text-gray-900 uppercase tracking-wider">Payment</th>
                                 <th className="px-6 py-4 text-left text-xs
                             font-semibold text-gray-900 uppercase tracking-wider">Status</th>
-                                <th className="px-6 py-4 text-left text-xs
-                            font-semibold text-gray-900 uppercase tracking-wider">Date</th>
+                                <th className="px-6 py-4 text-left tracking-wider" onClick={() => {
+                                    setSort("createdAt");
+                                    setOrder(order === "asc" ? "desc" : "asc");
+                                }}>
+                                    <div className="flex items-center gap-2 group">
+                                        <FaSort />
+                                        <span className="text-xs
+                            font-semibold text-gray-900 uppercase">Date</span>
+                                        <Tooltip text={order === "asc" ? "Newest order first" : "Oldest order first"} className="bg-black text-white text-sm font-semibold
+        px-2 py-1 rounded
+        opacity-0 invisible
+        group-hover:opacity-100 group-hover:visible
+        transition-all duration-200
+        whitespace-nowrap
+        z-50" />
+                                    </div>
+                                </th>
                                 <th className="px-6 py-4 text-left text-xs
                             font-semibold text-gray-900 uppercase tracking-wider">Actions</th>
                             </tr>
@@ -151,58 +187,40 @@ const OrderTable = () => {
                                             <button onClick={() => handleView(order)}
                                                 className="relative group focus:outline-none text-gray-900 hover:text-[#ff4d4d] focus:outline-none">
                                                 <Eye className="w-4 h-4" />
-                                                <span
-                                                    className="
-                                                    absolute bottom-[130%] right-1/2 -translate-x-1/2
+                                                <Tooltip text={"View Order"} className={`absolute bottom-[130%] right-1/2 -translate-x-1/2
                                                     bg-black text-white text-sm
                                                     px-2 py-1 rounded
                                                     opacity-0 invisible
                                                     group-hover:opacity-100 group-hover:visible
                                                     transition-all duration-200
                                                     whitespace-nowrap
-                                                    z-50
-                                                "
-                                                >
-                                                    View Order
-                                                </span>
+                                                    z-50`} />
                                             </button>
                                             <button onClick={() => handleEdit(order)}
                                                 className="relative group focus:outline-none text-gray-900 hover:text-[#ff4d4d] focus:outline-none">
                                                 <Edit className="w-4 h-4" />
-                                                <span
-                                                    className="
-                                                    absolute bottom-[130%] right-1/2 -translate-x-1/2
+                                                <Tooltip text={"Update Order"} className={`absolute bottom-[130%] right-1/2 -translate-x-1/2
                                                     bg-black text-white text-sm
                                                     px-2 py-1 rounded
                                                     opacity-0 invisible
                                                     group-hover:opacity-100 group-hover:visible
                                                     transition-all duration-200
                                                     whitespace-nowrap
-                                                    z-50
-                                                "
-                                                >
-                                                    Update Order
-                                                </span>
+                                                    z-50`} />
                                             </button>
                                             <button
                                                 // onClick={() => handleEdit(order)}
                                                 onClick={() => handleCancelOrder(order?._id)}
                                                 className=" relative group focus:outline-none text-gray-900 hover:text-[#ff4d4d] focus:outline-none">
                                                 <Delete className="w-4 h-4" />
-                                                <span
-                                                    className="
-                                                    absolute bottom-[130%] right-1/2 -translate-x-1/2
+                                                <Tooltip text={"Cancel Order"} className={`absolute bottom-[130%] right-1/2 -translate-x-1/2
                                                     bg-black text-white text-sm
                                                     px-2 py-1 rounded
                                                     opacity-0 invisible
                                                     group-hover:opacity-100 group-hover:visible
                                                     transition-all duration-200
                                                     whitespace-nowrap
-                                                    z-50
-                                                "
-                                                >
-                                                    Cancel Order
-                                                </span>
+                                                    z-50`} />
                                             </button>
                                         </div>
                                     </td>
@@ -229,10 +247,11 @@ const OrderTable = () => {
 
                 <div className="px-6 py-4 bg-gray-200
                 text-sm test-gray-900 flex items-center justify-between">
-                    <p>Showing {filteredOrders?.length} of {orderData?.GetAllOrders?.length} orders</p>
+                    <p>Showing {orderData?.GetAllOrders?.length} of {orderData?.GetAllOrders?.length} orders</p>
+                    <p>Page {orderData?.page} of {orderData?.totalPages}</p>
                     <div className="flex gap-4">
-                        <button>← Previous</button>
-                        <button>Next →</button>
+                        <button onClick={() => setPage(page - 1)} disabled={page === 1}>← Previous</button>
+                        <button onClick={() => setPage(page + 1)}>Next →</button>
                     </div>
                 </div>
 

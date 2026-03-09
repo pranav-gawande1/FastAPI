@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { FaFilter, FaSearch } from "react-icons/fa";
 
 const OrderFilter = ({ searchTerm, setSearchTerm, filterStatus, setFilterStatus }) => {
