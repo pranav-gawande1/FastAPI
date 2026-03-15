@@ -1,12 +1,12 @@
 import { FaEllipsisV } from "react-icons/fa";
 import { useState } from "react";
 
-const PizzaCardAdmin = ({ pizza , onEdit, onView, onDelete}) => {
+const PizzaCardAdmin = ({ pizza, onEdit, onView, onDelete }) => {
     const [IsMenuOpen, setisMenuOpen] = useState(false);
     const link = `${pizza.imageUrl}`;
     return (
         <>
-            <tr className="hover:translate-y-1 hover:shadow-xl bg-white" 
+            <tr className="hover:translate-y-1 hover:shadow-xl bg-white " onClick={() => setisMenuOpen(!IsMenuOpen)}
             >
                 <td className="px-6 py-4">
                     <div className="w-40 h-40 flex item-centerjustify-center">
@@ -24,21 +24,23 @@ const PizzaCardAdmin = ({ pizza , onEdit, onView, onDelete}) => {
                     <p>Available Sizes</p>
                 </td>
                 <td className="px-6 py-4">
-                    <button onClick={() => setisMenuOpen(!IsMenuOpen)}>
+                    <button
+                    // onClick={() => setisMenuOpen(!IsMenuOpen)}
+                    >
                         <FaEllipsisV />
                     </button>
                     {IsMenuOpen && (
                         <div className="absolute right-0 mt-2 w-48
-                        bg-gray-400 rounded-lg shadow-xl border border-gray-700 z-10">
+                        bg-gray-800 rounded-lg shadow-xl border border-gray-700 z-10">
                             <button onClick={() => onEdit(pizza)}
                                 className="block text-gray-200 
-                            w-full text-left px-4 py-2 text-sm hover:bg-gray-800 hover:rounded-lg">Edit Pizza</button>
+                            w-full text-left px-4 py-2 text-sm hover:bg-gray-700 hover:rounded-lg">Edit Pizza</button>
                             <button onClick={() => onView(pizza)}
-                            className="block text-gray-200 
-                            w-full text-left px-4 py-2 text-sm hover:bg-gray-800">View Pizza</button>
+                                className="block text-gray-200 
+                            w-full text-left px-4 py-2 text-sm hover:bg-gray-700 hover:rounded-lg">View Pizza</button>
                             <button onClick={() => onDelete(pizza._id)}
-                            className="block text-red-700 
-                            w-full text-left px-4 py-2 text-sm hover:bg-gray-800 hover:rounded-lg">Delete Pizza</button>
+                                className="block text-red-700 
+                            w-full text-left px-4 py-2 text-sm hover:bg-gray-700 hover:rounded-lg">Delete Pizza</button>
                         </div>
                     )}
                 </td>

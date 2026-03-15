@@ -8,15 +8,30 @@ import { toast } from "react-toastify";
 import PizzaAddModal from "./PizzaAddModal.jsx";
 import { Plus } from "lucide-react";
 import { apiRequest } from "../../services/api.js";
+import Loader from "../Loader/Loader.jsx";
+import ErrorState from "../Loader/NotFound.jsx";
+import useFetch from "../../shared/hooks/useFetch.jsx";
 // import PizzaView from "./PizzaView";
 
-const PizzaTable = ({ pizzas = [], onPizzaDelete }) => {
+const PizzaTable = () => {
     const [pizza, setPizzas] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
     const [filterStatus, setFilterStatus] = useState("all");
     const [selectedPizza, setSelectedPizza] = useState(null);
     const [isAddPizza, setIsAddPizza] = useState(false);
     const [actionType, setActionType] = useState(null);
+
+    const { data: pizzaData, loading: pizzaLoading, error: pizzaError } = useFetch(`/pizza/pizzas`);
+    console.log("Pizzas", pizza);
+
+    useEffect(() => {
+        if (pizzaData) {
+            setPizzas(pizzaData?.pizzas);
+        }
+    }, [pizzaData]);
+
+    console.log("Pizzas", pizza);
+
 
     const { execute, error, status, data } = useManualFetch();
 
@@ -27,14 +42,6 @@ const PizzaTable = ({ pizzas = [], onPizzaDelete }) => {
 
     const handleAddPizza = async () => {
         setIsAddPizza(!isAddPizza);
-    };
-
-    const handlePizzaUpdated = (updatedPizza) => {
-        setPizzas(prev =>
-            prev.map(p =>
-                p._id === updatedPizza._id ? updatedPizza : p
-            )
-        );
     };
 
     const handleView = (pizza) => {
@@ -61,7 +68,7 @@ const PizzaTable = ({ pizzas = [], onPizzaDelete }) => {
         "800+": (price) => price >= 800,
     };
 
-    const filteredPizzas = pizzas.filter((pizza) => {
+    const filteredPizzas = pizza.filter((pizza) => {
         const price = Number(
             String(pizza.price).replace(/[^0-9.]/g, "")
         );
@@ -80,6 +87,8 @@ const PizzaTable = ({ pizzas = [], onPizzaDelete }) => {
 
     return (
         <>
+            {pizzaLoading && <Loader />}
+            {pizzaError && <ErrorState />}
             <div className="w-full bg-gray-200 rounded-lg shadow-lg overflow-hidden">
                 <div className="flex flex-col sm:flex-row gap-3 p-2">
                     <div className="flex-1 relative">
@@ -171,8 +180,9 @@ const PizzaTable = ({ pizzas = [], onPizzaDelete }) => {
                         pizza={selectedPizza}
                         isOpen={!!selectedPizza}
                         actionType={actionType}
-                        onPizzaUpdated={handlePizzaUpdated}
+                        setFilterStatuspizzaData={setPizzas}
                         onClose={() => setSelectedPizza(null)}
+                        setpizzaData={setPizzas}
                     />
                     <PizzaAddModal
                         isOpen={isAddPizza}
@@ -184,7 +194,7 @@ const PizzaTable = ({ pizzas = [], onPizzaDelete }) => {
                 flex items-center justify-between text-sm text-gray-900
                 ">
                     <p>
-                        Showing {filteredPizzas.length} of {pizzas.length} pizzas
+                        Showing {filteredPizzas.length} of {pizza.length} pizzas
                     </p>
                     <div className="flex gap-4">
                         <button>← Previous</button>

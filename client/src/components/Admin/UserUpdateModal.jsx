@@ -31,7 +31,6 @@ const UserUpdateModel = ({ user, isOpen, onClose, actionType, setUsers }) => {
             toast.info("No changes made");
             return;
         }
-        onClose();
         await execute(`/users/admin/user/${user._id}`, "PATCH", updateData);
     };
 
@@ -39,6 +38,7 @@ const UserUpdateModel = ({ user, isOpen, onClose, actionType, setUsers }) => {
         if (status == "success" && data) {
             updateItem(setUsers, data?.data);
             toast.success("User updated successfully!");
+            onClose();
         }
     }, [status, data]);
 
