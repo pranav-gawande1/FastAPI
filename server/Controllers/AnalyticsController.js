@@ -9,7 +9,12 @@ const getOrdersSummry = async (req, res) => {
         const noofcompletedOrders = await OrderModel.countDocuments({ order_status: "completed" });
         const noofCancelledOrders = await OrderModel.countDocuments({ order_status: { $in: ["cancelled_by_user", "cancelled_by_admin"] } });
         const noofTotalOrders = await OrderModel.countDocuments({});
-        if (!noofPendingOrders || !noofcompletedOrders || !noofCancelledOrders || !noofTotalOrders) {
+        if (
+            noofPendingOrders === undefined ||
+            noofcompletedOrders === undefined ||
+            noofCancelledOrders === undefined ||
+            noofTotalOrders === undefined
+        ) {
             return res.status(404).json({ message: "Something went wrong", success: false });
         }
         res.status(200).json({

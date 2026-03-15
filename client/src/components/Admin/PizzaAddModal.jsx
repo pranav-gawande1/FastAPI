@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Modal from "../Modal/Modal";
 import useManualFetch from "../../shared/hooks/useManualFetch";
 import { toast } from "react-toastify";
+import { addItem } from "../../shared/utils/stateUpdater";
 
 const PizzaAddModal = ({ isOpen, onClose }) => {
     const { execute, data, status, error } = useManualFetch();
@@ -21,6 +22,7 @@ const PizzaAddModal = ({ isOpen, onClose }) => {
 
     useEffect(() => {
         if (status == "success" && data) {
+            addItem(data?.pizza);
             toast.success("Pizza Added successfully!!");
             setTimeout(3000);
             toast.info("Refresh page once!!");

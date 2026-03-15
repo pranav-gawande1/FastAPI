@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import SideBar from "../../../components/Admin/SideBar/SideBar";
 import SideBarToggle from "../../../components/Admin/SideBar/sideBarToggle";
 import { useSelector } from "react-redux";
+import { addItem } from "../../../shared/utils/stateUpdater";
 
 const ManagePizza = () => {
     const [pizzas, setPizzas] = useState([]);
@@ -19,6 +20,10 @@ const ManagePizza = () => {
 
     const handleDeletedPizza = async (pizzaId) => {
         setPizzas(prev => prev.filter(pizza => pizza._id != pizzaId))
+    };
+
+    const handeleAddPizza = async (pizzaId) => {
+        addItem()
     };
 
     useEffect(() => {

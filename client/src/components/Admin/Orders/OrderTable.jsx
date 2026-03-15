@@ -8,8 +8,10 @@ import { toast } from "react-toastify";
 import useManualFetch from "../../../shared/hooks/useManualFetch";
 import { FaSort } from "react-icons/fa";
 import Tooltip from "../../ToolTip";
+import { removeItem, updateItem } from "../../../shared/utils/stateUpdater";
 
 const OrderTable = () => {
+    const [orders, setOrders] = useState([]);
 
     const [page, setPage] = useState(1);
     const [limit, setLimit] = useState(10);
@@ -21,6 +23,9 @@ const OrderTable = () => {
         if (orderError) {
             toast.error(orderError.message || "Failed to fetch orders");
         }
+        if (orderData) {
+            setOrders(orderData?.GetAllOrders);
+        }
     }, [orderError, orderData, page, sort, order]);
 
     const { execute: cancelExecute } = useManualFetch();
@@ -28,13 +33,12 @@ const OrderTable = () => {
     const handleCancelOrder = async (orderId) => {
         try {
             await cancelExecute(`/orders/admin/order/${orderId}/cancel`, "PATCH");
+            removeItem(setOrders, orderId);
             toast.success("Order cancelled successfully");
         } catch (err) {
             toast.error(err.message || "Failed to cancel order");
         }
     };
-
-
 
     const OrderStatusColor = {
         cancelled_by_admin: "bg-gray-800 text-gray-100",
@@ -49,12 +53,12 @@ const OrderTable = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [filterStatus, setFilterStatus] = useState("all");
 
-    const filteredOrders = orderData?.GetAllOrders?.filter((order) => {
+    const filteredOrders = orders?.filter((order) => {
 
         const matchesSearch =
             order?.user?.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
             order?.items?.some((item) =>
-                item.name.toLowerCase().includes(searchTerm.toLowerCase())
+                item?.pizza?.name.toLowerCase().includes(searchTerm.toLowerCase())
             );
 
         const matchesStaus =

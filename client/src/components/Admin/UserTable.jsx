@@ -8,6 +8,8 @@ import { toast } from "react-toastify";
 import useFetch from "../../shared/hooks/useFetch";
 
 const UserTable = () => {
+    const [userdata, setUserdata] = useState([]);
+
     const [page, setPage] = useState(1);
     const [limit, setLimit] = useState(10);
     const [searchTerm, setSearchTerm] = useState("");
@@ -16,6 +18,12 @@ const UserTable = () => {
     const [actionType, setActionType] = useState(null);
 
     const { data: userData, loading: userLoading, error: userError } = useFetch(`/users/users?page=${page}&limit=${limit}`);
+
+    useEffect(() => {
+        if (userData) {
+            setUserdata(userData?.users);
+        }
+    }, [setUserdata, userData]);
 
     const handleEdit = (user) => {
         setSelectedUser(user);
@@ -29,10 +37,18 @@ const UserTable = () => {
 
     const { execute, data, error, status } = useManualFetch();
 
+    const refetchUsers = async (userId) => {
+        setUserdata(prev => prev.filter(user => user._id != userId))
+    };
+
     const handleDelete = async (user_id) => {
-        await execute(`/users/user/${user_id}`, "DELETE",);
-        // onUserDelete(user_id);
-        console.log("done", user_id);
+        try {
+            await execute(`/users/user/${user_id}`, "DELETE");
+            refetchUsers(user_id);
+            console.log("Deleted", user_id);
+        } catch (err) {
+            console.error("Delete failed", err);
+        }
     };
 
     useEffect(() => {
@@ -45,7 +61,7 @@ const UserTable = () => {
         }
     }, [status, error]);
 
-    const filteredUsers = userData?.users?.filter((user) => {
+    const filteredUsers = userdata?.filter((user) => {
         const matchesSearch =
             user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
             user.email.toLowerCase().includes(searchTerm.toLowerCase())
@@ -148,25 +164,25 @@ const UserTable = () => {
                     </p>
                     <p>Page {userData?.page} of {userData?.totalPages}</p>
                     <div className="flex items-center gap-4">
-                            <span>Show</span>
-                            <select
-                                value={limit}
-                                onChange={(e) => {
-                                    setLimit(Number(e.target.value));
-                                    setPage(1);
-                                }}
-                                className="border border-gray-300 rounded px-2 py-1"
-                            >
-                                <option value={1}>5</option>
-                                <option value={10}>10</option>
-                                <option value={25}>25</option>
-                                <option value={50}>50</option>
-                                <option value={100}>100</option>
-                            </select>
-                            <span>entries</span>
-                        </div>
+                        <span>Show</span>
+                        <select
+                            value={limit}
+                            onChange={(e) => {
+                                setLimit(Number(e.target.value));
+                                setPage(1);
+                            }}
+                            className="border border-gray-300 rounded px-2 py-1"
+                        >
+                            <option value={5}>5</option>
+                            <option value={10}>10</option>
+                            <option value={25}>25</option>
+                            <option value={50}>50</option>
+                            <option value={100}>100</option>
+                        </select>
+                        <span>entries</span>
+                    </div>
                     <div className="flex gap-4">
-                        
+
                         <button className="text-gray-900 hover:text-gray-500 transitions-colors"
                             onClick={() => setPage(page - 1)} disabled={page === 1}>
                             ← Previous
