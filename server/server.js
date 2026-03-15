@@ -56,3 +56,6 @@ app.use('/summary', analytics_router)
 app.listen(PORT, () => {
     console.log(`Server is running at port ${PORT}`);
 });
+
+console.log("Cloud Name:", process.env.CLOUDINARY_CLOUD_NAME);
+console.log("API Key:", process.env.CLOUDINARY_API_KEY);

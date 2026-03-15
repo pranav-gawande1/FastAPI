@@ -7,15 +7,22 @@ export const apiRequest = async ({
     headers = {},
 }) => {
     try {
-        const res = await fetch(`${BASE_URL}${endpoint}`, {
+        const options ={
             method,
             credentials: "include",
             headers: {
-                "Content-Type": "application/json",
                 ...headers,
-            },
-            body: body ? JSON.stringify(body) : null,
-        });
+            }
+        };
+
+        if(body instanceof FormData) {
+            options.body = body;
+        } else if(body){
+            options.headers["content-Type"] = "application/json";
+            options.body = JSON.stringify(body);
+        }
+
+        const res = await fetch(`${BASE_URL}${endpoint}`, options);
 
         const data = await res.json();
 

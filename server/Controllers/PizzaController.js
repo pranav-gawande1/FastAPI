@@ -2,9 +2,9 @@ const Pizza = require("../models/Pizza");
 
 const AddPizza = async (req, res) => {
     try {
-        const { name, description, price, imageUrl } = req.body;
+        const { name, description, price } = req.body;
 
-        if (!name || !description || !price) {
+        if (!name || !description || !price || !req.file) {
             return res.status(400).json({ message: "All Field are required! " });
         }
 
@@ -12,10 +12,10 @@ const AddPizza = async (req, res) => {
             name,
             description,
             price,
-            imageUrl,
+            imageUrl: req.file.path
         });
 
-        res.status(201).json({ success: true, pizza, })
+        res.status(201).json({ success: true, pizza })
 
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -25,25 +25,32 @@ const AddPizza = async (req, res) => {
 
 const UpdatePizza = async (req, res) => {
     try {
-        const { name, description, price, imageUrl } = req.body;
+        const { name, description, price } = req.body;
 
         const pizzaId = req.params.id;
+
+        const updateData = {
+            name,
+            description,
+            price
+        };
+
+        if (req.file) {
+            updateData.imageUrl = req.file.path;
+        }
         const pizzatoUpdate = await Pizza.findByIdAndUpdate(
-            pizzaId,
-            {
-                name,
-                description,
-                price,
-                imageUrl
-            },
+            pizzaId, updateData,
             { new: true }
         );
+
+        console.log("FILE:", req.file);
+        console.log("BODY:", req.body);
 
         if (!pizzatoUpdate) {
             res.status(404).json({ success: false, message: "Pizza not found!" });
         }
 
-        res.status(201).json({ success: true, pizzatoUpdate, });
+        res.status(200).json({ success: true, pizzatoUpdate, });
     } catch (err) {
         res.status(500).json({ message: err.message });
         console.error(err);
@@ -55,10 +62,10 @@ const GetAllPizzas = async (req, res) => {
 
         const pizzas = await Pizza.find({});
 
-        if(!pizzas) {
-            res.status(404).json({ success: false, message: "Pizzas Not Found"}); 
+        if (!pizzas) {
+            res.status(404).json({ success: false, message: "Pizzas Not Found" });
         }
-        
+
         res.status(200).json({ success: true, pizzas });
 
     } catch (err) {

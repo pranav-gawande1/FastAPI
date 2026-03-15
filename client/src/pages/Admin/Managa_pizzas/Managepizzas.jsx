@@ -14,23 +14,23 @@ import { useSelector } from "react-redux";
 import { addItem } from "../../../shared/utils/stateUpdater";
 
 const ManagePizza = () => {
-    const [pizzas, setPizzas] = useState([]);
-    const { data, loading, error } = useFetch(`/pizza/pizzas`);
+    // const [pizzas, setPizzas] = useState([]);
+    // const { data, loading, error } = useFetch(`/pizza/pizzas`);
     const { isOpen } = useSelector((state) => state.sideBarStatus);
 
-    const handleDeletedPizza = async (pizzaId) => {
-        setPizzas(prev => prev.filter(pizza => pizza._id != pizzaId))
-    };
+    // const handleDeletedPizza = async (pizzaId) => {
+    //     setPizzas(prev => prev.filter(pizza => pizza._id != pizzaId))
+    // };
 
-    const handeleAddPizza = async (pizzaId) => {
-        addItem()
-    };
+    // const handeleAddPizza = async (pizzaId) => {
+    //     addItem()
+    // };
 
-    useEffect(() => {
-        if (data?.pizzas) {
-            setPizzas(data.pizzas);
-        }
-    }, [data]);
+    // useEffect(() => {
+    //     if (data?.pizzas) {
+    //         setPizzas(data.pizzas);
+    //     }
+    // }, [data]);
     return (
         <>
             <Navbar />
@@ -38,16 +38,17 @@ const ManagePizza = () => {
                 <SideBarToggle />
                 {isOpen && <SideBar />}
                 <div className={`flex-1  ${isOpen ? "ml-50": "ml-0"}  w-full transition-all duration-300`}>
-                    {loading && <Loader />}
-                    {error && <ErrorState />}
-                    {!loading && !error && (
+                    {/* {loading && <Loader />}
+                    {error && <ErrorState />} */}
+                    {/* {!loading && !error && ( */}
 
                         <div className="max-w-full mx-auto p-8">
-                            <PizzaTable pizzas={pizzas}
-                                onPizzaDelete={handleDeletedPizza}
+                            <PizzaTable 
+                            // pizzas={pizzas}
+                            //     onPizzaDelete={handleDeletedPizza}
                             />
                         </div>
-                    )}
+                    {/* )} */}
                 </div>
             </div>
             {/* <Footer /> */}

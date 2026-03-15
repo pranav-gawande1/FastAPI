@@ -9,14 +9,15 @@ const PizzaAddModal = ({ isOpen, onClose }) => {
     const [pizzaName, setPizzaName] = useState("");
     const [pizzaDescription, setPizzaDescription] = useState("");
     const [pizzaPrice, setPizzaPrice] = useState("");
-    const [pizzaImageUrl, setPizzaImageUrl] = useState("");
+    const [pizzaImage, setPizzaImage] = useState("");
     const handleAddPizza = async () => {
-        await execute(`/pizza/pizza`, "POST", {
-            name: pizzaName,
-            description: pizzaDescription,
-            price: pizzaPrice,
-            imageUrl: pizzaImageUrl
-        }
+        const formData = new FormData();
+
+        formData.append("name", pizzaName);
+        formData.append("description", pizzaDescription);
+        formData.append("price", pizzaPrice);
+        formData.append("image", pizzaImage);
+        await execute(`/pizza/pizza`, "POST", formData
         );
     };
 
@@ -34,40 +35,47 @@ const PizzaAddModal = ({ isOpen, onClose }) => {
         <Modal isOpen={isOpen} onClose={onClose} title={"Add Pizza"}>
             <div className="flex flex-col gap-3">
                 <input
-                    className="input w-full py-1 px-3 focus:outline-none border 
-                                    border-gray-500 rounded-sm text-gray-900
-                                    placeholder-gray-500 bg-gray-300"
+                    className="w-full px-4 py-2 rounded-md border border-gray-300 
+    bg-white text-gray-800 placeholder-gray-400
+    focus:outline-none focus:ring-2 focus:ring-red-400 focus:border-red-400
+    transition duration-200"
                     onChange={(e) => setPizzaName(e.target.value)}
-                    placeholder="Name"
+                    placeholder="Pizza Name"
                 />
 
                 <input
-                    className="input w-full py-1 px-3 focus:outline-none border 
-                                    border-gray-500 rounded-sm text-gray-900
-                                    placeholder-gray-500 bg-gray-300"
+                    className="w-full px-4 py-2 rounded-md border border-gray-300 
+    bg-white text-gray-800 placeholder-gray-400
+    focus:outline-none focus:ring-2 focus:ring-red-400 focus:border-red-400
+    transition duration-200"
                     onChange={(e) => setPizzaDescription(e.target.value)}
                     placeholder="Description"
                 />
 
                 <input
-                    className="input w-full py-1 px-3 focus:outline-none border 
-                                    border-gray-500 rounded-sm text-gray-900
-                                    placeholder-gray-500 bg-gray-300"
+                    className="w-full px-4 py-2 rounded-md border border-gray-300 
+    bg-white text-gray-800 placeholder-gray-400
+    focus:outline-none focus:ring-2 focus:ring-red-400 focus:border-red-400
+    transition duration-200"
                     onChange={(e) => setPizzaPrice(e.target.value)}
                     placeholder="Price"
                 />
 
                 <input
-                    className="input w-full py-1 px-3 focus:outline-none border 
-                                    border-gray-500 rounded-sm text-gray-900
-                                    placeholder-gray-500 bg-gray-300"
-                    onChange={(e) => setPizzaImageUrl(e.target.value)}
-                    placeholder="Image URL (upload option will available shortly)"
+                    className="w-full px-4 py-2 rounded-md border border-gray-300 
+    bg-white text-gray-700 file:mr-4 file:py-2 file:px-4
+    file:rounded-md file:border-0 file:text-sm
+    file:font-medium file:bg-[#ff4d4d] file:text-white
+    hover:file:bg-red-500
+    focus:outline-none focus:ring-2 focus:ring-red-400
+    transition duration-200"
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => setPizzaImage(e.target.files[0])}
                 />
 
                 <button
                     onClick={handleAddPizza}
-                    // disabled={loading}
                     className="text-white bg-[#ff4d4d] px-3 py-1 rounded-lg hover:bg-red-500"
                 >
                     {status === "loading" ? "Adding..." : "Add Pizza"}
