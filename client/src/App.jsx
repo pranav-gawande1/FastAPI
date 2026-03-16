@@ -30,6 +30,9 @@ import Support from './pages/Profile/Support.jsx'
 import AnalyticsHome from './pages/Admin/Analytics/home.jsx'
 import Main from './pages/Admin/Analytics/main.jsx'
 import AdminHome from './pages/Home/AdminHome.jsx'
+import AiChat from './pages/AIchat/aichat.jsx'
+import AIAssistantPage from './pages/AIchat/aichat.jsx'
+import ChatWidget from './components/chatAiAssistant/ChatWidget.jsx'
 
 function App() {
 
@@ -100,7 +103,13 @@ function App() {
               element={<PaymentSuccess />}
             ></Route>
           </Route>
+
+
+          {/* ai assistant routes */}
+          <Route path='/ai-chat' element={<AIAssistantPage />} ></Route>
         </Routes>
+        {/*chatwidget */}
+        <ChatWidget />
       </BrowserRouter >
 
 
