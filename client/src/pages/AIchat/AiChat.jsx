@@ -59,16 +59,16 @@ const AIAssistantPage = () => {
     };
 
     return (
-        <div className="h-screen w-full bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 flex flex-col">
+        <div className="h-screen w-full bg-gray-100 flex flex-col">
             {/* Header */}
-            <header className="flex items-center justify-between p-6 border-b border-white/10 bg-gradient-to-r from-blue-600/10 to-cyan-500/10 backdrop-blur-xl">
+            <header className="flex items-center justify-between p-6 border-b border-white/10 bg-white backdrop-blur-xl shadow-md">
                 <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white shadow-lg">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#ff4d4d] to-red-800 flex items-center justify-center text-white shadow-lg">
                         <Bot className="w-7 h-7" />
                     </div>
                     <div>
-                        <h1 className="text-2xl font-bold text-white">Pizza AI Assistant</h1>
-                        <p className="text-gray-400 text-sm">Your friendly pizza ordering helper</p>
+                        <h1 className="text-2xl font-bold text-[#ff4d4d]">Pizza Paradise Assistant</h1>
+                        <p className="text-gray-900 text-sm">Your friendly pizza ordering helper</p>
                     </div>
                 </div>
             </header>
@@ -84,7 +84,7 @@ const AIAssistantPage = () => {
                         >
                             {message.role === 'assistant' && (
                                 <div className="flex-shrink-0">
-                                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white shadow-lg">
+                                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#ff4d4d] to-red-800 flex items-center justify-center text-white shadow-lg">
                                         <Bot className="w-6 h-6" />
                                     </div>
                                 </div>
@@ -107,8 +107,8 @@ const AIAssistantPage = () => {
                             > */}
                             <div
                                 className={`w-fit max-w-[90%] px-4 py-2 rounded-3xl text-base leading-relaxed backdrop-blur-md ${message.role === 'user'
-                                    ? 'bg-blue-600 text-white rounded-br-none shadow-md'
-                                    : 'bg-white/10 text-gray-100 border border-white/20 rounded-bl-none'
+                                    ? 'bg-red-200 text-gray-900 rounded-br-none shadow-md'
+                                    : 'bg-gray-200 text-gray-500 border border-white/20 rounded-bl-none'
                                     }`}
                             >
                                 <ReactMarkdown
@@ -134,7 +134,7 @@ const AIAssistantPage = () => {
 
                             {message.role === 'user' && (
                                 <div className="flex-shrink-0">
-                                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white shadow-lg">
+                                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-500 flex items-center justify-center text-white shadow-lg">
                                         <User className="w-6 h-6" />
                                     </div>
                                 </div>
@@ -144,9 +144,9 @@ const AIAssistantPage = () => {
 
                     {/* Typing Indicator */}
                     {isLoading && (
-                        <div className="flex gap-4 justify-start animate-in fade-in">
+                        <div className="flex gap-4 justify-start animate-in">
                             <div className="flex-shrink-0">
-                                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white">
+                                <div className="w-10 h-10 rounded-full bg-gray-400 flex items-center justify-center text-white">
                                     <MessageCircle className="w-6 h-6" />
                                 </div>
                             </div>
@@ -163,7 +163,7 @@ const AIAssistantPage = () => {
             </div>
 
             {/* Input Area */}
-            <div className="p-6 border-t border-white/10 bg-gradient-to-t from-slate-900/95 to-slate-800/50 backdrop-blur-xl">
+            <div className="p-6 border-t border-white/10 bg-gray-600 backdrop-blur-xl">
                 <div className="max-w-4xl mx-auto flex gap-3 items-center">
                     <input
                         ref={inputRef}
