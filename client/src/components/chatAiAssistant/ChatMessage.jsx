@@ -1,5 +1,8 @@
 import { Bot, User } from 'lucide-react';
 // import { cn } from '@/lib/utils';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import rehypeRaw from 'rehype-raw';
 
 const ChatMessage = ({ role, content }) => {
   const isUser = role === 'user';
@@ -21,13 +24,32 @@ const ChatMessage = ({ role, content }) => {
 
       <div
         className={
-        `  max-w-xs lg:max-w-md px-4 py-3 rounded-2xl text-sm leading-relaxed backdrop-blur-md
+          `  max-w-xs lg:max-w-md px-4 py-3 rounded-2xl text-sm leading-relaxed backdrop-blur-md
           ${isUser
             ? 'bg-red-100 text-gray-900 rounded-br-none shadow-md'
             : 'bg-white/10 text-gray-900 border border-white/20 rounded-bl-none'}`
         }
       >
-        {content}
+        {/* {content} */}
+        <ReactMarkdown
+          children={content}
+          remarkPlugins={[remarkGfm]}
+          rehypePlugins={[rehypeRaw]}
+          components={{
+            code({ node, inline, className, children, ...props }) {
+              return !inline ? (
+                <pre className="bg-gray-800 text-white p-2 rounded overflow-auto">
+                  <code {...props}>{children}</code>
+                </pre>
+              ) : (
+                <code className="bg-gray-200 rounded px-1" {...props}>{children}</code>
+              );
+            },
+            a({ href, children }) {
+              return <a href={href} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline">{children}</a>;
+            },
+          }}
+        />
       </div>
 
       {isUser && (

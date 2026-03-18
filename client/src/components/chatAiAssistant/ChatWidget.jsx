@@ -1,12 +1,14 @@
-import { MessageCircle, X } from 'lucide-react';
+import { ExternalLink, MessageCircle, X } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import ChatInput from './chatInput';
 import ChatMessage from './chatMessage';
 import useManualFetch from '../../shared/hooks/useManualFetch';
+import { useNavigate } from 'react-router-dom';
 
 const ChatWidget = () => {
   const { data, status, execute } = useManualFetch();
   const [isOpen, setIsOpen] = useState(false);
+  const naviagte = useNavigate();
   const [messages, setMessages] = useState([
     {
       role: 'assistant',
@@ -15,6 +17,7 @@ const ChatWidget = () => {
   ]);
   const [isLoading, setIsLoading] = useState(false);
   const scrollRef = useRef(null);
+
 
   // Auto-scroll to latest message
   useEffect(() => {
@@ -98,9 +101,14 @@ const ChatWidget = () => {
         <div className="fixed bottom-24 right-6 w-96 h-96 bg-white rounded-3xl shadow-2xl border border-white/10 flex flex-col overflow-hidden z-50 animate-in fade-in slide-in-from-bottom-4 duration-300">
           {/* Header */}
           <div className="flex items-center justify-between p-4 border-b border-red-900 bg-[#ff4d4d]">
-            <div>
+            <div >
               <h2 className="text-white font-bold text-lg">Pizza AI Assistant</h2>
-              <p className="text-gray-900 text-sm">Always here to help</p>
+              <div className='flex items-center gap-3'>
+                <p className="text-gray-900 text-sm">Always here to help</p>
+              <button onClick={() => naviagte(`ai-chat`)}>
+                <ExternalLink className='w-4 h-4 text-gray-900'/>
+              </button>
+              </div>
             </div>
             <button
               onClick={() => setIsOpen(false)}

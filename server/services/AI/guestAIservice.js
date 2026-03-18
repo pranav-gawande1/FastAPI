@@ -1,15 +1,21 @@
-const Groq = require("groq-sdk");
+const client = require("./aiClient");
 
-const client = new Groq({
-    apiKey: process.env.GROQ_API_KEY
-});
-
-const askAI = async (message) => {
+const guestAIService = async (message, pizzas) => {
     try {
         const response = await client.chat.completions.create({
             model: "openai/gpt-oss-20b",
             messages: [
-                { role: "system", content: "You are a pizza ordering assistant." },
+                {
+                    role: "system", content: `
+You are a pizza assistant.
+
+Help visitors explore the pizza menu.
+
+Encourage them to login to place orders.
+
+Menu:
+${JSON.stringify(pizzas)}
+` },
                 { role: "user", content: message }
             ]
         });
@@ -22,4 +28,4 @@ const askAI = async (message) => {
     }
 };
 
-module.exports = askAI;
+module.exports = guestAIService;
