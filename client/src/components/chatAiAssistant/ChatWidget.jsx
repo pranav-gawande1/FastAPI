@@ -1,7 +1,7 @@
 import { ExternalLink, MessageCircle, X } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
-import ChatInput from './chatInput';
-import ChatMessage from './chatMessage';
+import ChatInput from './ChatInput';
+import ChatMessage from './ChatMessage';
 import useManualFetch from '../../shared/hooks/useManualFetch';
 import { useNavigate } from 'react-router-dom';
 
