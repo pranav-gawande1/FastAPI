@@ -7,3 +7,5 @@ venv
 /server/*.pyc
 /server/.env
 /server/Config
+
+server/node-api/node_modules
