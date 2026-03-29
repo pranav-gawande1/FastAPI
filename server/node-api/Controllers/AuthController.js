@@ -21,9 +21,9 @@ const signup = async (req, res) => {
         )
 
         res.cookie("token", jwttok, {
-            httpOnly: false,
-            secure: false,
-            sameSite: 'lax',
+            httpOnly: true,
+            secure: true,
+            sameSite: 'none',
             maxAge: 24 * 60 * 60 * 1000,
         });
         res.status(201)
@@ -73,9 +73,9 @@ const login = async (req, res) => {
             { expiresIn: '24h' }
         )
         res.cookie("token", jwttok, {
-            httpOnly: false,
-            secure: false,
-            sameSite: 'lax',
+            httpOnly: true,
+            secure: true,
+            sameSite: 'none',
             maxAge: 24 * 60 * 60 * 1000,
         });
         res.status(200)
@@ -104,8 +104,8 @@ const login = async (req, res) => {
 const logout = (req, res) => {
     res.clearCookie("token", {
         httpOnly: true,
-        sameSite: "strict",
-        secure: process.env.NODE_ENV === "production"
+        sameSite: "none",
+        secure: true
     });
 
     res.status(200).json({

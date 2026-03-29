@@ -18,7 +18,7 @@ export const apiRequest = async ({
         if(body instanceof FormData) {
             options.body = body;
         } else if(body){
-            options.headers["content-Type"] = "application/json";
+            options.headers["Content-Type"] = "application/json";
             options.body = JSON.stringify(body);
         }
 
