@@ -15,3 +15,7 @@ server/node-api/Config
 server/python-api/venv
 server/python-api/__pycache__
 /server/Config
+
+.docker/
+npm-debug.log*
+yarn-debug.log*

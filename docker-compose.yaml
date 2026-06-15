@@ -1,0 +1,47 @@
+services:
+  pizza-database:
+    image: mongo:latest
+    container_name: pizza-paradise-database
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: qwerty
+    networks:
+      - pizza-network
+    volumes:
+      - mongo-pizza-data:/data/db
+    
+  backend:
+    build:
+      context: ./server/node-api
+      dockerfile: Dockerfile
+    container_name: pizza-paradise-backend
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./server/node-api/.env
+    depends_on:
+      - pizza-database
+    networks:
+      - pizza-network
+
+  frontend:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: pizza-paradise-frontend
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    networks:
+      - pizza-network
+    
+networks:
+  pizza-network:
+    driver: bridge
+
+
+volumes:
+  mongo-pizza-data:
