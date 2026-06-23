@@ -133,11 +133,11 @@ function Register() {
               I agree to <span className="text-[#ff4d4d] underline">Terms and Conditions</span>
             </label>
 
-            <label className="flex items-center gap-2">
+            {/* <label className="flex items-center gap-2">
               <input type="checkbox"
                 onChange={(e) => setIsStaff(e.target.checked)} />
               Is Staff
-            </label>
+            </label> */}
           </div>
 
           <button

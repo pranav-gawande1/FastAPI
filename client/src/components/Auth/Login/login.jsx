@@ -84,13 +84,12 @@ const Login = () => {
                         </div>
 
 
-                        <div className="flex justify-between text-sm mb-6">
+                        {/* <div className="flex justify-between text-sm mb-6">
                             <label className="flex items-center gap-2"><input type="checkbox" />Remember Me</label>
-                            {/* checkiing user type */}
                             <label className="flex items-center gap-2"><input type="checkbox"
                             // onChange={(e) => e.target.checked}
                             />Is Staff</label>
-                        </div>
+                        </div> */}
                         <button className="w-full p-3 bg-[#ff4d4d] text-white rounded-[10px] font-bold cursor-pointer transition duration-300">
                             {status === 'loading' ? "Logging in..." : "Login"}</button>
                         <div className="text-center text-sm mt-4">
