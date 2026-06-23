@@ -1,4 +1,4 @@
-const BASE_URL = import.meta.env.BACKEND_URL || "http://localhost:3000";
+const BASE_URL = import.meta.env.BACKEND_URL || "https://pizza-paradise-server.onrender.com";
 
 export const apiRequest = async ({
     endpoint,
